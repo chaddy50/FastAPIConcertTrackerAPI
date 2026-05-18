@@ -70,8 +70,11 @@ def update_set_list_entry(entry_id: str, data: SetListEntryUpdate, session: Sess
         setattr(entry, field, value)
 
     if featured_performers_input is not None:
+        # model_dump converts nested Pydantic objects to dicts — reconstruct before validation.
         # Reassigning the list lets cascade="all, delete-orphan" clean up the old rows automatically.
-        entry.featured_performers = _build_featured_performers(featured_performers_input, session)
+        entry.featured_performers = _build_featured_performers(
+            [SetListPerformerInput(**d) for d in featured_performers_input], session
+        )
 
     session.commit()
     return _load_set_list_entry(entry.id, session)

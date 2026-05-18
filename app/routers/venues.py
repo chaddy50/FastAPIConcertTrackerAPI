@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_session
 from app.models.venue import Venue, VenueCreate, VenueRead, VenueUpdate
+from app.services import find_or_create_venue
 
 router = APIRouter(prefix="/venues", tags=["venues"])
 
@@ -27,16 +28,7 @@ def get_venue(venue_id: str, session: SessionDep):
 
 @router.post("/", response_model=VenueRead, status_code=201)
 def create_venue(body: VenueCreate, session: SessionDep):
-    existing = (
-        session.query(Venue)
-        .where(Venue.osm_type == body.osm_type, Venue.osm_id == body.osm_id)
-        .first()
-    )
-    if existing:
-        return existing
-
-    venue = Venue(**body.model_dump())
-    session.add(venue)
+    venue = find_or_create_venue(body, session)
     session.commit()
     session.refresh(venue)
     return venue

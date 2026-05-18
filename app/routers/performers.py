@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_session
 from app.models.performer import Performer, PerformerCreate, PerformerRead, PerformerUpdate
+from app.services import find_or_create_performer
 
 router = APIRouter(prefix="/performers", tags=["performers"])
 
@@ -26,13 +27,7 @@ def get_performer(performer_id: str, session: SessionDep):
 
 @router.post("/", response_model=PerformerRead, status_code=201)
 def create_performer(data: PerformerCreate, session: SessionDep):
-    if data.musicbrainz_id:
-        existing = session.query(Performer).where(Performer.musicbrainz_id == data.musicbrainz_id).first()
-        if existing:
-            return existing
-
-    performer = Performer(**data.model_dump())
-    session.add(performer)
+    performer = find_or_create_performer(data, session)
     session.commit()
     session.refresh(performer)
     return performer

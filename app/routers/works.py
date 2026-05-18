@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, selectinload
 
 from app.database import get_session
-from app.models.composer import Composer
 from app.models.work import Work, WorkCreate, WorkRead, WorkUpdate
+from app.services import find_or_create_work
 
 router = APIRouter(prefix="/works", tags=["works"])
 
@@ -31,23 +31,7 @@ def get_work(work_id: str, session: SessionDep):
 
 @router.post("/", response_model=WorkRead, status_code=201)
 def create_work(data: WorkCreate, session: SessionDep):
-    if data.open_opus_id:
-        existing = session.scalars(
-            session.query(Work).where(Work.open_opus_id == data.open_opus_id).options(selectinload(Work.composers))
-        ).first()
-        if existing:
-            return existing
-
-    composers = []
-    for composer_id in data.composer_ids:
-        composer = session.get(Composer, composer_id)
-        if not composer:
-            raise HTTPException(status_code=404, detail=f"Composer {composer_id} not found")
-        composers.append(composer)
-
-    work = Work(**data.model_dump(exclude={"composer_ids"}))
-    work.composers = composers
-    session.add(work)
+    work = find_or_create_work(data, session)
     session.commit()
     session.refresh(work)
     return work

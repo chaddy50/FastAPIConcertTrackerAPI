@@ -59,13 +59,12 @@ def test_get_work_not_found(client: TestClient):
     assert response.json()["detail"] == "Work not found"
 
 
-def test_create_work(client: TestClient, db_session: Session):
-    composer = _make_composer(db_session)
+def test_create_work(client: TestClient):
     payload = {
         "title": "Brandenburg Concerto No. 1",
         "key": "F major",
         "catalogNumber": "BWV 1046",
-        "composerIds": [composer.id],
+        "composers": [{"name": "Bach"}],
     }
     response = client.post("/v1/works/", json=payload)
     assert response.status_code == 201
@@ -87,16 +86,22 @@ def test_create_work_deduplication(client: TestClient, db_session: Session):
 
     response = client.post(
         "/v1/works/",
-        json={"title": "Brandenburg Concerto No. 1", "openOpusId": "5", "composerIds": [composer.id]},
+        json={"title": "Brandenburg Concerto No. 1", "openOpusId": "5", "composers": [{"name": "Bach"}]},
     )
     assert response.status_code == 201
     assert response.json()["id"] == existing.id
 
 
-def test_create_work_composer_not_found(client: TestClient):
+def test_create_work_creates_composer_inline(client: TestClient):
     response = client.post(
         "/v1/works/",
-        json={"title": "Some Work", "composerIds": ["nonexistent-composer-id"]},
+        json={"title": "Well-Tempered Clavier", "composers": [{"name": "Bach", "openOpusId": "1"}]},
     )
-    assert response.status_code == 404
-    assert "nonexistent-composer-id" in response.json()["detail"]
+    assert response.status_code == 201
+    data = response.json()
+    assert data["composers"][0]["name"] == "Bach"
+    assert data["composers"][0]["openOpusId"] == "1"
+
+    # Composer should now exist independently
+    composers_response = client.get("/v1/composers/")
+    assert any(c["openOpusId"] == "1" for c in composers_response.json())

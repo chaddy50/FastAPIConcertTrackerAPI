@@ -10,9 +10,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.models import Base
 from app.models.base_schema import ReadSchema, Schema
 from app.models.enums import PerformanceStatus
-from app.models.performer import Performer, PerformerRead
+from app.models.performer import Performer, PerformerCreate, PerformerRead
 from app.models.set_list_entry import SetListEntry, SetListEntryRead
-from app.models.venue import Venue, VenueRead
+from app.models.venue import Venue, VenueCreate, VenueRead
+from app.models.work import WorkCreate
 
 performance_performer = Table(
     "performance_performer",
@@ -39,12 +40,26 @@ class Performance(Base):
     set_list: Mapped[list[SetListEntry]] = relationship(back_populates="performance")
 
 
+class FeaturedPerformerInput(Schema):
+    performer: PerformerCreate
+    role: str
+
+
+class SetListEntryInput(Schema):
+    order: int
+    notes: Optional[str] = None
+    work: WorkCreate
+    conductor: Optional[PerformerCreate] = None
+    featured_performers: list[FeaturedPerformerInput] = []
+
+
 class PerformanceCreate(Schema):
     date: datetime
     status: PerformanceStatus = PerformanceStatus.UPCOMING
-    venue_id: str
-    conductor_id: Optional[str] = None
-    performer_ids: list[str]
+    venue: VenueCreate
+    conductor: Optional[PerformerCreate] = None
+    performers: list[PerformerCreate] = []
+    set_list: list[SetListEntryInput] = []
 
 
 class PerformanceRead(ReadSchema):

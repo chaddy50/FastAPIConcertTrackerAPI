@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_session
 from app.models.composer import Composer, ComposerCreate, ComposerRead, ComposerUpdate
+from app.services import find_or_create_composer
 
 router = APIRouter(prefix="/composers", tags=["composers"])
 
@@ -26,13 +27,7 @@ def get_composer(composer_id: str, session: SessionDep):
 
 @router.post("/", response_model=ComposerRead, status_code=201)
 def create_composer(data: ComposerCreate, session: SessionDep):
-    if data.open_opus_id:
-        existing = session.query(Composer).where(Composer.open_opus_id == data.open_opus_id).first()
-        if existing:
-            return existing
-
-    composer = Composer(**data.model_dump())
-    session.add(composer)
+    composer = find_or_create_composer(data, session)
     session.commit()
     session.refresh(composer)
     return composer

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
 from app.models.base_schema import ReadSchema, Schema
-from app.models.composer import Composer, ComposerRead
+from app.models.composer import Composer, ComposerCreate, ComposerRead
 
 work_composer = Table(
     "work_composer",
@@ -38,7 +38,7 @@ class WorkBase(Schema):
 
 
 class WorkCreate(WorkBase):
-    composer_ids: list[str]
+    composers: list[ComposerCreate]
 
 
 class WorkRead(ReadSchema):
