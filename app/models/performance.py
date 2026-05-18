@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Optional
 from uuid import uuid4
 
-from sqlalchemy import Column, Enum as SaEnum, ForeignKey, String, Table
+from sqlalchemy import Column, DateTime, Enum as SaEnum, ForeignKey, String, Table
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
@@ -26,7 +26,7 @@ class Performance(Base):
     __tablename__ = "performance"
 
     id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid4()))
-    date: Mapped[datetime]
+    date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     status: Mapped[PerformanceStatus] = mapped_column(
         SaEnum(PerformanceStatus), default=PerformanceStatus.UPCOMING
     )

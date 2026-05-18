@@ -6,6 +6,7 @@ Safe to run multiple times — uses natural keys to avoid duplicates.
 """
 
 import os
+from datetime import datetime, timezone
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -171,7 +172,7 @@ def main():
         perf1_exists = session.query(Performance).where(Performance.venue_id == philharmonie.id).first()
         if not perf1_exists:
             perf1 = Performance(
-                date="2026-06-15T19:30:00",
+                date=datetime.fromisoformat("2026-06-16T00:30:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.UPCOMING,
                 venue_id=philharmonie.id,
                 conductor_id=rattle.id,
@@ -191,7 +192,7 @@ def main():
         perf2_exists = session.query(Performance).where(Performance.venue_id == carnegie.id).first()
         if not perf2_exists:
             perf2 = Performance(
-                date="2025-11-20T20:00:00",
+                date=datetime.fromisoformat("2025-11-21T02:00:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.ATTENDED,
                 venue_id=carnegie.id,
                 conductor_id=rattle.id,
