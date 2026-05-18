@@ -106,6 +106,7 @@ def main():
             name="Simon Rattle",
             sort_name="Rattle, Simon",
             type=PerformerType.CONDUCTOR,
+            specialty="conductor",
             musicbrainz_id="e4bd1c47-22e5-4afc-a8b2-a4e31878c0f5",
         )
         argerich = upsert_performer(
