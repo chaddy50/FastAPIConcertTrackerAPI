@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.models.enums import PerformanceStatus, PerformerType
+from app.models.enums import PerformanceStatus
 from app.models.performance import Performance
 from tests.conftest import _make_performance, _make_performer, _make_venue, _make_work
 
@@ -44,7 +44,6 @@ def test_get_performance_by_id(client: TestClient, db_session: Session):
     assert data["venue"]["name"] == "Carnegie Hall"
     assert data["performers"] == []
     assert data["setList"] == []
-    assert data["conductor"] is None
 
 
 def test_get_performance_not_found(client: TestClient):
@@ -66,24 +65,26 @@ def test_create_performance_minimal(client: TestClient):
     assert data["venue"]["name"] == "Carnegie Hall"
     assert data["performers"] == []
     assert data["setList"] == []
-    assert data["conductor"] is None
     assert "id" in data
 
 
-def test_create_performance_with_conductor_and_performers(client: TestClient):
+def test_create_performance_with_performers(client: TestClient):
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
         "status": "UPCOMING",
         "venue": {"osmType": "relation", "osmId": 222222},
-        "conductor": {"name": "Gustavo Dudamel", "type": "CONDUCTOR"},
-        "performers": [{"name": "Berlin Philharmonic", "type": "ORCHESTRA"}],
+        "performers": [
+            {"name": "Gustavo Dudamel", "type": "CONDUCTOR"},
+            {"name": "Berlin Philharmonic", "type": "ORCHESTRA"},
+        ],
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 201
     data = response.json()
-    assert data["conductor"]["name"] == "Gustavo Dudamel"
-    assert len(data["performers"]) == 1
-    assert data["performers"][0]["name"] == "Berlin Philharmonic"
+    assert len(data["performers"]) == 2
+    names = {p["name"] for p in data["performers"]}
+    assert "Gustavo Dudamel" in names
+    assert "Berlin Philharmonic" in names
 
 
 def test_create_performance_with_set_list(client: TestClient):
@@ -133,17 +134,6 @@ def test_update_performance_performers(client: TestClient, db_session: Session):
     assert data["performers"][0]["id"] == performer.id
 
 
-def test_update_performance_conductor(client: TestClient, db_session: Session):
-    venue = _make_venue(db_session)
-    conductor = _make_performer(db_session, name="Gustavo Dudamel", type=PerformerType.CONDUCTOR)
-    performance = _make_performance(db_session, venue.id)
-
-    response = client.put(
-        f"/v1/performances/{performance.id}", json={"conductorId": conductor.id}
-    )
-    assert response.status_code == 200
-    assert response.json()["conductor"]["name"] == "Gustavo Dudamel"
-
 
 def test_update_performance_not_found(client: TestClient):
     response = client.put("/v1/performances/nonexistent-id", json={"status": "CANCELLED"})
@@ -161,16 +151,6 @@ def test_update_performance_venue_not_found(client: TestClient, db_session: Sess
     assert response.status_code == 404
     assert response.json()["detail"] == "Venue not found"
 
-
-def test_update_performance_conductor_not_found(client: TestClient, db_session: Session):
-    venue = _make_venue(db_session)
-    performance = _make_performance(db_session, venue.id)
-
-    response = client.put(
-        f"/v1/performances/{performance.id}", json={"conductorId": "nonexistent-id"}
-    )
-    assert response.status_code == 404
-    assert response.json()["detail"] == "Conductor not found"
 
 
 def test_update_performance_performer_not_found(client: TestClient, db_session: Session):

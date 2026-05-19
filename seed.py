@@ -176,9 +176,8 @@ def main():
                 date=datetime.fromisoformat("2026-06-16T00:30:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.UPCOMING,
                 venue_id=philharmonie.id,
-                conductor_id=rattle.id,
             )
-            perf1.performers = [berlin_phil]
+            perf1.performers = [rattle, berlin_phil]
             session.add(perf1)
             session.flush()
 
@@ -196,9 +195,8 @@ def main():
                 date=datetime.fromisoformat("2025-11-21T02:00:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.ATTENDED,
                 venue_id=carnegie.id,
-                conductor_id=rattle.id,
             )
-            perf2.performers = [berlin_phil]
+            perf2.performers = [rattle, berlin_phil]
             session.add(perf2)
             session.flush()
 

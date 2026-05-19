@@ -33,7 +33,6 @@ def test_create_set_list_entry(client: TestClient, db_session: Session):
     assert data["order"] == 1
     assert data["work"]["id"] == work.id
     assert data["notes"] is None
-    assert data["conductor"] is None
     assert data["featuredPerformers"] == []
 
 
@@ -54,26 +53,23 @@ def test_create_set_list_entry_with_notes(client: TestClient, db_session: Sessio
     assert response.json()["notes"] == "World premiere"
 
 
-def test_create_set_list_entry_with_conductor_and_featured_performers(
+def test_create_set_list_entry_with_featured_performers(
     client: TestClient, db_session: Session
 ):
     venue = _make_venue(db_session)
     performance = _make_performance(db_session, venue.id)
     work = _make_work(db_session)
-    conductor = _make_performer(db_session, name="Gustavo Dudamel", type=PerformerType.CONDUCTOR)
     soloist = _make_performer(db_session, name="Yo-Yo Ma", type=PerformerType.SOLO)
 
     payload = {
         "performanceId": performance.id,
         "workId": work.id,
         "order": 1,
-        "conductorId": conductor.id,
         "featuredPerformers": [{"performerId": soloist.id, "role": "Cello"}],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 201
     data = response.json()
-    assert data["conductor"]["name"] == "Gustavo Dudamel"
     assert len(data["featuredPerformers"]) == 1
     assert data["featuredPerformers"][0]["performer"]["name"] == "Yo-Yo Ma"
     assert data["featuredPerformers"][0]["role"] == "Cello"
@@ -107,22 +103,6 @@ def test_create_set_list_entry_work_not_found(client: TestClient, db_session: Se
     assert response.status_code == 404
     assert response.json()["detail"] == "Work not found"
 
-
-def test_create_set_list_entry_conductor_not_found(client: TestClient, db_session: Session):
-    venue = _make_venue(db_session)
-    performance = _make_performance(db_session, venue.id)
-    work = _make_work(db_session)
-
-    payload = {
-        "performanceId": performance.id,
-        "workId": work.id,
-        "order": 1,
-        "conductorId": "nonexistent-id",
-        "featuredPerformers": [],
-    }
-    response = client.post("/v1/set-list-entries/", json=payload)
-    assert response.status_code == 404
-    assert response.json()["detail"] == "Conductor not found"
 
 
 def test_create_set_list_entry_featured_performer_not_found(
@@ -209,18 +189,6 @@ def test_update_set_list_entry_work_not_found(client: TestClient, db_session: Se
     assert response.status_code == 404
     assert response.json()["detail"] == "Work not found"
 
-
-def test_update_set_list_entry_conductor_not_found(client: TestClient, db_session: Session):
-    venue = _make_venue(db_session)
-    performance = _make_performance(db_session, venue.id)
-    work = _make_work(db_session)
-    entry = _make_set_list_entry(db_session, performance.id, work.id)
-
-    response = client.put(
-        f"/v1/set-list-entries/{entry.id}", json={"conductorId": "nonexistent-id"}
-    )
-    assert response.status_code == 404
-    assert response.json()["detail"] == "Conductor not found"
 
 
 def test_update_set_list_entry_featured_performer_not_found(

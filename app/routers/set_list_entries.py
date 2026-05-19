@@ -21,7 +21,6 @@ def _load_set_list_entry(entry_id: str, session: Session) -> SetListEntry:
         .where(SetListEntry.id == entry_id)
         .options(
             selectinload(SetListEntry.work).selectinload(Work.composers),
-            selectinload(SetListEntry.conductor),
             selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
         )
     ).first()
@@ -45,8 +44,6 @@ def create_set_list_entry(data: SetListEntryCreate, session: SessionDep):
         raise HTTPException(status_code=404, detail="Performance not found")
     if not session.get(Work, data.work_id):
         raise HTTPException(status_code=404, detail="Work not found")
-    if data.conductor_id and not session.get(Performer, data.conductor_id):
-        raise HTTPException(status_code=404, detail="Conductor not found")
 
     entry = SetListEntry(**data.model_dump(exclude={"featured_performers"}))
     entry.featured_performers = _build_featured_performers(data.featured_performers, session)
@@ -65,8 +62,6 @@ def update_set_list_entry(entry_id: str, data: SetListEntryUpdate, session: Sess
     for field, value in update_data.items():
         if field == "work_id" and not session.get(Work, value):
             raise HTTPException(status_code=404, detail="Work not found")
-        if field == "conductor_id" and value and not session.get(Performer, value):
-            raise HTTPException(status_code=404, detail="Conductor not found")
         setattr(entry, field, value)
 
     if featured_performers_input is not None:

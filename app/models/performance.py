@@ -32,10 +32,8 @@ class Performance(Base):
         SaEnum(PerformanceStatus), default=PerformanceStatus.UPCOMING
     )
     venue_id: Mapped[str] = mapped_column(ForeignKey("venue.id"))
-    conductor_id: Mapped[Optional[str]] = mapped_column(ForeignKey("performer.id"))
 
     venue: Mapped[Venue] = relationship()
-    conductor: Mapped[Optional[Performer]] = relationship(foreign_keys="[Performance.conductor_id]")
     performers: Mapped[list[Performer]] = relationship(secondary=performance_performer)
     set_list: Mapped[list[SetListEntry]] = relationship(back_populates="performance")
 
@@ -49,7 +47,6 @@ class SetListEntryInput(Schema):
     order: int
     notes: Optional[str] = None
     work: WorkCreate
-    conductor: Optional[PerformerCreate] = None
     featured_performers: list[FeaturedPerformerInput] = []
 
 
@@ -57,7 +54,6 @@ class PerformanceCreate(Schema):
     date: datetime
     status: PerformanceStatus = PerformanceStatus.UPCOMING
     venue: VenueCreate
-    conductor: Optional[PerformerCreate] = None
     performers: list[PerformerCreate] = []
     set_list: list[SetListEntryInput] = []
 
@@ -68,7 +64,6 @@ class PerformanceRead(ReadSchema):
     status: PerformanceStatus
     venue: VenueRead
     performers: list[PerformerRead]
-    conductor: Optional[PerformerRead] = None
     set_list: list[SetListEntryRead] = []
 
 
@@ -77,4 +72,3 @@ class PerformanceUpdate(Schema):
     status: Optional[PerformanceStatus] = None
     venue_id: Optional[str] = None
     performer_ids: Optional[list[str]] = None
-    conductor_id: Optional[str] = None

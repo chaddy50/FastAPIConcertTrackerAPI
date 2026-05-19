@@ -24,9 +24,7 @@ def _load_performance(performance_id: str, session: Session) -> Performance:
         .options(
             selectinload(Performance.venue),
             selectinload(Performance.performers),
-            selectinload(Performance.conductor),
             selectinload(Performance.set_list).selectinload(SetListEntry.work).selectinload(Work.composers),
-            selectinload(Performance.set_list).selectinload(SetListEntry.conductor),
             selectinload(Performance.set_list).selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
         )
     ).first()
@@ -43,9 +41,7 @@ def get_performances(session: SessionDep):
         .options(
             selectinload(Performance.venue),
             selectinload(Performance.performers),
-            selectinload(Performance.conductor),
             selectinload(Performance.set_list).selectinload(SetListEntry.work).selectinload(Work.composers),
-            selectinload(Performance.set_list).selectinload(SetListEntry.conductor),
             selectinload(Performance.set_list).selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
         )
     ).all()
@@ -59,14 +55,12 @@ def get_performance(performance_id: str, session: SessionDep):
 @router.post("/", response_model=PerformanceRead, status_code=201)
 def create_performance(data: PerformanceCreate, session: SessionDep):
     venue = find_or_create_venue(data.venue, session)
-    conductor = find_or_create_performer(data.conductor, session) if data.conductor else None
     performers = [find_or_create_performer(p, session) for p in data.performers]
 
     performance = Performance(
         date=data.date,
         status=data.status,
         venue_id=venue.id,
-        conductor_id=conductor.id if conductor else None,
     )
     performance.performers = performers
     session.add(performance)
@@ -74,13 +68,11 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
 
     for entry_data in data.set_list:
         work = find_or_create_work(entry_data.work, session)
-        guest_conductor = find_or_create_performer(entry_data.conductor, session) if entry_data.conductor else None
         entry = SetListEntry(
             performance_id=performance.id,
             work_id=work.id,
             order=entry_data.order,
             notes=entry_data.notes,
-            conductor_id=guest_conductor.id if guest_conductor else None,
         )
         entry.featured_performers = [
             SetListPerformer(
@@ -107,8 +99,6 @@ def update_performance(performance_id: str, data: PerformanceUpdate, session: Se
     for field, value in update_data.items():
         if field == "venue_id" and not session.get(Venue, value):
             raise HTTPException(status_code=404, detail="Venue not found")
-        if field == "conductor_id" and value and not session.get(Performer, value):
-            raise HTTPException(status_code=404, detail="Conductor not found")
         setattr(performance, field, value)
 
     if performer_ids is not None:
