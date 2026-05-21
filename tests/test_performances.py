@@ -52,11 +52,12 @@ def test_get_performance_not_found(client: TestClient):
     assert response.json()["detail"] == "Performance not found"
 
 
-def test_create_performance_minimal(client: TestClient):
+def test_create_performance_minimal(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
         "status": "ATTENDED",
-        "venue": {"osmType": "relation", "osmId": 111111, "name": "Carnegie Hall"},
+        "venueId": venue.id,
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 201
@@ -68,15 +69,25 @@ def test_create_performance_minimal(client: TestClient):
     assert "id" in data
 
 
-def test_create_performance_with_performers(client: TestClient):
+def test_create_performance_venue_not_found(client: TestClient):
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venueId": "nonexistent-id",
+    }
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Venue not found"
+
+
+def test_create_performance_with_performers(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    p1 = _make_performer(db_session, name="Gustavo Dudamel")
+    p2 = _make_performer(db_session, name="Berlin Philharmonic")
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
         "status": "UPCOMING",
-        "venue": {"osmType": "relation", "osmId": 222222},
-        "performers": [
-            {"name": "Gustavo Dudamel", "type": "CONDUCTOR"},
-            {"name": "Berlin Philharmonic", "type": "ORCHESTRA"},
-        ],
+        "venueId": venue.id,
+        "performerIds": [p1.id, p2.id],
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 201
@@ -87,28 +98,46 @@ def test_create_performance_with_performers(client: TestClient):
     assert "Berlin Philharmonic" in names
 
 
-def test_create_performance_with_set_list(client: TestClient):
+def test_create_performance_performer_not_found(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venueId": venue.id,
+        "performerIds": ["nonexistent-id"],
+    }
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 404
+    assert "nonexistent-id" in response.json()["detail"]
+
+
+def test_create_performance_with_set_list(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    work1 = _make_work(db_session)
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
         "status": "ATTENDED",
-        "venue": {"osmType": "relation", "osmId": 333333},
+        "venueId": venue.id,
         "setList": [
-            {
-                "order": 1,
-                "work": {"title": "Brandenburg Concerto No. 1", "composers": [{"name": "Bach"}]},
-            },
-            {
-                "order": 2,
-                "work": {"title": "Symphony No. 9", "composers": [{"name": "Beethoven"}]},
-            },
+            {"order": 1, "workId": work1.id},
         ],
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 201
     data = response.json()
-    assert len(data["setList"]) == 2
-    orders = {e["order"] for e in data["setList"]}
-    assert orders == {1, 2}
+    assert len(data["setList"]) == 1
+    assert data["setList"][0]["order"] == 1
+
+
+def test_create_performance_work_not_found(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venueId": venue.id,
+        "setList": [{"order": 1, "workId": "nonexistent-id"}],
+    }
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 404
+    assert "nonexistent-id" in response.json()["detail"]
 
 
 def test_update_performance_status(client: TestClient, db_session: Session):

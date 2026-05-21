@@ -10,7 +10,6 @@ from app.models.set_list_entry import SetListEntry
 from app.models.set_list_performer import SetListPerformer
 from app.models.venue import Venue
 from app.models.work import Work
-from app.services import find_or_create_performer, find_or_create_venue, find_or_create_work
 
 router = APIRouter(prefix="/performances", tags=["performances"])
 
@@ -54,8 +53,16 @@ def get_performance(performance_id: str, session: SessionDep):
 
 @router.post("/", response_model=PerformanceRead, status_code=201)
 def create_performance(data: PerformanceCreate, session: SessionDep):
-    venue = find_or_create_venue(data.venue, session)
-    performers = [find_or_create_performer(p, session) for p in data.performers]
+    venue = session.get(Venue, data.venue_id)
+    if not venue:
+        raise HTTPException(status_code=404, detail="Venue not found")
+
+    performers = []
+    for performer_id in data.performer_ids:
+        performer = session.get(Performer, performer_id)
+        if not performer:
+            raise HTTPException(status_code=404, detail=f"Performer {performer_id} not found")
+        performers.append(performer)
 
     performance = Performance(
         date=data.date,
@@ -67,20 +74,23 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
     session.flush()
 
     for entry_data in data.set_list:
-        work = find_or_create_work(entry_data.work, session)
+        work = session.get(Work, entry_data.work_id)
+        if not work:
+            raise HTTPException(status_code=404, detail=f"Work {entry_data.work_id} not found")
         entry = SetListEntry(
             performance_id=performance.id,
             work_id=work.id,
             order=entry_data.order,
             notes=entry_data.notes,
         )
-        entry.featured_performers = [
-            SetListPerformer(
-                performer_id=find_or_create_performer(fp.performer, session).id,
-                role=fp.role,
+        entry.featured_performers = []
+        for fp in entry_data.featured_performers:
+            performer = session.get(Performer, fp.performer_id)
+            if not performer:
+                raise HTTPException(status_code=404, detail=f"Performer {fp.performer_id} not found")
+            entry.featured_performers.append(
+                SetListPerformer(performer_id=performer.id, role=fp.role)
             )
-            for fp in entry_data.featured_performers
-        ]
         session.add(entry)
 
     session.commit()
