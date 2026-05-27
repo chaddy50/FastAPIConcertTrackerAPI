@@ -34,7 +34,7 @@ class Performance(Base):
 
     venue: Mapped[Venue] = relationship()
     performers: Mapped[list[Performer]] = relationship(secondary=performance_performer)
-    set_list: Mapped[list[SetListEntry]] = relationship(back_populates="performance")
+    set_list: Mapped[list[SetListEntry]] = relationship(back_populates="performance", cascade="all, delete-orphan")
 
 
 class FeaturedPerformerInput(Schema):
