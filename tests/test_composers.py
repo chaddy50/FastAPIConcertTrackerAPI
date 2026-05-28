@@ -81,3 +81,44 @@ def test_create_composer_no_open_opus_creates_new(client: TestClient):
 
     response = client.get("/v1/composers/")
     assert len(response.json()) == 2
+
+
+def test_get_composers_filter_by_name(client: TestClient, db_session: Session):
+    db_session.add(Composer(name="Bach", sort_name="Bach, Johann Sebastian"))
+    db_session.add(Composer(name="Mozart", sort_name="Mozart, Wolfgang Amadeus"))
+    db_session.commit()
+
+    response = client.get("/v1/composers/?name=Bach")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["name"] == "Bach"
+
+
+def test_get_composers_filter_by_name_no_match(client: TestClient, db_session: Session):
+    db_session.add(Composer(name="Bach"))
+    db_session.commit()
+
+    response = client.get("/v1/composers/?name=Beethoven")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_get_composers_filter_by_name_case_insensitive(client: TestClient, db_session: Session):
+    db_session.add(Composer(name="Bach"))
+    db_session.commit()
+
+    response = client.get("/v1/composers/?name=bach")
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+
+
+def test_get_composers_filter_by_name_partial_match(client: TestClient, db_session: Session):
+    db_session.add(Composer(name="Johann Sebastian Bach"))
+    db_session.add(Composer(name="Carl Philipp Emanuel Bach"))
+    db_session.add(Composer(name="Mozart"))
+    db_session.commit()
+
+    response = client.get("/v1/composers/?name=Bach")
+    assert response.status_code == 200
+    assert len(response.json()) == 2

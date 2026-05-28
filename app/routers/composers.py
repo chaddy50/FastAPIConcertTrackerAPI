@@ -13,8 +13,11 @@ SessionDep = Annotated[Session, Depends(get_session)]
 
 
 @router.get("/", response_model=list[ComposerRead])
-def get_composers(session: SessionDep):
-    return session.query(Composer).all()
+def get_composers(session: SessionDep, name: str | None = None):
+    query = session.query(Composer)
+    if name:
+        query = query.filter(Composer.name.ilike(f"%{name}%"))
+    return query.all()
 
 
 @router.get("/{composer_id}", response_model=ComposerRead)

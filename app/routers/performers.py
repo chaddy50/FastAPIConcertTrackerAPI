@@ -13,8 +13,11 @@ SessionDep = Annotated[Session, Depends(get_session)]
 
 
 @router.get("/", response_model=list[PerformerRead])
-def get_performers(session: SessionDep):
-    return session.query(Performer).all()
+def get_performers(session: SessionDep, name: str | None = None):
+    query = session.query(Performer)
+    if name:
+        query = query.filter(Performer.name.ilike(f"%{name}%"))
+    return query.all()
 
 
 @router.get("/{performer_id}", response_model=PerformerRead)

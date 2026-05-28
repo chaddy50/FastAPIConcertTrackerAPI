@@ -84,3 +84,44 @@ def test_create_performer_no_musicbrainz_id_creates_new(client: TestClient):
 
     response = client.get("/v1/performers/")
     assert len(response.json()) == 2
+
+
+def test_get_performers_filter_by_name(client: TestClient, db_session: Session):
+    db_session.add(Performer(name="Berlin Philharmonic", type=PerformerType.ORCHESTRA))
+    db_session.add(Performer(name="Gustavo Dudamel", type=PerformerType.CONDUCTOR))
+    db_session.commit()
+
+    response = client.get("/v1/performers/?name=Berlin")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["name"] == "Berlin Philharmonic"
+
+
+def test_get_performers_filter_by_name_no_match(client: TestClient, db_session: Session):
+    db_session.add(Performer(name="Berlin Philharmonic", type=PerformerType.ORCHESTRA))
+    db_session.commit()
+
+    response = client.get("/v1/performers/?name=Vienna")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_get_performers_filter_by_name_case_insensitive(client: TestClient, db_session: Session):
+    db_session.add(Performer(name="Berlin Philharmonic", type=PerformerType.ORCHESTRA))
+    db_session.commit()
+
+    response = client.get("/v1/performers/?name=berlin")
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+
+
+def test_get_performers_filter_by_name_partial_match(client: TestClient, db_session: Session):
+    db_session.add(Performer(name="Berlin Philharmonic", type=PerformerType.ORCHESTRA))
+    db_session.add(Performer(name="Vienna Philharmonic", type=PerformerType.ORCHESTRA))
+    db_session.add(Performer(name="Gustavo Dudamel", type=PerformerType.CONDUCTOR))
+    db_session.commit()
+
+    response = client.get("/v1/performers/?name=Philharmonic")
+    assert response.status_code == 200
+    assert len(response.json()) == 2

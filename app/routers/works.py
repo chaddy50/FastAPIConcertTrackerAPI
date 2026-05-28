@@ -13,10 +13,11 @@ SessionDep = Annotated[Session, Depends(get_session)]
 
 
 @router.get("/", response_model=list[WorkRead])
-def get_works(session: SessionDep):
-    return session.scalars(
-        session.query(Work).options(selectinload(Work.composers))
-    ).all()
+def get_works(session: SessionDep, name: str | None = None):
+    query = session.query(Work).options(selectinload(Work.composers))
+    if name:
+        query = query.filter(Work.title.ilike(f"%{name}%"))
+    return session.scalars(query).all()
 
 
 @router.get("/{work_id}", response_model=WorkRead)

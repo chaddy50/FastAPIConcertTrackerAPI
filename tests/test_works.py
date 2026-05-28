@@ -105,3 +105,59 @@ def test_create_work_creates_composer_inline(client: TestClient):
     # Composer should now exist independently
     composers_response = client.get("/v1/composers/")
     assert any(c["openOpusId"] == "1" for c in composers_response.json())
+
+
+def test_get_works_filter_by_name(client: TestClient, db_session: Session):
+    composer = _make_composer(db_session)
+    work1 = Work(title="Brandenburg Concerto No. 1")
+    work1.composers = [composer]
+    work2 = Work(title="Well-Tempered Clavier")
+    work2.composers = [composer]
+    db_session.add_all([work1, work2])
+    db_session.commit()
+
+    response = client.get("/v1/works/?name=Brandenburg")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["title"] == "Brandenburg Concerto No. 1"
+
+
+def test_get_works_filter_by_name_no_match(client: TestClient, db_session: Session):
+    composer = _make_composer(db_session)
+    work = Work(title="Brandenburg Concerto No. 1")
+    work.composers = [composer]
+    db_session.add(work)
+    db_session.commit()
+
+    response = client.get("/v1/works/?name=Symphony")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_get_works_filter_by_name_case_insensitive(client: TestClient, db_session: Session):
+    composer = _make_composer(db_session)
+    work = Work(title="Brandenburg Concerto No. 1")
+    work.composers = [composer]
+    db_session.add(work)
+    db_session.commit()
+
+    response = client.get("/v1/works/?name=brandenburg")
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+
+
+def test_get_works_filter_by_name_partial_match(client: TestClient, db_session: Session):
+    composer = _make_composer(db_session)
+    work1 = Work(title="Brandenburg Concerto No. 1")
+    work1.composers = [composer]
+    work2 = Work(title="Brandenburg Concerto No. 2")
+    work2.composers = [composer]
+    work3 = Work(title="Well-Tempered Clavier")
+    work3.composers = [composer]
+    db_session.add_all([work1, work2, work3])
+    db_session.commit()
+
+    response = client.get("/v1/works/?name=Brandenburg Concerto")
+    assert response.status_code == 200
+    assert len(response.json()) == 2
