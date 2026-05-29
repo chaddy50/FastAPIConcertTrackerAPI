@@ -29,7 +29,8 @@ def test_get_performances_returns_all(client: TestClient, db_session: Session):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
-    assert data[0]["date"].startswith("2024-03-20")
+    # Default sort is date_asc, so the earlier performance comes first.
+    assert data[0]["date"].startswith("2024-01-15")
 
 
 def test_get_performance_by_id(client: TestClient, db_session: Session):
@@ -206,3 +207,129 @@ def test_delete_performance_not_found(client: TestClient):
     response = client.delete("/v1/performances/nonexistent-id")
     assert response.status_code == 404
     assert response.json()["detail"] == "Performance not found"
+
+
+def _add_performance(
+    db_session: Session, venue_id: str, date: datetime, status: PerformanceStatus
+) -> Performance:
+    p = Performance(date=date, status=status, venue_id=venue_id)
+    db_session.add(p)
+    db_session.commit()
+    db_session.refresh(p)
+    return p
+
+
+def test_get_performances_filter_by_status(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    _add_performance(db_session, venue.id, datetime(2024, 1, 1, tzinfo=timezone.utc), PerformanceStatus.UPCOMING)
+    _add_performance(db_session, venue.id, datetime(2024, 2, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+
+    response = client.get("/v1/performances/?status=UPCOMING")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["status"] == "UPCOMING"
+
+
+def test_get_performances_filter_by_multiple_statuses(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    _add_performance(db_session, venue.id, datetime(2024, 1, 1, tzinfo=timezone.utc), PerformanceStatus.UPCOMING)
+    _add_performance(db_session, venue.id, datetime(2024, 2, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+    _add_performance(db_session, venue.id, datetime(2024, 3, 1, tzinfo=timezone.utc), PerformanceStatus.CANCELLED)
+
+    response = client.get("/v1/performances/?status=ATTENDED,CANCELLED")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 2
+    assert {p["status"] for p in data} == {"ATTENDED", "CANCELLED"}
+
+
+def test_get_performances_filter_by_status_invalid(client: TestClient, db_session: Session):
+    _make_venue(db_session)
+    response = client.get("/v1/performances/?status=BOGUS")
+    assert response.status_code == 422
+    assert "BOGUS" in response.json()["detail"]
+
+
+def test_get_performances_sort_date_desc(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    _add_performance(db_session, venue.id, datetime(2024, 1, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+    _add_performance(db_session, venue.id, datetime(2024, 6, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+
+    response = client.get("/v1/performances/?sort=date_desc")
+    assert response.status_code == 200
+    data = response.json()
+    assert data[0]["date"].startswith("2024-06-01")
+    assert data[1]["date"].startswith("2024-01-01")
+
+
+def test_get_performances_sort_date_asc(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    _add_performance(db_session, venue.id, datetime(2024, 6, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+    _add_performance(db_session, venue.id, datetime(2024, 1, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+
+    response = client.get("/v1/performances/?sort=date_asc")
+    assert response.status_code == 200
+    data = response.json()
+    assert data[0]["date"].startswith("2024-01-01")
+    assert data[1]["date"].startswith("2024-06-01")
+
+
+def test_get_performances_sort_invalid(client: TestClient, db_session: Session):
+    _make_venue(db_session)
+    response = client.get("/v1/performances/?sort=bogus")
+    assert response.status_code == 422
+
+
+def test_get_performances_limit(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    _add_performance(db_session, venue.id, datetime(2024, 1, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+    _add_performance(db_session, venue.id, datetime(2024, 2, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+    _add_performance(db_session, venue.id, datetime(2024, 3, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+
+    response = client.get("/v1/performances/?limit=2")
+    assert response.status_code == 200
+    assert len(response.json()) == 2
+
+
+def test_get_performances_limit_must_be_positive(client: TestClient, db_session: Session):
+    _make_venue(db_session)
+    response = client.get("/v1/performances/?limit=0")
+    assert response.status_code == 422
+
+
+def test_get_performances_date_after(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    _add_performance(db_session, venue.id, datetime(2024, 1, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+    _add_performance(db_session, venue.id, datetime(2024, 6, 1, tzinfo=timezone.utc), PerformanceStatus.UPCOMING)
+
+    response = client.get(
+        "/v1/performances/", params={"date_after": "2024-03-01T00:00:00+00:00"}
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["date"].startswith("2024-06-01")
+
+
+def test_get_performances_combined_filters(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    _add_performance(db_session, venue.id, datetime(2024, 1, 1, tzinfo=timezone.utc), PerformanceStatus.UPCOMING)
+    _add_performance(db_session, venue.id, datetime(2024, 6, 1, tzinfo=timezone.utc), PerformanceStatus.UPCOMING)
+    _add_performance(db_session, venue.id, datetime(2024, 7, 1, tzinfo=timezone.utc), PerformanceStatus.ATTENDED)
+    _add_performance(db_session, venue.id, datetime(2024, 8, 1, tzinfo=timezone.utc), PerformanceStatus.UPCOMING)
+
+    response = client.get(
+        "/v1/performances/",
+        params={
+            "status": "UPCOMING",
+            "date_after": "2024-03-01T00:00:00+00:00",
+            "sort": "date_desc",
+            "limit": 1,
+        },
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["date"].startswith("2024-08-01")
+    assert data[0]["status"] == "UPCOMING"

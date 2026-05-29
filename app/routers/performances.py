@@ -1,9 +1,11 @@
-from typing import Annotated
+from datetime import datetime
+from typing import Annotated, Literal
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session, selectinload
 
 from app.database import get_session
+from app.models.enums import PerformanceStatus
 from app.models.performance import Performance, PerformanceCreate, PerformanceRead, PerformanceUpdate
 from app.models.performer import Performer
 from app.models.set_list_entry import SetListEntry
@@ -33,17 +35,42 @@ def _load_performance(performance_id: str, session: Session) -> Performance:
 
 
 @router.get("/", response_model=list[PerformanceRead])
-def get_performances(session: SessionDep):
-    return session.scalars(
-        session.query(Performance)
-        .order_by(Performance.date.desc())
-        .options(
-            selectinload(Performance.venue),
-            selectinload(Performance.performers),
-            selectinload(Performance.set_list).selectinload(SetListEntry.work).selectinload(Work.composers),
-            selectinload(Performance.set_list).selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
-        )
-    ).all()
+def get_performances(
+    session: SessionDep,
+    status: str | None = None,
+    sort: Literal["date_asc", "date_desc"] = "date_asc",
+    limit: Annotated[int | None, Query(gt=0)] = None,
+    date_after: datetime | None = None,
+):
+    query = session.query(Performance).options(
+        selectinload(Performance.venue),
+        selectinload(Performance.performers),
+        selectinload(Performance.set_list).selectinload(SetListEntry.work).selectinload(Work.composers),
+        selectinload(Performance.set_list).selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
+    )
+
+    if status:
+        statuses = []
+        for raw in status.split(","):
+            value = raw.strip()
+            try:
+                statuses.append(PerformanceStatus(value))
+            except ValueError:
+                raise HTTPException(status_code=422, detail=f"Invalid status: {value}")
+        query = query.filter(Performance.status.in_(statuses))
+
+    if date_after is not None:
+        query = query.filter(Performance.date > date_after)
+
+    if sort == "date_desc":
+        query = query.order_by(Performance.date.desc())
+    else:
+        query = query.order_by(Performance.date.asc())
+
+    if limit is not None:
+        query = query.limit(limit)
+
+    return session.scalars(query).all()
 
 
 @router.get("/{performance_id}", response_model=PerformanceRead)
