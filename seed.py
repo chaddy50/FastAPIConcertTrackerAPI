@@ -167,6 +167,36 @@ def main():
             osm_type="way",
             osm_id=130568688,
         )
+        musikverein = upsert_venue(
+            session,
+            name="Musikverein",
+            city="Vienna",
+            country="Austria",
+            formatted_address="Musikvereinsplatz 1, 1010 Wien",
+            website_uri="https://www.musikverein.at",
+            osm_type="way",
+            osm_id=29812613,
+        )
+        symphony_center = upsert_venue(
+            session,
+            name="Symphony Center",
+            city="Chicago",
+            country="United States",
+            formatted_address="220 S Michigan Ave, Chicago, IL 60604",
+            website_uri="https://www.cso.org",
+            osm_type="way",
+            osm_id=151991390,
+        )
+        royal_albert = upsert_venue(
+            session,
+            name="Royal Albert Hall",
+            city="London",
+            country="United Kingdom",
+            formatted_address="Kensington Gore, London SW7 2AP",
+            website_uri="https://www.royalalberthall.com",
+            osm_type="way",
+            osm_id=23618837,
+        )
 
         print("Seeding performances...")
 
@@ -218,6 +248,65 @@ def main():
             )
             entry3.featured_performers = []
             session.add(entry3)
+
+        perf3_exists = session.query(Performance).where(Performance.venue_id == musikverein.id).first()
+        if not perf3_exists:
+            perf3 = Performance(
+                date=datetime.fromisoformat("2025-04-05T19:30:00").replace(tzinfo=timezone.utc),
+                status=PerformanceStatus.ATTENDED,
+                venue_id=musikverein.id,
+            )
+            perf3.performers = [berlin_phil]
+            session.add(perf3)
+            session.flush()
+
+            entry4 = SetListEntry(
+                performance_id=perf3.id,
+                work_id=beethoven_9.id,
+                order=1,
+            )
+            entry4.featured_performers = []
+            session.add(entry4)
+
+        perf4_exists = session.query(Performance).where(Performance.venue_id == symphony_center.id).first()
+        if not perf4_exists:
+            perf4 = Performance(
+                date=datetime.fromisoformat("2026-02-14T20:00:00").replace(tzinfo=timezone.utc),
+                status=PerformanceStatus.ATTENDED,
+                venue_id=symphony_center.id,
+            )
+            perf4.performers = [rattle, berlin_phil]
+            session.add(perf4)
+            session.flush()
+
+            entry5 = SetListEntry(
+                performance_id=perf4.id,
+                work_id=mahler_5.id,
+                order=1,
+            )
+            entry5.featured_performers = []
+            session.add(entry5)
+
+        perf5_exists = session.query(Performance).where(Performance.venue_id == royal_albert.id).first()
+        if not perf5_exists:
+            perf5 = Performance(
+                date=datetime.fromisoformat("2026-09-12T19:00:00").replace(tzinfo=timezone.utc),
+                status=PerformanceStatus.UPCOMING,
+                venue_id=royal_albert.id,
+            )
+            perf5.performers = [argerich, berlin_phil]
+            session.add(perf5)
+            session.flush()
+
+            entry6 = SetListEntry(
+                performance_id=perf5.id,
+                work_id=brahms_piano_2.id,
+                order=1,
+            )
+            entry6.featured_performers = [
+                SetListPerformer(performer_id=argerich.id, role="piano")
+            ]
+            session.add(entry6)
 
         session.commit()
         print("Done.")
