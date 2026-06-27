@@ -36,9 +36,9 @@ def test_get_performer_by_id(client: TestClient, db_session: Session):
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Berlin Philharmonic"
-    assert data["sortName"] == "Berlin Philharmonic"
+    assert data["sort_name"] == "Berlin Philharmonic"
     assert data["type"] == "ORCHESTRA"
-    assert data["musicbrainzId"] == "abc-123"
+    assert data["musicbrainz_id"] == "abc-123"
     assert data["id"] == performer.id
 
 
@@ -51,16 +51,16 @@ def test_get_performer_not_found(client: TestClient):
 def test_create_performer(client: TestClient):
     payload = {
         "name": "Berlin Philharmonic",
-        "sortName": "Berlin Philharmonic",
+        "sort_name": "Berlin Philharmonic",
         "type": "ORCHESTRA",
-        "musicbrainzId": "abc-123",
+        "musicbrainz_id": "abc-123",
     }
     response = client.post("/v1/performers/", json=payload)
     assert response.status_code == 201
     data = response.json()
     assert data["name"] == "Berlin Philharmonic"
     assert data["type"] == "ORCHESTRA"
-    assert data["musicbrainzId"] == "abc-123"
+    assert data["musicbrainz_id"] == "abc-123"
     assert "id" in data
 
 
@@ -72,7 +72,7 @@ def test_create_performer_deduplication(client: TestClient, db_session: Session)
 
     response = client.post(
         "/v1/performers/",
-        json={"name": "Berlin Philharmonic", "type": "ORCHESTRA", "musicbrainzId": "abc-123"},
+        json={"name": "Berlin Philharmonic", "type": "ORCHESTRA", "musicbrainz_id": "abc-123"},
     )
     assert response.status_code == 201
     assert response.json()["id"] == existing.id

@@ -46,8 +46,8 @@ def test_get_work_by_id(client: TestClient, db_session: Session):
     data = response.json()
     assert data["title"] == "Brandenburg Concerto No. 1"
     assert data["key"] == "F major"
-    assert data["catalogNumber"] == "BWV 1046"
-    assert data["openOpusId"] == "5"
+    assert data["catalog_number"] == "BWV 1046"
+    assert data["open_opus_id"] == "5"
     assert len(data["composers"]) == 1
     assert data["composers"][0]["name"] == "Bach"
     assert data["id"] == work.id
@@ -63,7 +63,7 @@ def test_create_work(client: TestClient):
     payload = {
         "title": "Brandenburg Concerto No. 1",
         "key": "F major",
-        "catalogNumber": "BWV 1046",
+        "catalog_number": "BWV 1046",
         "composers": [{"name": "Bach"}],
     }
     response = client.post("/v1/works/", json=payload)
@@ -71,7 +71,7 @@ def test_create_work(client: TestClient):
     data = response.json()
     assert data["title"] == "Brandenburg Concerto No. 1"
     assert data["key"] == "F major"
-    assert data["catalogNumber"] == "BWV 1046"
+    assert data["catalog_number"] == "BWV 1046"
     assert len(data["composers"]) == 1
     assert data["composers"][0]["name"] == "Bach"
 
@@ -86,7 +86,7 @@ def test_create_work_deduplication(client: TestClient, db_session: Session):
 
     response = client.post(
         "/v1/works/",
-        json={"title": "Brandenburg Concerto No. 1", "openOpusId": "5", "composers": [{"name": "Bach"}]},
+        json={"title": "Brandenburg Concerto No. 1", "open_opus_id": "5", "composers": [{"name": "Bach"}]},
     )
     assert response.status_code == 201
     assert response.json()["id"] == existing.id
@@ -95,16 +95,16 @@ def test_create_work_deduplication(client: TestClient, db_session: Session):
 def test_create_work_creates_composer_inline(client: TestClient):
     response = client.post(
         "/v1/works/",
-        json={"title": "Well-Tempered Clavier", "composers": [{"name": "Bach", "openOpusId": "1"}]},
+        json={"title": "Well-Tempered Clavier", "composers": [{"name": "Bach", "open_opus_id": "1"}]},
     )
     assert response.status_code == 201
     data = response.json()
     assert data["composers"][0]["name"] == "Bach"
-    assert data["composers"][0]["openOpusId"] == "1"
+    assert data["composers"][0]["open_opus_id"] == "1"
 
     # Composer should now exist independently
     composers_response = client.get("/v1/composers/")
-    assert any(c["openOpusId"] == "1" for c in composers_response.json())
+    assert any(c["open_opus_id"] == "1" for c in composers_response.json())
 
 
 def test_get_works_filter_by_name(client: TestClient, db_session: Session):

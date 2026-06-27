@@ -1,20 +1,13 @@
 from pydantic import BaseModel, ConfigDict
-from pydantic.alias_generators import to_camel
 
 
 class Schema(BaseModel):
-    """Base for input schemas (Create, Update). Accepts both camelCase and snake_case input."""
-    model_config = ConfigDict(
-        alias_generator=to_camel,
-        populate_by_name=True,
-    )
+    """Base for input schemas (Create, Update). Fields are snake_case, matching the API's native convention."""
+    model_config = ConfigDict()
 
 
 class ReadSchema(BaseModel):
-    """Base for response schemas (Read). Builds from ORM objects and serializes to camelCase."""
+    """Base for response schemas (Read). Built from ORM objects, serialized as snake_case."""
     model_config = ConfigDict(
-        alias_generator=to_camel,
-        populate_by_name=True,
         from_attributes=True,
-        serialize_by_alias=True,
     )

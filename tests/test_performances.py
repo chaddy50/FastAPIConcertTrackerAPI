@@ -44,7 +44,7 @@ def test_get_performance_by_id(client: TestClient, db_session: Session):
     assert data["status"] == "ATTENDED"
     assert data["venue"]["name"] == "Carnegie Hall"
     assert data["performers"] == []
-    assert data["setList"] == []
+    assert data["set_list"] == []
 
 
 def test_get_performance_not_found(client: TestClient):
@@ -58,7 +58,7 @@ def test_create_performance_minimal(client: TestClient, db_session: Session):
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
         "status": "ATTENDED",
-        "venueId": venue.id,
+        "venue_id": venue.id,
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 201
@@ -66,14 +66,14 @@ def test_create_performance_minimal(client: TestClient, db_session: Session):
     assert data["status"] == "ATTENDED"
     assert data["venue"]["name"] == "Carnegie Hall"
     assert data["performers"] == []
-    assert data["setList"] == []
+    assert data["set_list"] == []
     assert "id" in data
 
 
 def test_create_performance_venue_not_found(client: TestClient):
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
-        "venueId": "nonexistent-id",
+        "venue_id": "nonexistent-id",
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 404
@@ -87,8 +87,8 @@ def test_create_performance_with_performers(client: TestClient, db_session: Sess
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
         "status": "UPCOMING",
-        "venueId": venue.id,
-        "performerIds": [p1.id, p2.id],
+        "venue_id": venue.id,
+        "performer_ids": [p1.id, p2.id],
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 201
@@ -103,8 +103,8 @@ def test_create_performance_performer_not_found(client: TestClient, db_session: 
     venue = _make_venue(db_session)
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
-        "venueId": venue.id,
-        "performerIds": ["nonexistent-id"],
+        "venue_id": venue.id,
+        "performer_ids": ["nonexistent-id"],
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 404
@@ -117,24 +117,24 @@ def test_create_performance_with_set_list(client: TestClient, db_session: Sessio
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
         "status": "ATTENDED",
-        "venueId": venue.id,
-        "setList": [
-            {"order": 1, "workId": work1.id},
+        "venue_id": venue.id,
+        "set_list": [
+            {"order": 1, "work_id": work1.id},
         ],
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 201
     data = response.json()
-    assert len(data["setList"]) == 1
-    assert data["setList"][0]["order"] == 1
+    assert len(data["set_list"]) == 1
+    assert data["set_list"][0]["order"] == 1
 
 
 def test_create_performance_work_not_found(client: TestClient, db_session: Session):
     venue = _make_venue(db_session)
     payload = {
         "date": "2024-01-15T20:00:00+00:00",
-        "venueId": venue.id,
-        "setList": [{"order": 1, "workId": "nonexistent-id"}],
+        "venue_id": venue.id,
+        "set_list": [{"order": 1, "work_id": "nonexistent-id"}],
     }
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 404
@@ -156,7 +156,7 @@ def test_update_performance_performers(client: TestClient, db_session: Session):
     performance = _make_performance(db_session, venue.id)
 
     response = client.put(
-        f"/v1/performances/{performance.id}", json={"performerIds": [performer.id]}
+        f"/v1/performances/{performance.id}", json={"performer_ids": [performer.id]}
     )
     assert response.status_code == 200
     data = response.json()
@@ -176,7 +176,7 @@ def test_update_performance_venue_not_found(client: TestClient, db_session: Sess
     performance = _make_performance(db_session, venue.id)
 
     response = client.put(
-        f"/v1/performances/{performance.id}", json={"venueId": "nonexistent-id"}
+        f"/v1/performances/{performance.id}", json={"venue_id": "nonexistent-id"}
     )
     assert response.status_code == 404
     assert response.json()["detail"] == "Venue not found"
@@ -188,7 +188,7 @@ def test_update_performance_performer_not_found(client: TestClient, db_session: 
     performance = _make_performance(db_session, venue.id)
 
     response = client.put(
-        f"/v1/performances/{performance.id}", json={"performerIds": ["nonexistent-id"]}
+        f"/v1/performances/{performance.id}", json={"performer_ids": ["nonexistent-id"]}
     )
     assert response.status_code == 404
     assert "nonexistent-id" in response.json()["detail"]

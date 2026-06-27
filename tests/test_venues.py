@@ -32,8 +32,8 @@ def test_get_venue_by_id(client: TestClient, db_session: Session):
     assert data["name"] == "Carnegie Hall"
     assert data["city"] == "New York"
     assert data["country"] == "US"
-    assert data["osmType"] == "way"
-    assert data["osmId"] == "12345"  # VenueRead coerces BigInt to string
+    assert data["osm_type"] == "way"
+    assert data["osm_id"] == "12345"  # VenueRead coerces BigInt to string
     assert data["id"] == venue.id
 
 
@@ -44,13 +44,13 @@ def test_get_venue_not_found(client: TestClient):
 
 
 def test_create_venue(client: TestClient):
-    payload = {"name": "Carnegie Hall", "city": "New York", "osmType": "way", "osmId": 12345}
+    payload = {"name": "Carnegie Hall", "city": "New York", "osm_type": "way", "osm_id": 12345}
     response = client.post("/v1/venues/", json=payload)
     assert response.status_code == 201
     data = response.json()
     assert data["name"] == "Carnegie Hall"
-    assert data["osmType"] == "way"
-    assert data["osmId"] == "12345"
+    assert data["osm_type"] == "way"
+    assert data["osm_id"] == "12345"
     assert "id" in data
 
 
@@ -60,7 +60,7 @@ def test_create_venue_deduplication(client: TestClient, db_session: Session):
     db_session.commit()
     db_session.refresh(existing)
 
-    response = client.post("/v1/venues/", json={"osmType": "way", "osmId": 12345})
+    response = client.post("/v1/venues/", json={"osm_type": "way", "osm_id": 12345})
     assert response.status_code == 201
     assert response.json()["id"] == existing.id
 
@@ -76,7 +76,7 @@ def test_update_venue(client: TestClient, db_session: Session):
     data = response.json()
     assert data["name"] == "New Name"
     assert data["city"] == "New City"
-    assert data["osmType"] == "way"  # unchanged
+    assert data["osm_type"] == "way"  # unchanged
 
 
 def test_update_venue_not_found(client: TestClient):

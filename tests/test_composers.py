@@ -33,8 +33,8 @@ def test_get_composer_by_id(client: TestClient, db_session: Session):
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Beethoven"
-    assert data["sortName"] == "Beethoven, Ludwig van"
-    assert data["openOpusId"] == "2"
+    assert data["sort_name"] == "Beethoven, Ludwig van"
+    assert data["open_opus_id"] == "2"
     assert data["id"] == composer.id
 
 
@@ -45,13 +45,13 @@ def test_get_composer_not_found(client: TestClient):
 
 
 def test_create_composer(client: TestClient):
-    payload = {"name": "Brahms", "sortName": "Brahms, Johannes", "openOpusId": "3"}
+    payload = {"name": "Brahms", "sort_name": "Brahms, Johannes", "open_opus_id": "3"}
     response = client.post("/v1/composers/", json=payload)
     assert response.status_code == 201
     data = response.json()
     assert data["name"] == "Brahms"
-    assert data["sortName"] == "Brahms, Johannes"
-    assert data["openOpusId"] == "3"
+    assert data["sort_name"] == "Brahms, Johannes"
+    assert data["open_opus_id"] == "3"
     assert "id" in data
 
 
@@ -60,8 +60,8 @@ def test_create_composer_minimal(client: TestClient):
     assert response.status_code == 201
     data = response.json()
     assert data["name"] == "Schubert"
-    assert data["sortName"] is None
-    assert data["openOpusId"] is None
+    assert data["sort_name"] is None
+    assert data["open_opus_id"] is None
 
 
 def test_create_composer_deduplication(client: TestClient, db_session: Session):
@@ -70,7 +70,7 @@ def test_create_composer_deduplication(client: TestClient, db_session: Session):
     db_session.commit()
     db_session.refresh(existing)
 
-    response = client.post("/v1/composers/", json={"name": "Handel", "openOpusId": "4"})
+    response = client.post("/v1/composers/", json={"name": "Handel", "open_opus_id": "4"})
     assert response.status_code == 201
     assert response.json()["id"] == existing.id
 

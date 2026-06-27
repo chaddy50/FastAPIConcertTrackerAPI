@@ -22,10 +22,10 @@ def test_create_set_list_entry(client: TestClient, db_session: Session):
     work = _make_work(db_session)
 
     payload = {
-        "performanceId": performance.id,
-        "workId": work.id,
+        "performance_id": performance.id,
+        "work_id": work.id,
         "order": 1,
-        "featuredPerformers": [],
+        "featured_performers": [],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 201
@@ -33,7 +33,7 @@ def test_create_set_list_entry(client: TestClient, db_session: Session):
     assert data["order"] == 1
     assert data["work"]["id"] == work.id
     assert data["notes"] is None
-    assert data["featuredPerformers"] == []
+    assert data["featured_performers"] == []
 
 
 def test_create_set_list_entry_with_notes(client: TestClient, db_session: Session):
@@ -42,11 +42,11 @@ def test_create_set_list_entry_with_notes(client: TestClient, db_session: Sessio
     work = _make_work(db_session)
 
     payload = {
-        "performanceId": performance.id,
-        "workId": work.id,
+        "performance_id": performance.id,
+        "work_id": work.id,
         "order": 1,
         "notes": "World premiere",
-        "featuredPerformers": [],
+        "featured_performers": [],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 201
@@ -62,27 +62,27 @@ def test_create_set_list_entry_with_featured_performers(
     soloist = _make_performer(db_session, name="Yo-Yo Ma", type=PerformerType.SOLO)
 
     payload = {
-        "performanceId": performance.id,
-        "workId": work.id,
+        "performance_id": performance.id,
+        "work_id": work.id,
         "order": 1,
-        "featuredPerformers": [{"performerId": soloist.id, "role": "Cello"}],
+        "featured_performers": [{"performer_id": soloist.id, "role": "Cello"}],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 201
     data = response.json()
-    assert len(data["featuredPerformers"]) == 1
-    assert data["featuredPerformers"][0]["performer"]["name"] == "Yo-Yo Ma"
-    assert data["featuredPerformers"][0]["role"] == "Cello"
+    assert len(data["featured_performers"]) == 1
+    assert data["featured_performers"][0]["performer"]["name"] == "Yo-Yo Ma"
+    assert data["featured_performers"][0]["role"] == "Cello"
 
 
 def test_create_set_list_entry_performance_not_found(client: TestClient, db_session: Session):
     work = _make_work(db_session)
 
     payload = {
-        "performanceId": "nonexistent-id",
-        "workId": work.id,
+        "performance_id": "nonexistent-id",
+        "work_id": work.id,
         "order": 1,
-        "featuredPerformers": [],
+        "featured_performers": [],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 404
@@ -94,10 +94,10 @@ def test_create_set_list_entry_work_not_found(client: TestClient, db_session: Se
     performance = _make_performance(db_session, venue.id)
 
     payload = {
-        "performanceId": performance.id,
-        "workId": "nonexistent-id",
+        "performance_id": performance.id,
+        "work_id": "nonexistent-id",
         "order": 1,
-        "featuredPerformers": [],
+        "featured_performers": [],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 404
@@ -113,10 +113,10 @@ def test_create_set_list_entry_featured_performer_not_found(
     work = _make_work(db_session)
 
     payload = {
-        "performanceId": performance.id,
-        "workId": work.id,
+        "performance_id": performance.id,
+        "work_id": work.id,
         "order": 1,
-        "featuredPerformers": [{"performerId": "nonexistent-id", "role": "Violin"}],
+        "featured_performers": [{"performer_id": "nonexistent-id", "role": "Violin"}],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 404
@@ -143,7 +143,7 @@ def test_update_set_list_entry_work(client: TestClient, db_session: Session):
     work2 = _make_work(db_session)
     entry = _make_set_list_entry(db_session, performance.id, work1.id, order=1)
 
-    response = client.put(f"/v1/set-list-entries/{entry.id}", json={"workId": work2.id})
+    response = client.put(f"/v1/set-list-entries/{entry.id}", json={"work_id": work2.id})
     assert response.status_code == 200
     assert response.json()["work"]["id"] == work2.id
 
@@ -160,17 +160,17 @@ def test_update_set_list_entry_replace_featured_performers(
 
     client.put(
         f"/v1/set-list-entries/{entry.id}",
-        json={"featuredPerformers": [{"performerId": soloist1.id, "role": "Cello"}]},
+        json={"featured_performers": [{"performer_id": soloist1.id, "role": "Cello"}]},
     )
     response = client.put(
         f"/v1/set-list-entries/{entry.id}",
-        json={"featuredPerformers": [{"performerId": soloist2.id, "role": "Piano"}]},
+        json={"featured_performers": [{"performer_id": soloist2.id, "role": "Piano"}]},
     )
     assert response.status_code == 200
     data = response.json()
-    assert len(data["featuredPerformers"]) == 1
-    assert data["featuredPerformers"][0]["performer"]["name"] == "Lang Lang"
-    assert data["featuredPerformers"][0]["role"] == "Piano"
+    assert len(data["featured_performers"]) == 1
+    assert data["featured_performers"][0]["performer"]["name"] == "Lang Lang"
+    assert data["featured_performers"][0]["role"] == "Piano"
 
 
 def test_update_set_list_entry_not_found(client: TestClient):
@@ -185,7 +185,7 @@ def test_update_set_list_entry_work_not_found(client: TestClient, db_session: Se
     work = _make_work(db_session)
     entry = _make_set_list_entry(db_session, performance.id, work.id)
 
-    response = client.put(f"/v1/set-list-entries/{entry.id}", json={"workId": "nonexistent-id"})
+    response = client.put(f"/v1/set-list-entries/{entry.id}", json={"work_id": "nonexistent-id"})
     assert response.status_code == 404
     assert response.json()["detail"] == "Work not found"
 
@@ -201,7 +201,7 @@ def test_update_set_list_entry_featured_performer_not_found(
 
     response = client.put(
         f"/v1/set-list-entries/{entry.id}",
-        json={"featuredPerformers": [{"performerId": "nonexistent-id", "role": "Violin"}]},
+        json={"featured_performers": [{"performer_id": "nonexistent-id", "role": "Violin"}]},
     )
     assert response.status_code == 404
     assert "nonexistent-id" in response.json()["detail"]
