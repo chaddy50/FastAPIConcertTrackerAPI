@@ -1,8 +1,12 @@
+from uuid import UUID
+
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.models.enums import PerformerType
 from app.models.performer import Performer
+
+PERFORMER_ID = "77777777-7777-7777-7777-777777777777"
 
 
 def test_get_performers_empty(client: TestClient):
@@ -125,3 +129,54 @@ def test_get_performers_filter_by_name_partial_match(client: TestClient, db_sess
     response = client.get("/v1/performers/?name=Philharmonic")
     assert response.status_code == 200
     assert len(response.json()) == 2
+
+
+# --- Client-supplied id (custom performers) -------------------------------
+
+
+def _performer_payload(**extra) -> dict:
+    return {"name": "Custom Ensemble", "type": "ORCHESTRA", **extra}
+
+
+def test_create_performer_with_client_id_echoed(client: TestClient):
+    response = client.post("/v1/performers/", json=_performer_payload(id=PERFORMER_ID))
+    assert response.status_code == 201
+    assert response.json()["id"] == PERFORMER_ID
+
+
+def test_create_performer_id_omitted_autogenerates(client: TestClient):
+    response = client.post("/v1/performers/", json=_performer_payload())
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_performer_id_null_autogenerates(client: TestClient):
+    response = client.post("/v1/performers/", json=_performer_payload(id=None))
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_performer_malformed_id_422(client: TestClient):
+    response = client.post("/v1/performers/", json=_performer_payload(id="nope"))
+    assert response.status_code == 422
+
+
+def test_create_performer_colliding_id_409(client: TestClient):
+    client.post("/v1/performers/", json=_performer_payload(id=PERFORMER_ID))
+    response = client.post("/v1/performers/", json=_performer_payload(id=PERFORMER_ID))
+    assert response.status_code == 409
+
+
+def test_create_performer_natural_key_dedup_ignores_client_id(
+    client: TestClient, db_session: Session
+):
+    existing = Performer(name="Berlin Phil", type=PerformerType.ORCHESTRA, musicbrainz_id="mb-1")
+    db_session.add(existing)
+    db_session.commit()
+    db_session.refresh(existing)
+
+    response = client.post(
+        "/v1/performers/", json=_performer_payload(musicbrainz_id="mb-1", id=PERFORMER_ID)
+    )
+    assert response.status_code == 201
+    assert response.json()["id"] == existing.id

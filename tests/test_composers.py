@@ -1,8 +1,12 @@
+from uuid import UUID
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.models.composer import Composer
+
+COMPOSER_ID = "66666666-6666-6666-6666-666666666666"
 
 
 def test_get_composers_empty(client: TestClient):
@@ -122,3 +126,51 @@ def test_get_composers_filter_by_name_partial_match(client: TestClient, db_sessi
     response = client.get("/v1/composers/?name=Bach")
     assert response.status_code == 200
     assert len(response.json()) == 2
+
+
+# --- Client-supplied id (custom composers) --------------------------------
+
+
+def test_create_composer_with_client_id_echoed(client: TestClient):
+    response = client.post("/v1/composers/", json={"name": "Custom", "id": COMPOSER_ID})
+    assert response.status_code == 201
+    assert response.json()["id"] == COMPOSER_ID
+
+
+def test_create_composer_id_omitted_autogenerates(client: TestClient):
+    response = client.post("/v1/composers/", json={"name": "Custom"})
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_composer_id_null_autogenerates(client: TestClient):
+    response = client.post("/v1/composers/", json={"name": "Custom", "id": None})
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_composer_malformed_id_422(client: TestClient):
+    response = client.post("/v1/composers/", json={"name": "Custom", "id": "nope"})
+    assert response.status_code == 422
+
+
+def test_create_composer_colliding_id_409(client: TestClient):
+    client.post("/v1/composers/", json={"name": "Custom", "id": COMPOSER_ID})
+    response = client.post("/v1/composers/", json={"name": "Other", "id": COMPOSER_ID})
+    assert response.status_code == 409
+
+
+def test_create_composer_natural_key_dedup_ignores_client_id(
+    client: TestClient, db_session: Session
+):
+    existing = Composer(name="Handel", open_opus_id="42")
+    db_session.add(existing)
+    db_session.commit()
+    db_session.refresh(existing)
+
+    response = client.post(
+        "/v1/composers/", json={"name": "Handel", "open_opus_id": "42", "id": COMPOSER_ID}
+    )
+    assert response.status_code == 201
+    # Dedup wins: the existing server id is returned, the supplied id is ignored.
+    assert response.json()["id"] == existing.id

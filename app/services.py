@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session, selectinload
 
 from app.models.composer import Composer, ComposerCreate
@@ -11,7 +12,12 @@ def find_or_create_composer(data: ComposerCreate, session: Session) -> Composer:
         existing = session.query(Composer).where(Composer.open_opus_id == data.open_opus_id).first()
         if existing:
             return existing
-    composer = Composer(**data.model_dump())
+    if data.id is not None and session.get(Composer, data.id):
+        raise HTTPException(status_code=409, detail=f"Composer {data.id} already exists")
+    dumped = data.model_dump()
+    if dumped.get("id") is None:
+        dumped.pop("id", None)  # let default=lambda: str(uuid4()) apply
+    composer = Composer(**dumped)
     session.add(composer)
     session.flush()
     return composer
@@ -36,7 +42,12 @@ def find_or_create_performer(data: PerformerCreate, session: Session) -> Perform
         ).first()
         if existing:
             return existing
-    performer = Performer(**data.model_dump())
+    if data.id is not None and session.get(Performer, data.id):
+        raise HTTPException(status_code=409, detail=f"Performer {data.id} already exists")
+    dumped = data.model_dump()
+    if dumped.get("id") is None:
+        dumped.pop("id", None)  # let default=lambda: str(uuid4()) apply
+    performer = Performer(**dumped)
     session.add(performer)
     session.flush()
     return performer
@@ -51,8 +62,13 @@ def find_or_create_work(data: WorkCreate, session: Session) -> Work:
         ).first()
         if existing:
             return existing
+    if data.id is not None and session.get(Work, data.id):
+        raise HTTPException(status_code=409, detail=f"Work {data.id} already exists")
     composers = [find_or_create_composer(c, session) for c in data.composers]
-    work = Work(**data.model_dump(exclude={"composers"}))
+    dumped = data.model_dump(exclude={"composers"})
+    if dumped.get("id") is None:
+        dumped.pop("id", None)  # let default=lambda: str(uuid4()) apply
+    work = Work(**dumped)
     work.composers = composers
     session.add(work)
     session.flush()

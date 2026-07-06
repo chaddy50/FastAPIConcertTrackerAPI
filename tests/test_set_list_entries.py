@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -222,3 +224,80 @@ def test_delete_set_list_entry_not_found(client: TestClient):
     response = client.delete("/v1/set-list-entries/nonexistent-id")
     assert response.status_code == 404
     assert response.json()["detail"] == "Set list entry not found"
+
+
+# --- Client-supplied id ---------------------------------------------------
+
+ENTRY_ID = "55555555-5555-5555-5555-555555555555"
+
+
+def _entry_payload(performance_id: str, work_id: str, **extra) -> dict:
+    return {
+        "performance_id": performance_id,
+        "work_id": work_id,
+        "order": 1,
+        "featured_performers": [],
+        **extra,
+    }
+
+
+def test_create_set_list_entry_with_client_id_echoed(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    work = _make_work(db_session)
+    response = client.post(
+        "/v1/set-list-entries/", json=_entry_payload(performance.id, work.id, id=ENTRY_ID)
+    )
+    assert response.status_code == 201
+    assert response.json()["id"] == ENTRY_ID
+
+
+def test_create_set_list_entry_id_omitted_autogenerates(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    work = _make_work(db_session)
+    response = client.post("/v1/set-list-entries/", json=_entry_payload(performance.id, work.id))
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_set_list_entry_id_null_autogenerates(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    work = _make_work(db_session)
+    response = client.post(
+        "/v1/set-list-entries/", json=_entry_payload(performance.id, work.id, id=None)
+    )
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_set_list_entry_malformed_id_422(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    work = _make_work(db_session)
+    response = client.post(
+        "/v1/set-list-entries/", json=_entry_payload(performance.id, work.id, id="nope")
+    )
+    assert response.status_code == 422
+
+
+def test_create_set_list_entry_colliding_id_409(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    work = _make_work(db_session)
+    client.post("/v1/set-list-entries/", json=_entry_payload(performance.id, work.id, id=ENTRY_ID))
+    response = client.post(
+        "/v1/set-list-entries/",
+        json=_entry_payload(performance.id, work.id, id=ENTRY_ID, order=9),
+    )
+    assert response.status_code == 409
+
+
+def test_create_set_list_entry_persisted_under_client_id(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    work = _make_work(db_session)
+    client.post("/v1/set-list-entries/", json=_entry_payload(performance.id, work.id, id=ENTRY_ID))
+    response = client.delete(f"/v1/set-list-entries/{ENTRY_ID}")
+    assert response.status_code == 204

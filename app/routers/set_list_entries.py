@@ -44,8 +44,13 @@ def create_set_list_entry(data: SetListEntryCreate, session: SessionDep):
         raise HTTPException(status_code=404, detail="Performance not found")
     if not session.get(Work, data.work_id):
         raise HTTPException(status_code=404, detail="Work not found")
+    if data.id is not None and session.get(SetListEntry, data.id):
+        raise HTTPException(status_code=409, detail=f"Set list entry {data.id} already exists")
 
-    entry = SetListEntry(**data.model_dump(exclude={"featured_performers"}))
+    dumped = data.model_dump(exclude={"featured_performers"})
+    if dumped.get("id") is None:
+        dumped.pop("id", None)  # let default=lambda: str(uuid4()) apply
+    entry = SetListEntry(**dumped)
     entry.featured_performers = _build_featured_performers(data.featured_performers, session)
     session.add(entry)
     session.commit()

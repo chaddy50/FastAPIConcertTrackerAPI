@@ -9,6 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
 from app.models.base_schema import ReadSchema, Schema
+from app.models.client_supplied_id import ClientSuppliedId
 from app.models.enums import PerformanceStatus
 from app.models.performer import Performer, PerformerRead
 from app.models.set_list_entry import SetListEntry, SetListEntryRead
@@ -43,6 +44,7 @@ class FeaturedPerformerInput(Schema):
 
 
 class SetListEntryInput(Schema):
+    id: ClientSuppliedId = None
     order: int
     notes: Optional[str] = None
     work_id: str
@@ -50,6 +52,7 @@ class SetListEntryInput(Schema):
 
 
 class PerformanceCreate(Schema):
+    id: ClientSuppliedId = None
     date: datetime
     status: PerformanceStatus = PerformanceStatus.UPCOMING
     venue_id: str

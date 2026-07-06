@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
 from app.models.base_schema import ReadSchema, Schema
+from app.models.client_supplied_id import ClientSuppliedId
 
 if TYPE_CHECKING:
     from app.models.work import Work
@@ -31,7 +32,7 @@ class ComposerBase(Schema):
 
 
 class ComposerCreate(ComposerBase):
-    pass
+    id: ClientSuppliedId = None
 
 
 class ComposerRead(ReadSchema):

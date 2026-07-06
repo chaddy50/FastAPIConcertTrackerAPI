@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
 from app.models.base_schema import ReadSchema, Schema
+from app.models.client_supplied_id import ClientSuppliedId
 from app.models.set_list_performer import SetListPerformer, SetListPerformerInput, SetListPerformerRead
 from app.models.work import Work, WorkRead
 
@@ -32,6 +33,7 @@ class SetListEntry(Base):
 
 
 class SetListEntryCreate(Schema):
+    id: ClientSuppliedId = None
     performance_id: str
     work_id: str
     order: int

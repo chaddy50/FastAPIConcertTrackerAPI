@@ -1,8 +1,13 @@
+from uuid import UUID
+
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.models.composer import Composer
 from app.models.work import Work
+
+WORK_ID = "88888888-8888-8888-8888-888888888888"
+COMPOSER_ID = "99999999-9999-9999-9999-999999999999"
 
 
 def _make_composer(db_session: Session, name: str = "Bach") -> Composer:
@@ -161,3 +166,90 @@ def test_get_works_filter_by_name_partial_match(client: TestClient, db_session: 
     response = client.get("/v1/works/?name=Brandenburg Concerto")
     assert response.status_code == 200
     assert len(response.json()) == 2
+
+
+# --- Client-supplied id (custom works + nested composers) -----------------
+
+
+def test_create_work_with_client_id_echoed(client: TestClient):
+    response = client.post(
+        "/v1/works/", json={"title": "Custom Work", "id": WORK_ID, "composers": [{"name": "X"}]}
+    )
+    assert response.status_code == 201
+    assert response.json()["id"] == WORK_ID
+
+
+def test_create_work_with_nested_composer_client_ids(client: TestClient):
+    response = client.post(
+        "/v1/works/",
+        json={
+            "title": "Custom Work",
+            "id": WORK_ID,
+            "composers": [{"name": "X", "id": COMPOSER_ID}],
+        },
+    )
+    assert response.status_code == 201
+    data = response.json()
+    assert data["id"] == WORK_ID
+    assert data["composers"][0]["id"] == COMPOSER_ID
+
+
+def test_create_work_id_omitted_autogenerates(client: TestClient):
+    response = client.post(
+        "/v1/works/", json={"title": "Custom Work", "composers": [{"name": "X"}]}
+    )
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_work_id_null_autogenerates(client: TestClient):
+    response = client.post(
+        "/v1/works/", json={"title": "Custom Work", "id": None, "composers": [{"name": "X"}]}
+    )
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_work_malformed_id_422(client: TestClient):
+    response = client.post(
+        "/v1/works/", json={"title": "Custom Work", "id": "nope", "composers": [{"name": "X"}]}
+    )
+    assert response.status_code == 422
+
+
+def test_create_work_colliding_id_409(client: TestClient):
+    client.post("/v1/works/", json={"title": "Custom Work", "id": WORK_ID, "composers": [{"name": "X"}]})
+    response = client.post(
+        "/v1/works/", json={"title": "Other", "id": WORK_ID, "composers": [{"name": "Y"}]}
+    )
+    assert response.status_code == 409
+
+
+def test_create_work_nested_composer_collision_rolls_back(client: TestClient, db_session: Session):
+    existing = Composer(name="Taken", id=COMPOSER_ID)
+    db_session.add(existing)
+    db_session.commit()
+
+    response = client.post(
+        "/v1/works/",
+        json={"title": "Custom Work", "id": WORK_ID, "composers": [{"name": "X", "id": COMPOSER_ID}]},
+    )
+    assert response.status_code == 409
+    # Work must not have been persisted (whole-request rollback).
+    assert client.get(f"/v1/works/{WORK_ID}").status_code == 404
+
+
+def test_create_work_natural_key_dedup_ignores_client_id(client: TestClient, db_session: Session):
+    composer = _make_composer(db_session)
+    existing = Work(title="Deduped", open_opus_id="500")
+    existing.composers = [composer]
+    db_session.add(existing)
+    db_session.commit()
+    db_session.refresh(existing)
+
+    response = client.post(
+        "/v1/works/",
+        json={"title": "Deduped", "open_opus_id": "500", "id": WORK_ID, "composers": [{"name": "Bach"}]},
+    )
+    assert response.status_code == 201
+    assert response.json()["id"] == existing.id

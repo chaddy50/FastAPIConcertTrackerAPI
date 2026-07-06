@@ -1,11 +1,18 @@
 from datetime import datetime, timezone
+from uuid import UUID
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.models.enums import PerformanceStatus
 from app.models.performance import Performance
+from app.models.set_list_entry import SetListEntry
 from tests.conftest import _make_performance, _make_performer, _make_venue, _make_work
+
+PERF_ID = "11111111-1111-1111-1111-111111111111"
+PERF_ID_2 = "22222222-2222-2222-2222-222222222222"
+ENTRY_ID = "33333333-3333-3333-3333-333333333333"
+ENTRY_ID_2 = "44444444-4444-4444-4444-444444444444"
 
 
 def test_get_performances_empty(client: TestClient):
@@ -333,3 +340,160 @@ def test_get_performances_combined_filters(client: TestClient, db_session: Sessi
     assert len(data) == 1
     assert data[0]["date"].startswith("2024-08-01")
     assert data[0]["status"] == "UPCOMING"
+
+
+# --- Client-supplied id ---------------------------------------------------
+
+
+def _perf_payload(venue_id: str, **extra) -> dict:
+    return {
+        "date": "2024-01-15T20:00:00+00:00",
+        "status": "ATTENDED",
+        "venue_id": venue_id,
+        **extra,
+    }
+
+
+def test_create_performance_with_client_id_echoed(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_perf_payload(venue.id, id=PERF_ID))
+    assert response.status_code == 201
+    assert response.json()["id"] == PERF_ID
+
+
+def test_create_performance_with_client_id_persisted(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    client.post("/v1/performances/", json=_perf_payload(venue.id, id=PERF_ID))
+    response = client.get(f"/v1/performances/{PERF_ID}")
+    assert response.status_code == 200
+    assert response.json()["id"] == PERF_ID
+
+
+def test_create_performance_id_omitted_autogenerates(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_perf_payload(venue.id))
+    assert response.status_code == 201
+    UUID(response.json()["id"])  # parseable, non-null
+
+
+def test_create_performance_id_null_autogenerates(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_perf_payload(venue.id, id=None))
+    assert response.status_code == 201
+    UUID(response.json()["id"])
+
+
+def test_create_performance_malformed_id_422(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_perf_payload(venue.id, id="not-a-uuid"))
+    assert response.status_code == 422
+
+
+def test_create_performance_empty_string_id_422(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_perf_payload(venue.id, id=""))
+    assert response.status_code == 422
+
+
+def test_create_performance_colliding_id_409(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    client.post("/v1/performances/", json=_perf_payload(venue.id, id=PERF_ID))
+    response = client.post(
+        "/v1/performances/", json=_perf_payload(venue.id, id=PERF_ID, status="UPCOMING")
+    )
+    assert response.status_code == 409
+
+
+def test_create_performance_collision_is_noop(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    client.post("/v1/performances/", json=_perf_payload(venue.id, id=PERF_ID))
+    client.post("/v1/performances/", json=_perf_payload(venue.id, id=PERF_ID, status="UPCOMING"))
+    response = client.get(f"/v1/performances/{PERF_ID}")
+    assert response.json()["status"] == "ATTENDED"  # original, not overwritten
+
+
+def test_create_performance_bad_venue_precedes_collision(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    client.post("/v1/performances/", json=_perf_payload(venue.id, id=PERF_ID))
+    response = client.post("/v1/performances/", json=_perf_payload("nonexistent-venue", id=PERF_ID))
+    assert response.status_code == 404
+
+
+def test_create_performance_inline_entry_client_id_echoed(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    work = _make_work(db_session)
+    payload = _perf_payload(
+        venue.id,
+        id=PERF_ID,
+        set_list=[{"id": ENTRY_ID, "order": 1, "work_id": work.id}],
+    )
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 201
+    assert response.json()["set_list"][0]["id"] == ENTRY_ID
+
+
+def test_create_performance_inline_entry_collision_rolls_back(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    work = _make_work(db_session)
+    existing = SetListEntry(id=ENTRY_ID, performance_id=_make_performance(db_session, venue.id).id, work_id=work.id, order=1)
+    db_session.add(existing)
+    db_session.commit()
+
+    payload = _perf_payload(
+        venue.id,
+        id=PERF_ID,
+        set_list=[{"id": ENTRY_ID, "order": 1, "work_id": work.id}],
+    )
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 409
+    # Whole request rolled back: the parent performance was not persisted.
+    assert client.get(f"/v1/performances/{PERF_ID}").status_code == 404
+
+
+def test_create_performance_duplicate_inline_entry_ids_409(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    work = _make_work(db_session)
+    payload = _perf_payload(
+        venue.id,
+        set_list=[
+            {"id": ENTRY_ID, "order": 1, "work_id": work.id},
+            {"id": ENTRY_ID, "order": 2, "work_id": work.id},
+        ],
+    )
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 409
+
+
+def test_offline_graph_custom_entities_resolve_by_client_id(client: TestClient, db_session: Session):
+    """End-to-end: custom performer + work created under client ids, then a performance
+    referencing them by those same ids — no remapping, no 404."""
+    venue = _make_venue(db_session)
+    performer_id = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+    work_id = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+
+    assert client.post(
+        "/v1/performers/", json={"name": "Custom Ensemble", "type": "ORCHESTRA", "id": performer_id}
+    ).status_code == 201
+    assert client.post(
+        "/v1/works/", json={"title": "Custom Work", "id": work_id, "composers": [{"name": "X"}]}
+    ).status_code == 201
+
+    payload = _perf_payload(
+        venue.id,
+        id=PERF_ID,
+        performer_ids=[performer_id],
+        set_list=[
+            {
+                "id": ENTRY_ID,
+                "order": 1,
+                "work_id": work_id,
+                "featured_performers": [{"performer_id": performer_id, "role": "Cello"}],
+            }
+        ],
+    )
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["id"] == PERF_ID
+    assert data["performers"][0]["id"] == performer_id
+    assert data["set_list"][0]["work"]["id"] == work_id

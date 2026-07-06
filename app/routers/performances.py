@@ -84,6 +84,9 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
 
+    if data.id is not None and session.get(Performance, data.id):
+        raise HTTPException(status_code=409, detail=f"Performance {data.id} already exists")
+
     performers = []
     for performer_id in data.performer_ids:
         performer = session.get(Performer, performer_id)
@@ -91,33 +94,46 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
             raise HTTPException(status_code=404, detail=f"Performer {performer_id} not found")
         performers.append(performer)
 
+    # Validate the whole set list before persisting anything, so a rejected request
+    # (missing work/performer, or a colliding/duplicate entry id) leaves nothing behind.
+    seen_entry_ids: set[str] = set()
+    for entry_data in data.set_list:
+        if not session.get(Work, entry_data.work_id):
+            raise HTTPException(status_code=404, detail=f"Work {entry_data.work_id} not found")
+        if entry_data.id is not None:
+            if entry_data.id in seen_entry_ids or session.get(SetListEntry, entry_data.id):
+                raise HTTPException(
+                    status_code=409, detail=f"Set list entry {entry_data.id} already exists"
+                )
+            seen_entry_ids.add(entry_data.id)
+        for fp in entry_data.featured_performers:
+            if not session.get(Performer, fp.performer_id):
+                raise HTTPException(status_code=404, detail=f"Performer {fp.performer_id} not found")
+
     performance = Performance(
         date=data.date,
         status=data.status,
         venue_id=venue.id,
     )
+    if data.id is not None:
+        performance.id = data.id
     performance.performers = performers
     session.add(performance)
     session.flush()
 
     for entry_data in data.set_list:
-        work = session.get(Work, entry_data.work_id)
-        if not work:
-            raise HTTPException(status_code=404, detail=f"Work {entry_data.work_id} not found")
         entry = SetListEntry(
             performance_id=performance.id,
-            work_id=work.id,
+            work_id=entry_data.work_id,
             order=entry_data.order,
             notes=entry_data.notes,
         )
-        entry.featured_performers = []
-        for fp in entry_data.featured_performers:
-            performer = session.get(Performer, fp.performer_id)
-            if not performer:
-                raise HTTPException(status_code=404, detail=f"Performer {fp.performer_id} not found")
-            entry.featured_performers.append(
-                SetListPerformer(performer_id=performer.id, role=fp.role)
-            )
+        if entry_data.id is not None:
+            entry.id = entry_data.id
+        entry.featured_performers = [
+            SetListPerformer(performer_id=fp.performer_id, role=fp.role)
+            for fp in entry_data.featured_performers
+        ]
         session.add(entry)
 
     session.commit()

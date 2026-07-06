@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models import Base
 from app.models.base_schema import ReadSchema, Schema
+from app.models.client_supplied_id import ClientSuppliedId
 from app.models.enums import PerformerType
 
 
@@ -29,7 +30,7 @@ class PerformerBase(Schema):
 
 
 class PerformerCreate(PerformerBase):
-    pass
+    id: ClientSuppliedId = None
 
 
 class PerformerRead(ReadSchema):
