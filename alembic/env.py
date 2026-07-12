@@ -7,6 +7,7 @@ from alembic import context
 # Import all models here so Alembic can detect them when autogenerating migrations.
 # As you add new model files, import them here too.
 from app.models import Base
+from app.models.user import User  # noqa: F401
 from app.models.venue import Venue  # noqa: F401
 from app.models.composer import Composer  # noqa: F401
 from app.models.performer import Performer  # noqa: F401

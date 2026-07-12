@@ -26,6 +26,7 @@ class Work(Base):
     key: Mapped[Optional[str]]
     catalog_number: Mapped[Optional[str]]
     open_opus_id: Mapped[Optional[str]] = mapped_column(String, unique=True)
+    user_id: Mapped[Optional[str]] = mapped_column(ForeignKey("user.id"), nullable=True, index=True)
 
     composers: Mapped[list[Composer]] = relationship(secondary=work_composer, back_populates="works")
 

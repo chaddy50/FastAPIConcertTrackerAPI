@@ -5,13 +5,21 @@ from sqlalchemy.orm import Session
 
 from app.models.enums import PerformerType
 from app.models.set_list_entry import SetListEntry
-from tests.conftest import _make_performance, _make_performer, _make_venue, _make_work
+from tests.conftest import (
+    PRIMARY_USER_ID,
+    _make_performance,
+    _make_performer,
+    _make_venue,
+    _make_work,
+)
 
 
 def _make_set_list_entry(
     db_session: Session, performance_id: str, work_id: str, order: int = 1
 ) -> SetListEntry:
-    entry = SetListEntry(performance_id=performance_id, work_id=work_id, order=order)
+    entry = SetListEntry(
+        performance_id=performance_id, work_id=work_id, order=order, user_id=PRIMARY_USER_ID
+    )
     db_session.add(entry)
     db_session.commit()
     db_session.refresh(entry)

@@ -2,13 +2,13 @@ from typing import Annotated, Optional
 from uuid import uuid4
 
 from pydantic import BeforeValidator
-from sqlalchemy import BigInteger, String, UniqueConstraint
+from sqlalchemy import BigInteger, ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models import Base
 from app.models.base_schema import ReadSchema, Schema
 
-OsmId = Annotated[str, BeforeValidator(str)]
+OsmId = Annotated[str, BeforeValidator(lambda v: str(v) if v is not None else None)]
 
 
 class Venue(Base):
@@ -20,8 +20,9 @@ class Venue(Base):
     country: Mapped[Optional[str]]
     formatted_address: Mapped[Optional[str]]
     website_uri: Mapped[Optional[str]]
-    osm_type: Mapped[str]
-    osm_id: Mapped[int] = mapped_column(BigInteger)
+    osm_type: Mapped[Optional[str]]
+    osm_id: Mapped[Optional[int]] = mapped_column(BigInteger)
+    user_id: Mapped[Optional[str]] = mapped_column(ForeignKey("user.id"), nullable=True, index=True)
 
     __table_args__ = (
         UniqueConstraint("osm_type", "osm_id", name="uq_venue_osm"),
@@ -34,8 +35,8 @@ class VenueBase(Schema):
     country: Optional[str] = None
     formatted_address: Optional[str] = None
     website_uri: Optional[str] = None
-    osm_type: str
-    osm_id: int
+    osm_type: Optional[str] = None
+    osm_id: Optional[int] = None
 
 
 class VenueCreate(VenueBase):
@@ -49,8 +50,8 @@ class VenueRead(ReadSchema):
     country: Optional[str] = None
     formatted_address: Optional[str] = None
     website_uri: Optional[str] = None
-    osm_type: str
-    osm_id: OsmId  # coerced from BigInt to string for JSON compatibility
+    osm_type: Optional[str] = None
+    osm_id: Optional[OsmId] = None  # coerced from BigInt to string for JSON compatibility
 
 
 class VenueUpdate(Schema):

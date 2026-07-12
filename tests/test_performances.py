@@ -7,7 +7,13 @@ from sqlalchemy.orm import Session
 from app.models.enums import PerformanceStatus
 from app.models.performance import Performance
 from app.models.set_list_entry import SetListEntry
-from tests.conftest import _make_performance, _make_performer, _make_venue, _make_work
+from tests.conftest import (
+    PRIMARY_USER_ID,
+    _make_performance,
+    _make_performer,
+    _make_venue,
+    _make_work,
+)
 
 PERF_ID = "11111111-1111-1111-1111-111111111111"
 PERF_ID_2 = "22222222-2222-2222-2222-222222222222"
@@ -28,6 +34,7 @@ def test_get_performances_returns_all(client: TestClient, db_session: Session):
         date=datetime(2024, 3, 20, 20, 0, tzinfo=timezone.utc),
         status=PerformanceStatus.ATTENDED,
         venue_id=venue.id,
+        user_id=PRIMARY_USER_ID,
     )
     db_session.add(p2)
     db_session.commit()
@@ -219,7 +226,7 @@ def test_delete_performance_not_found(client: TestClient):
 def _add_performance(
     db_session: Session, venue_id: str, date: datetime, status: PerformanceStatus
 ) -> Performance:
-    p = Performance(date=date, status=status, venue_id=venue_id)
+    p = Performance(date=date, status=status, venue_id=venue_id, user_id=PRIMARY_USER_ID)
     db_session.add(p)
     db_session.commit()
     db_session.refresh(p)
@@ -435,7 +442,7 @@ def test_create_performance_inline_entry_client_id_echoed(client: TestClient, db
 def test_create_performance_inline_entry_collision_rolls_back(client: TestClient, db_session: Session):
     venue = _make_venue(db_session)
     work = _make_work(db_session)
-    existing = SetListEntry(id=ENTRY_ID, performance_id=_make_performance(db_session, venue.id).id, work_id=work.id, order=1)
+    existing = SetListEntry(id=ENTRY_ID, performance_id=_make_performance(db_session, venue.id).id, work_id=work.id, order=1, user_id=PRIMARY_USER_ID)
     db_session.add(existing)
     db_session.commit()
 

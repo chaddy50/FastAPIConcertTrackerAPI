@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from fastapi.routing import APIRouter
 
-from app.routers import composers, performances, performers, set_list_entries, venues, works
+from app.routers import auth, composers, performances, performers, set_list_entries, venues, works
 
 app = FastAPI()
 
 v1 = APIRouter()
+v1.include_router(auth.router)
 v1.include_router(venues.router)
 v1.include_router(composers.router)
 v1.include_router(performers.router)

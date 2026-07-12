@@ -1,7 +1,7 @@
 from typing import Optional
 from uuid import uuid4
 
-from sqlalchemy import Enum as SaEnum, String
+from sqlalchemy import Enum as SaEnum, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models import Base
@@ -19,6 +19,7 @@ class Performer(Base):
     type: Mapped[PerformerType] = mapped_column(SaEnum(PerformerType))
     specialty: Mapped[Optional[str]]
     musicbrainz_id: Mapped[Optional[str]] = mapped_column(String, unique=True)
+    user_id: Mapped[Optional[str]] = mapped_column(ForeignKey("user.id"), nullable=True, index=True)
 
 
 class PerformerBase(Schema):

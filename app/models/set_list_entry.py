@@ -24,6 +24,7 @@ class SetListEntry(Base):
     notes: Mapped[Optional[str]]
     performance_id: Mapped[str] = mapped_column(ForeignKey("performance.id"))
     work_id: Mapped[str] = mapped_column(ForeignKey("work.id"))
+    user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), index=True)
 
     performance: Mapped[Performance] = relationship(back_populates="set_list")
     work: Mapped[Work] = relationship()
