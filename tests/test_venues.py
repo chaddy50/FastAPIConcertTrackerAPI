@@ -54,6 +54,25 @@ def test_create_venue(client: TestClient):
     assert "id" in data
 
 
+def test_create_custom_venue_without_osm(client: TestClient):
+    response = client.post("/v1/venues/", json={"name": "My Basement", "city": "Portland"})
+    assert response.status_code == 201
+    data = response.json()
+    assert data["name"] == "My Basement"
+    assert data["city"] == "Portland"
+    assert data["osm_type"] is None
+    assert data["osm_id"] is None
+    assert "id" in data
+
+
+def test_create_custom_venues_are_not_deduplicated(client: TestClient):
+    first = client.post("/v1/venues/", json={"name": "My Basement"})
+    second = client.post("/v1/venues/", json={"name": "My Basement"})
+    assert first.status_code == 201
+    assert second.status_code == 201
+    assert first.json()["id"] != second.json()["id"]
+
+
 def test_create_venue_deduplication(client: TestClient, db_session: Session):
     existing = Venue(name="Carnegie Hall", osm_type="way", osm_id=12345)
     db_session.add(existing)

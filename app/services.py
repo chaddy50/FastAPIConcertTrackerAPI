@@ -24,11 +24,12 @@ def find_or_create_composer(data: ComposerCreate, session: Session) -> Composer:
 
 
 def find_or_create_venue(data: VenueCreate, session: Session) -> Venue:
-    existing = session.query(Venue).where(
-        Venue.osm_type == data.osm_type, Venue.osm_id == data.osm_id
-    ).first()
-    if existing:
-        return existing
+    if data.osm_type is not None and data.osm_id is not None:
+        existing = session.query(Venue).where(
+            Venue.osm_type == data.osm_type, Venue.osm_id == data.osm_id
+        ).first()
+        if existing:
+            return existing
     venue = Venue(**data.model_dump())
     session.add(venue)
     session.flush()
