@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 from uuid import uuid4
 
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
@@ -21,7 +21,6 @@ class Composer(Base):
     name: Mapped[str]
     sort_name: Mapped[Optional[str]]
     open_opus_id: Mapped[Optional[str]] = mapped_column(String, unique=True)
-    user_id: Mapped[Optional[str]] = mapped_column(ForeignKey("user.id"), nullable=True, index=True)
 
     works: Mapped[list[Work]] = relationship(secondary="work_composer", back_populates="composers")
 

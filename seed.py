@@ -1,7 +1,6 @@
 """
-Seed script for manual API testing. Run as a module from the repo root
-(so `app` is importable):
-    DATABASE_URL=... .venv/bin/python -m scripts.seed
+Seed script for manual API testing. Run with:
+    DATABASE_URL=... .venv/bin/python seed.py
 
 Safe to run multiple times — uses natural keys to avoid duplicates.
 """
@@ -17,27 +16,11 @@ from app.models.performance import Performance
 from app.models.performer import Performer
 from app.models.set_list_entry import SetListEntry
 from app.models.set_list_performer import SetListPerformer
-from app.models.user import User
 from app.models.venue import Venue
 from app.models.work import Work
-from app.auth import generate_api_key, hash_api_key
 
 engine = create_engine(os.environ["DATABASE_URL"])
 Session = sessionmaker(engine)
-
-
-def upsert_user(session, username: str) -> User:
-    """Find-or-create the seed user. On first creation, prints a usable API key
-    (the personal log is now per-user, so the seeded performances need an owner)."""
-    existing = session.query(User).where(User.username == username).first()
-    if existing:
-        return existing
-    key = generate_api_key()
-    user = User(username=username, api_key_hash=hash_api_key(key))
-    session.add(user)
-    session.flush()
-    print(f"Created seed user {username!r}. API key (shown once): {key}")
-    return user
 
 
 def upsert_composer(session, **kwargs) -> Composer:
@@ -90,9 +73,6 @@ def upsert_work(session, composers: list[Composer], **kwargs) -> Work:
 
 def main():
     with Session() as session:
-        print("Seeding user...")
-        seed_user = upsert_user(session, "seed")
-
         print("Seeding composers...")
         beethoven = upsert_composer(
             session,
@@ -226,7 +206,6 @@ def main():
                 date=datetime.fromisoformat("2026-06-16T00:30:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.UPCOMING,
                 venue_id=philharmonie.id,
-                user_id=seed_user.id,
             )
             perf1.performers = [rattle, berlin_phil]
             session.add(perf1)
@@ -234,7 +213,6 @@ def main():
 
             entry1 = SetListEntry(
                 performance_id=perf1.id,
-                user_id=seed_user.id,
                 work_id=mahler_5.id,
                 order=1,
             )
@@ -247,7 +225,6 @@ def main():
                 date=datetime.fromisoformat("2025-11-21T02:00:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.ATTENDED,
                 venue_id=carnegie.id,
-                user_id=seed_user.id,
             )
             perf2.performers = [rattle, berlin_phil]
             session.add(perf2)
@@ -255,7 +232,6 @@ def main():
 
             entry2 = SetListEntry(
                 performance_id=perf2.id,
-                user_id=seed_user.id,
                 work_id=brahms_piano_2.id,
                 order=1,
                 notes="Argerich was a late substitute",
@@ -267,7 +243,6 @@ def main():
 
             entry3 = SetListEntry(
                 performance_id=perf2.id,
-                user_id=seed_user.id,
                 work_id=beethoven_9.id,
                 order=2,
             )
@@ -280,7 +255,6 @@ def main():
                 date=datetime.fromisoformat("2025-04-05T19:30:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.ATTENDED,
                 venue_id=musikverein.id,
-                user_id=seed_user.id,
             )
             perf3.performers = [berlin_phil]
             session.add(perf3)
@@ -288,7 +262,6 @@ def main():
 
             entry4 = SetListEntry(
                 performance_id=perf3.id,
-                user_id=seed_user.id,
                 work_id=beethoven_9.id,
                 order=1,
             )
@@ -301,7 +274,6 @@ def main():
                 date=datetime.fromisoformat("2026-02-14T20:00:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.ATTENDED,
                 venue_id=symphony_center.id,
-                user_id=seed_user.id,
             )
             perf4.performers = [rattle, berlin_phil]
             session.add(perf4)
@@ -309,7 +281,6 @@ def main():
 
             entry5 = SetListEntry(
                 performance_id=perf4.id,
-                user_id=seed_user.id,
                 work_id=mahler_5.id,
                 order=1,
             )
@@ -322,7 +293,6 @@ def main():
                 date=datetime.fromisoformat("2026-09-12T19:00:00").replace(tzinfo=timezone.utc),
                 status=PerformanceStatus.UPCOMING,
                 venue_id=royal_albert.id,
-                user_id=seed_user.id,
             )
             perf5.performers = [argerich, berlin_phil]
             session.add(perf5)
@@ -330,7 +300,6 @@ def main():
 
             entry6 = SetListEntry(
                 performance_id=perf5.id,
-                user_id=seed_user.id,
                 work_id=brahms_piano_2.id,
                 order=1,
             )

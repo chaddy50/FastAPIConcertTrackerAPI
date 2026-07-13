@@ -12,17 +12,16 @@ from app.models.set_list_entry import SetListEntry
 from app.models.set_list_performer import SetListPerformer
 from app.models.venue import Venue
 from app.models.work import Work
-from app.auth import CurrentUserDep
 
 router = APIRouter(prefix="/performances", tags=["performances"])
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
 
-def _load_performance(performance_id: str, session: Session, user_id: str) -> Performance:
+def _load_performance(performance_id: str, session: Session) -> Performance:
     performance = session.scalars(
         session.query(Performance)
-        .where(Performance.id == performance_id, Performance.user_id == user_id)
+        .where(Performance.id == performance_id)
         .options(
             selectinload(Performance.venue),
             selectinload(Performance.performers),
@@ -38,13 +37,12 @@ def _load_performance(performance_id: str, session: Session, user_id: str) -> Pe
 @router.get("/", response_model=list[PerformanceRead])
 def get_performances(
     session: SessionDep,
-    current_user: CurrentUserDep,
     status: str | None = None,
     sort: Literal["date_asc", "date_desc"] = "date_asc",
     limit: Annotated[int | None, Query(gt=0)] = None,
     date_after: datetime | None = None,
 ):
-    query = session.query(Performance).filter(Performance.user_id == current_user.id).options(
+    query = session.query(Performance).options(
         selectinload(Performance.venue),
         selectinload(Performance.performers),
         selectinload(Performance.set_list).selectinload(SetListEntry.work).selectinload(Work.composers),
@@ -76,12 +74,12 @@ def get_performances(
 
 
 @router.get("/{performance_id}", response_model=PerformanceRead)
-def get_performance(performance_id: str, session: SessionDep, current_user: CurrentUserDep):
-    return _load_performance(performance_id, session, current_user.id)
+def get_performance(performance_id: str, session: SessionDep):
+    return _load_performance(performance_id, session)
 
 
 @router.post("/", response_model=PerformanceRead, status_code=201)
-def create_performance(data: PerformanceCreate, session: SessionDep, current_user: CurrentUserDep):
+def create_performance(data: PerformanceCreate, session: SessionDep):
     venue = session.get(Venue, data.venue_id)
     if not venue:
         raise HTTPException(status_code=404, detail="Venue not found")
@@ -116,7 +114,6 @@ def create_performance(data: PerformanceCreate, session: SessionDep, current_use
         date=data.date,
         status=data.status,
         venue_id=venue.id,
-        user_id=current_user.id,
     )
     if data.id is not None:
         performance.id = data.id
@@ -130,7 +127,6 @@ def create_performance(data: PerformanceCreate, session: SessionDep, current_use
             work_id=entry_data.work_id,
             order=entry_data.order,
             notes=entry_data.notes,
-            user_id=current_user.id,
         )
         if entry_data.id is not None:
             entry.id = entry_data.id
@@ -141,14 +137,12 @@ def create_performance(data: PerformanceCreate, session: SessionDep, current_use
         session.add(entry)
 
     session.commit()
-    return _load_performance(performance.id, session, current_user.id)
+    return _load_performance(performance.id, session)
 
 
 @router.put("/{performance_id}", response_model=PerformanceRead)
-def update_performance(
-    performance_id: str, data: PerformanceUpdate, session: SessionDep, current_user: CurrentUserDep
-):
-    performance = _load_performance(performance_id, session, current_user.id)
+def update_performance(performance_id: str, data: PerformanceUpdate, session: SessionDep):
+    performance = _load_performance(performance_id, session)
 
     # Only fields the client actually sent are in this dict — omitted fields are excluded,
     # so we don't accidentally overwrite existing values with None.
@@ -170,15 +164,12 @@ def update_performance(
         performance.performers = resolved
 
     session.commit()
-    return _load_performance(performance.id, session, current_user.id)
+    return _load_performance(performance.id, session)
 
 
 @router.delete("/{performance_id}", status_code=204)
-def delete_performance(performance_id: str, session: SessionDep, current_user: CurrentUserDep):
-    performance = session.scalars(
-        session.query(Performance)
-        .where(Performance.id == performance_id, Performance.user_id == current_user.id)
-    ).first()
+def delete_performance(performance_id: str, session: SessionDep):
+    performance = session.get(Performance, performance_id)
     if not performance:
         raise HTTPException(status_code=404, detail="Performance not found")
     session.delete(performance)

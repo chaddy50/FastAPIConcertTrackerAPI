@@ -9,17 +9,16 @@ from app.models.performer import Performer
 from app.models.set_list_entry import SetListEntry, SetListEntryCreate, SetListEntryRead, SetListEntryUpdate
 from app.models.set_list_performer import SetListPerformer, SetListPerformerInput
 from app.models.work import Work
-from app.auth import CurrentUserDep
 
 router = APIRouter(prefix="/set-list-entries", tags=["set-list-entries"])
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
 
-def _load_set_list_entry(entry_id: str, session: Session, user_id: str) -> SetListEntry:
+def _load_set_list_entry(entry_id: str, session: Session) -> SetListEntry:
     entry = session.scalars(
         session.query(SetListEntry)
-        .where(SetListEntry.id == entry_id, SetListEntry.user_id == user_id)
+        .where(SetListEntry.id == entry_id)
         .options(
             selectinload(SetListEntry.work).selectinload(Work.composers),
             selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
@@ -40,12 +39,8 @@ def _build_featured_performers(inputs: list[SetListPerformerInput], session: Ses
 
 
 @router.post("/", response_model=SetListEntryRead, status_code=201)
-def create_set_list_entry(data: SetListEntryCreate, session: SessionDep, current_user: CurrentUserDep):
-    parent = session.scalars(
-        session.query(Performance)
-        .where(Performance.id == data.performance_id, Performance.user_id == current_user.id)
-    ).first()
-    if not parent:
+def create_set_list_entry(data: SetListEntryCreate, session: SessionDep):
+    if not session.get(Performance, data.performance_id):
         raise HTTPException(status_code=404, detail="Performance not found")
     if not session.get(Work, data.work_id):
         raise HTTPException(status_code=404, detail="Work not found")
@@ -56,18 +51,15 @@ def create_set_list_entry(data: SetListEntryCreate, session: SessionDep, current
     if dumped.get("id") is None:
         dumped.pop("id", None)  # let default=lambda: str(uuid4()) apply
     entry = SetListEntry(**dumped)
-    entry.user_id = current_user.id
     entry.featured_performers = _build_featured_performers(data.featured_performers, session)
     session.add(entry)
     session.commit()
-    return _load_set_list_entry(entry.id, session, current_user.id)
+    return _load_set_list_entry(entry.id, session)
 
 
 @router.put("/{entry_id}", response_model=SetListEntryRead)
-def update_set_list_entry(
-    entry_id: str, data: SetListEntryUpdate, session: SessionDep, current_user: CurrentUserDep
-):
-    entry = _load_set_list_entry(entry_id, session, current_user.id)
+def update_set_list_entry(entry_id: str, data: SetListEntryUpdate, session: SessionDep):
+    entry = _load_set_list_entry(entry_id, session)
 
     update_data = data.model_dump(exclude_unset=True)
     featured_performers_input = update_data.pop("featured_performers", None)
@@ -85,15 +77,12 @@ def update_set_list_entry(
         )
 
     session.commit()
-    return _load_set_list_entry(entry.id, session, current_user.id)
+    return _load_set_list_entry(entry.id, session)
 
 
 @router.delete("/{entry_id}", status_code=204)
-def delete_set_list_entry(entry_id: str, session: SessionDep, current_user: CurrentUserDep):
-    entry = session.scalars(
-        session.query(SetListEntry)
-        .where(SetListEntry.id == entry_id, SetListEntry.user_id == current_user.id)
-    ).first()
+def delete_set_list_entry(entry_id: str, session: SessionDep):
+    entry = session.get(SetListEntry, entry_id)
     if not entry:
         raise HTTPException(status_code=404, detail="Set list entry not found")
     session.delete(entry)

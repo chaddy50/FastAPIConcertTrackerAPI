@@ -32,7 +32,6 @@ class Performance(Base):
         SaEnum(PerformanceStatus), default=PerformanceStatus.UPCOMING
     )
     venue_id: Mapped[str] = mapped_column(ForeignKey("venue.id"))
-    user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), index=True)
 
     venue: Mapped[Venue] = relationship()
     performers: Mapped[list[Performer]] = relationship(secondary=performance_performer)
