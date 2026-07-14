@@ -1,0 +1,1300 @@
+{
+  "generated_at": "2026-07-14T01:58:24.789019+00:00",
+  "concerts": [
+    {
+      "source_file": "Ax Plays Mozart - Madison Symphony Orchestra.md",
+      "date": "2026-03-21",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Ax Plays Mozart",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Strauss, Richard",
+          "work_title": "Till Eulenspeigel's Merry Pranks",
+          "soloist": null,
+          "notes": "I liked this a lot. It was energetic and playful and stayed interesting throughout.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Mozart",
+          "work_title": "Piano Concerto No. 25",
+          "soloist": "Emmanuel Ax",
+          "notes": "This was pretty classic Mozart. Flamboyant and superfluous. I didn't find it all that interesting.\n\nThat being said, the performance was excellent. The orchestra was really on their game, and Emmanuel's performance was immaculate.\n\nHe played a Chopin (not sure which, but I was familiar with it) as his encore and it was also incredibly well done.",
+          "encores_detected": [
+            "He played a Chopin (not sure which, but I was familiar with it) as his encore and it was also incredibly well done."
+          ],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Respighi",
+          "work_title": "The Pines of Rome",
+          "soloist": null,
+          "notes": "This was incredible. I really enjoyed all four movements. This is the kind of modern music I can get behind. I need to get a recording of this and Respighi's other works.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "1 possible encore(s) detected in prose -- promote to entries?"
+      ]
+    },
+    {
+      "source_file": "Beethoven x3 - Madison Symphony Orchestra.md",
+      "date": "2025-01-18",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Beethoven x3",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Beethoven",
+          "work_title": "Leonore Overture No. 3 Op. 72b",
+          "soloist": null,
+          "notes": "This was really energetic and kind of all over the place, but I still didn't find it all that interesting. This seems to be before Beethoven went romantic, and it didn't really capture my attention all that much.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Beethoven",
+          "work_title": "Concerto for Violin, Cello, Piano, and Orchestra (Triple Concerto)",
+          "soloist": null,
+          "notes": "This one was interesting, mostly because of the three soloists. It was really fun to watch them interact and pass melodies off to each other. I thought the cello needed to be a bit louder. At times it was hard to hear him over the violin and piano.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Beethoven",
+          "work_title": "Symphony No. 2 in D Major",
+          "soloist": null,
+          "notes": "This was enjoyable, and had some early indications of the more romantic style of Beethoven's later symphonies. I particularly enjoyed the third and fourth movements.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Beethoven's Fifth - Wisconsin Chamber Orchestra.md",
+      "date": "2025-03-28",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Beethoven's Fifth",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Abels",
+          "work_title": "More Seasons",
+          "soloist": null,
+          "notes": "This was an interesting concept: a post-modern take on Vivaldi's four seasons. But in practice I didn't find it all that interesting. The repeating bass line got kind of old. It was kind of cool how the music broke down into chaos near the end, but not compelling enough during the rest IMO.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Herbert",
+          "work_title": "Cello Concerto No. 2",
+          "soloist": null,
+          "notes": "This was a really interesting piece. It was a little romantic but also felt a bit more modern, which makes sense given when it was written. The soloist was great. I payed a lot of attention to his technique and expression. The biggest things that stood out to me were the variation in expression even with the same bow motion, and the ability to jump all around the fingerboard while hitting pitches dead on. Maybe because those are two things I'm struggling with...but they caught my attention.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Beethoven",
+          "work_title": "Symphony No. 5",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Benny Benack III - Cafe Coda.md",
+      "date": "2025-04-07",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": "Cafe Coda, Madison",
+        "name": "Cafe Coda",
+        "city": "Madison"
+      },
+      "venue_source": "frontmatter",
+      "filename_title": "Benny Benack III",
+      "filename_suffix": "Cafe Coda",
+      "ensemble_hint": null,
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Composer",
+          "work_title": "Piece",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": true
+        },
+        {
+          "order": 2,
+          "composer": "Composer",
+          "work_title": "Piece",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": true
+        },
+        {
+          "order": 3,
+          "composer": "Composer",
+          "work_title": "Piece",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": true
+        }
+      ],
+      "review": [
+        "Set list contains unfilled placeholders (**Composer**: Piece)",
+        "Performing ensemble unknown (filename suffix='Cafe Coda', title='Benny Benack III') -- resolver will prompt"
+      ]
+    },
+    {
+      "source_file": "Boundless Beauty - Madison Symphony Orchestra.md",
+      "date": "2024-04-13",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Boundless Beauty",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Verdi",
+          "work_title": "Requiem",
+          "soloist": null,
+          "notes": "This was epic. The opening of the Dies Irae was immediately recognizable. This isn't necessarily something I'd listen to on my own, but it was super cool to see it live with full choir and soloists.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Christopher Taylor Plays Brahms - Madison Symphony Orchestra.md",
+      "date": "2026-01-24",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Christopher Taylor Plays Brahms",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Frank",
+          "work_title": "Escaramuza",
+          "soloist": null,
+          "notes": "This was interesting. It was modern focused on rhythm more than anything else. It was tense and terse, which makes sense given that its supposed to be a representation of a type of war dance.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Strauss",
+          "work_title": "Suite from Der Rosenkavalier",
+          "soloist": null,
+          "notes": "This was a little sappy and romantic, but also really fun and bombastic at times. It probably would've made more sense musically in the context of the opera  I don't know much about Strauss, but should learn more.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Brahms",
+          "work_title": "Piano Concerto No. 2",
+          "soloist": "Christopher Taylor",
+          "notes": "This piece is great. The interaction between the piano and orchestra is genius. I wasn't completely sold on this performance. He played it all from memory, but there were a few places that seemed a little sketch.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Concerto Budapest Symphony Orchestra.md",
+      "date": "2025-12-04",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": "Cadogan Hall, London",
+        "name": "Cadogan Hall",
+        "city": "London"
+      },
+      "venue_source": "frontmatter",
+      "filename_title": "Concerto Budapest Symphony Orchestra",
+      "filename_suffix": null,
+      "ensemble_hint": "Concerto Budapest Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Shostakovich",
+          "work_title": "Symphony No. 9",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Beethoven",
+          "work_title": "Piano Concerto No. 3",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Liszt",
+          "work_title": "Preludes",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 4,
+          "composer": "Beethoven",
+          "work_title": "Symphony No. 5",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Convergence - Wisconsin Chamber Orchestra.md",
+      "date": "2024-10-10",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Convergence",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Rushen",
+          "work_title": "Fanfare and Fantasie",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Myers",
+          "work_title": "Changes",
+          "soloist": null,
+          "notes": "This was the most memorable piece to me. I found my mind wandering while listening along, and it was kindof floaty, in a good way. This is something I would listen to while working.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Abels",
+          "work_title": "Nope Film Suite",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 4,
+          "composer": "Coleman",
+          "work_title": "Umaja",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 5,
+          "composer": "Abels",
+          "work_title": "Global Warming",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Eroica - Wisconsin Chamber Orchestra.md",
+      "date": "2025-11-14",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Eroica",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Rautavaara",
+          "work_title": "Suite for Strings",
+          "soloist": null,
+          "notes": "This reminded me a lot of John Williams film music. It was modern and slightly dissonant, but still relatively easy to listen to. Parts of it felt a little stiff and soul-less in my opinion, but there were also parts that felt more fleshed out and almost emotional. I think it'd be worth another listen.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Mendelssohn, Felix",
+          "work_title": "Violin Concerto in E minor",
+          "soloist": "Lun Li",
+          "notes": "This piece wasn't particularly interesting to me, but it was pleasant and the violin work was really intricate and impressive. The soloist nailed it and made it look easy.\n\nHe also played a Bach piece as an encore which was also very impressive and fun to watch.",
+          "encores_detected": [
+            "He also played a Bach piece as an encore which was also very impressive and fun to watch."
+          ],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Beethoven",
+          "work_title": "Symphony No. 3, Eroica",
+          "soloist": null,
+          "notes": "This was really good, especially the first movement. It's really notable how Beethoven is just much more interesting throughout than most/all music of his time period. My only complaints here were that the second and fourth movement felt like they went on a bit too long, and got repetitive at points. The fourth movement overall felt a little superfluous in my opinion.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "1 possible encore(s) detected in prose -- promote to entries?"
+      ]
+    },
+    {
+      "source_file": "Favorites of Mine & Your Choice - Madison Symphony Orchestra.md",
+      "date": "2024-03-16",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Favorites of Mine & Your Choice",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Higdon",
+          "work_title": "Loco",
+          "soloist": null,
+          "notes": "This was interesting, but it was a little too \"modern\" for my tastes. It was very rhythmic and clearly trying to represent something real rather than just to be enjoyable music. It did get me thinking about why traditional music is more enjoyable to me than more modern music. Modern music is meant to drive progress forward, but towards what? Seems like that's probably too abstract of a question to actually answer.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Kabalevsky",
+          "work_title": "Concerto No. 2 in E minor for Cello and Orchestra",
+          "soloist": "Steven Isserlis",
+          "notes": "This was an interesting piece. It was very starkly Russian, but was also very dark and almost \"evil\" at points. The soloist was a little flashy for my tastes, but he did a good job. He had long bouncy grey hair, and was whipping his head around at the more intense passages. I'd be interested in listening to this again. It was weird, but within my realm of understanding where it might just be good weird.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Dvorak",
+          "work_title": "Symphony No. 9 in E minor - From the New World",
+          "soloist": null,
+          "notes": "This was very well performed. However, I kind of wish they would've done something more adventurous. I've already seen them play this piece before, and I would rather have heard something new. The rest of the crowd loved it though so maybe I'm the odd man out.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Fialkowska on Fire - Wisconsin Chamber Orchestra.md",
+      "date": "2024-11-08",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Fialkowska on Fire",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Stamitz",
+          "work_title": "Symphony in C Major, OP. 12 no. 5",
+          "soloist": null,
+          "notes": "This was pleasant, but not really noteworthy. It falls into the bucket of pre-romantic music that I just don't find all that interesting.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Beethoven",
+          "work_title": "Piano Concerto No. 4 in G",
+          "soloist": "Janina Fialkowska",
+          "notes": "I'm familiar with this piece and enjoy it, although it's a little too frilly/showoff-y for it to be one of my favorites.\n\nI wasn't all that impressed with the soloist, although I seem to be the only one. She seemed like she struggled in parts and wasn't hitting all the notes. She chose not to play a solo afterwards which seemed pretty telling to me given that she's known for interpreting Chopin. Maybe she had an off night or wasn't feeling well.\n\nDoing more research I found out that she's 73. Maybe the tempo of the Beethoven was a little too much for her at this stage. I really wish she would've played a Chopin so I could gauge based on that.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Farrenc",
+          "work_title": "Symphony No. 3 in G minor",
+          "soloist": null,
+          "notes": "This was good. I enjoyed the orchestral parts, and I really liked the mini-winds ensembles that were sprinkled in throughout.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Fiesta Finale - Madison Symphony Orchestra.md",
+      "date": "2024-05-04",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Fiesta Finale",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Moncayo",
+          "work_title": "Huapango",
+          "soloist": null,
+          "notes": "This was very upbeat, and very unlike what I'm used to hearing. The meter seemed to be changing all the time and there were a lot of complex syncopated rhythms. It was short but sweet, and ended very abruptly.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Ponce",
+          "work_title": "Piano Concerto No. 1, Romantico",
+          "soloist": null,
+          "notes": "This was very typical romanticism, but with a Mexican vibe. I mostly noticed that in fast, syncopated rhythms in the trumpets, and there were some unfamiliar harmonies that I'm interested in looking into further. It seemed like it was using a different mode than I'm used to hearing.\n\nHe played Manuel Ponce - Intermezzo as an encore. It was fantastic and a piece I could see myself learning.",
+          "encores_detected": [
+            "He played Manuel Ponce - Intermezzo as an encore."
+          ],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Revueltas",
+          "work_title": "La Noche de las Mayas",
+          "soloist": null,
+          "notes": "This piece was super interesting. It was really modern and different without being too weird. There was a really great percussion breakdown in I think the second movement. The different movements were very distinct and were all interesting in their own way.\n\n**Mariachi Los Campaneros**\nThese guys were amazing. They played mariachi music with the symphony backing them and it was so great. It was almost operatic at times. The instrumentals and vocals were both top notch. The two trumpeters in particular stood out as excellent.\nThey played an encore on stage, then also played a few more songs in the lobby afterwards.",
+          "encores_detected": [
+            "They played an encore on stage, then also played a few more songs in the lobby afterwards."
+          ],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "2 possible encore(s) detected in prose -- promote to entries?"
+      ]
+    },
+    {
+      "source_file": "Gershwin - Madison Symphony Orchestra.md",
+      "date": "2025-05-10",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Gershwin",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Gershwin",
+          "work_title": "Cuban Overture",
+          "soloist": null,
+          "notes": "This was really enjoyable. It was pretty typical Gershwin, but with a latin beat and flavor throughout. I'd definitely listen to this again.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Gershwin",
+          "work_title": "Concerto in F",
+          "soloist": null,
+          "notes": "This was a really unusual concerto but I liked it a lot. Gershwin has a way to sound poppy even while also being dissonant both harmonically and rhythmically. Should definitely give this another listen.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Gershwin",
+          "work_title": "Porgy and Bess (concert version)",
+          "soloist": null,
+          "notes": "I didn't stick around for this, wasn't feeling well.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Goodyear Returns - Wisconsin Chamber Orchestra.md",
+      "date": "2024-02-16",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Goodyear Returns",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Blake",
+          "work_title": "Night Journey to Pawarenga",
+          "soloist": null,
+          "notes": "This was really interesting, especially for just being strings. It was really cinematic, I could tell it was trying to convey a scene, although as usual the specifics aren't clear to me (I'm not convinced they can be). The harmony was weird and dissonant which I liked a lot. It was varied in tone throughout which kept it interesting.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Mozart",
+          "work_title": "Piano Concerto No. 27",
+          "soloist": "Stewart Goodyear",
+          "notes": "This was typical Mozart. It was whimsical and showy throughout. I didn't find it super interesting. It was more showy than expressive. The soloist was fantastic, and did a fantastic job interpreting and performing. The music itself just didn't inspire me though.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Stravinsky",
+          "work_title": "Pulcinella Suite",
+          "soloist": null,
+          "notes": "Not at all what I expected from Stravinsky. It was kind of old fashioned, but with a modern twist. There was really interesting use of winds and brass throughout, and it sounded very rich compared to older classical music overall. I enjoyed this one, and would be interested in finding a recording of this for my collection.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Janice Carissa - Salon Piano Series.md",
+      "date": "2025-02-08",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": null,
+        "city": null
+      },
+      "venue_source": null,
+      "filename_title": "Janice Carissa",
+      "filename_suffix": "Salon Piano Series",
+      "ensemble_hint": null,
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Liszt",
+          "work_title": "Aannes de pelerinage",
+          "soloist": null,
+          "notes": "This was a really nice piece. It was interesting while also being very pretty. It'd be nice to try to play this, although I'd want to listen to it a couple more times to see if it's feasible.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Scarlatti",
+          "work_title": "Keyboard Sonata in A Major",
+          "soloist": null,
+          "notes": "This piece was surprisingly interesting. It was harmonically predictable, but still managed to be entertaining throughout.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Beethoven",
+          "work_title": "Piano Sonata No. 2 in A Major",
+          "soloist": null,
+          "notes": "This one was a little two early for my tastes, but I did enjoy the last two movements quite a bit. Her playing was phenomenal. Very clear articulation and wide range of expression as well.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 4,
+          "composer": "Medtner",
+          "work_title": "4 Fairy Tales",
+          "soloist": null,
+          "notes": "This was enjoyable. Very romantic and flow-y. Relatively short, but I liked it.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 5,
+          "composer": "Schumann",
+          "work_title": "Fantasies in C Major",
+          "soloist": null,
+          "notes": "The first couple of movements weren't really my jam but the 4th movement in particular I really enjoyed.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "No venue known -- resolver will prompt",
+        "Performing ensemble unknown (filename suffix='Salon Piano Series', title='Janice Carissa') -- resolver will prompt"
+      ]
+    },
+    {
+      "source_file": "Legacy - Madison Symphony Orchestra.md",
+      "date": "2025-03-15",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Legacy",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Strauss",
+          "work_title": "Don Juan",
+          "soloist": null,
+          "notes": "This was a very passionate and varied piece. It was all over the place emotionally, but I think that was kind of the point. It was enjoyable, I'd like to give it another listen.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Strauss",
+          "work_title": "Last Four Songs",
+          "soloist": null,
+          "notes": "This one felt much more mature/varied than the first. You could definitely tell that the composer was much older. The soloist was great and the music itself was very nice. It didn't grip me quite as much as I was expecting, but I should give it another shot.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Mozart",
+          "work_title": "Requiem",
+          "soloist": null,
+          "notes": "This was a really interesting piece. It was pretty dark and foreboding throughout, which is definitely odd for Mozart. The mystery of whether or not the last three movements were written by someone else made it more interesting to listen closely and try to hear a difference. To my ear, they fit pretty well with Mozart's style, at least as established by the other movements in this piece.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Los Angeles's Guitar Quartet - Madison Symphony Orchestra.md",
+      "date": "2026-04-11",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Los Angeles's Guitar Quartet",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "López",
+          "work_title": "Fiesta! Four Pop Dances for Orchestra",
+          "soloist": null,
+          "notes": "This was interesting, mostly rhythmically but there was also some odd harmony. It was very different tham most western classical music, and felt modern. I can't say that I really loved it on first listen, but it'd be worth listening again to get a better grasp of it",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Rodrigo",
+          "work_title": "Concerto Andaluz for Four Guitars and Orchestra",
+          "soloist": null,
+          "notes": "This was an interesting integration of the guitars into the orchestra. I didn't find the music all that interesting though. Lots of descending minor scales and some flourishes in the guitars, but it all felt a little basic.\n\nThey played Copland's Hoedown as an encore and I enjoyed it a lot more. It was interesting and fun and really showed off their guitar chops.",
+          "encores_detected": [
+            "They played Copland's Hoedown as an encore and I enjoyed it a lot more."
+          ],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Sibelius",
+          "work_title": "Symphony No. 2 in D Major",
+          "soloist": null,
+          "notes": "This was reminiscent of Beethoven's pastorale symphony, but a bit more modern. I liked it, should give it a second listen.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "1 possible encore(s) detected in prose -- promote to entries?"
+      ]
+    },
+    {
+      "source_file": "Momentum - Madison Symphony Orchestra.md",
+      "date": "2024-11-16",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Momentum",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Leshnoff",
+          "work_title": "Rush",
+          "soloist": null,
+          "notes": "This piece was energetic and fun, with some nice slower sections as well would be interested in listening to it again.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Grieg",
+          "work_title": "Piano Concerto",
+          "soloist": "Garrick Ohlsson",
+          "notes": "I love this piece and the soloist did an amazing job. His performance was flawless and he made it look easy.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Shostakovich",
+          "work_title": "Symphony No. 5",
+          "soloist": null,
+          "notes": "I love this piece, and their performance of it was great. This can't be an easy piece to perform, but I thought they nailed it all the way through. Loved hearing it live, it really is different than a recording.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Norwegian Fantasy - Wisconsin Chamber Orchestra.md",
+      "date": "2024-01-26",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Norwegian Fantasy",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Marsh",
+          "work_title": "Symphony No. 6 in D Major",
+          "soloist": null,
+          "notes": "This piece was enjoyable but not super noteworthy. It was mostly predictable aside from a few unexpected turns. It was very upbeat and playful.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Lalo",
+          "work_title": "Fantasie Norvegienne",
+          "soloist": "Vladyslava Luchenko",
+          "notes": "Vladyslava was amazing. The piece itself was interesting, although it felt a bit short. Her playing was super impressive. She played a Bach piece as an encore which was very well done. I'm not generally a huge fan of Bach but she made it enjoyable.",
+          "encores_detected": [
+            "She played a Bach piece as an encore which was very well done."
+          ],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Schubert",
+          "work_title": "Symphony No. 5 in B-flat Major",
+          "soloist": null,
+          "notes": "This one was pleasant but again not super interesting. The later movements were more interesting, but the earlier ones were very early classical which is not my thing.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "1 possible encore(s) detected in prose -- promote to entries?"
+      ]
+    },
+    {
+      "source_file": "Prokofiev Prowess - Wisconsin Chamber Orchestra.md",
+      "date": "2026-01-30",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Prokofiev Prowess",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Mozart",
+          "work_title": "Symphony No. 27",
+          "soloist": null,
+          "notes": "This was pretty typical Mozart. It was cheery and flashy but a little superfluous. Nothing about it really stuck out to me as unique or particularly interesting.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Prokofiev",
+          "work_title": "Piano Concerto No. 3",
+          "soloist": "Ilya Yakushev",
+          "notes": "Ilya was phenomenal. He could've played this piece with his eyes closed which is crazy because it looked extremely difficult. I hadn't heard any Prokofiev concertos before, but it was interesting and dissonant and distinctly Prokofiev. I should learn more about him and his music.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Bizet",
+          "work_title": "Symphony",
+          "soloist": null,
+          "notes": "I didn't stick around for this because I felt like getting home early and wasn't super excited about it. I should give it a listen at home to see if it's interesting at all.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Radiance - Madison Symphony Orchestra.md",
+      "date": "2025-11-22",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Radiance",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Theofanidis",
+          "work_title": "Rainbow Body",
+          "soloist": null,
+          "notes": "This was really interesting. It was dramatic and varied, I should listen to it again. It felt modern in the way that film music does, but didn't go too far trying to be \"different\" in my opinion.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Haydn",
+          "work_title": "Cello Concerto in D Major",
+          "soloist": null,
+          "notes": "This wasn't all that interesting to me, but the soloist was great and his playing style was engaging. The piece was very virtuostic, and g pulled it off very smoothly.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Mussorgsky",
+          "work_title": "Pictures at an Exhibition",
+          "soloist": null,
+          "notes": "This was excellent. It was invigorating and reminded me why I like coming to live orchestras so much.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Revelation - Wisconsin Chamber Orchestra.md",
+      "date": "2024-03-22",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Revelation",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "York Bowen",
+          "work_title": "Symphony No. 1 in G Major",
+          "soloist": null,
+          "notes": "This was enjoyable but not super noteworthy. It was romantic in style, but I didn't really feel that it had much emotional substance. Probably won't revisit this one.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Banfield",
+          "work_title": "Symphony No. 14 - Revelation",
+          "soloist": null,
+          "notes": "World premiere. Dr. Banfield is the WCO composer in residence.\nThis was a super interesting piece. It was very modern, with some jazz elements, opera singers, and some spoken word elements. I enjoyed it a lot though, and I really enjoyed the idea that Dr. Banfield introduced that this piece was written for and about the community of musicians in Madison specifically.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Symphony Espagnole - Wisconsin Chamber Orchestra.md",
+      "date": "2025-01-24",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Symphony Espagnole",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Scarlatti",
+          "work_title": "Sinfonia Di Concerto Grosso No. 2 in D",
+          "soloist": null,
+          "notes": "This was fine but didn't really catch my attention. Felt a little soulless and I didn't really connect with it much.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Lalo",
+          "work_title": "Symphony Espagnole in D minor",
+          "soloist": "Giora Schmidt",
+          "notes": "This was a lot more interesting. Lots of unusual Spanish rhythms and harmonies which were really cool. The soloist was very good and made it look easy.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Saint Saens",
+          "work_title": "Symphony in A Major",
+          "soloist": null,
+          "notes": null,
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "The Perfect Pair - Madison Symphony Orchestra.md",
+      "date": "2024-01-20",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "The Perfect Pair",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Mozart",
+          "work_title": "Piano Concerto No. 24 in C minor",
+          "soloist": "Joyce Yang",
+          "notes": "The piece itself was pretty unmemorable. It was very serious for a Mozart piece which ended up sounding kindof generic and boring in my opinion. None of his usual whimsy. Not something I would listen to for fun.\n\nThe soloist was great. Her energy and interpretation were spot on. She played a Rachmaninov prelude as an encore and it was perfect.",
+          "encores_detected": [
+            "She played a Rachmaninov prelude as an encore and it was perfect."
+          ],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Mahler",
+          "work_title": "Symphony No. 5",
+          "soloist": null,
+          "notes": "This was a really interesting piece. It was all over the place in the best way. It was bombastic, mellow, serene, all in one. It probably went on a bit too long (it was 70 minutes long), but it was interesting throughout.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "1 possible encore(s) detected in prose -- promote to entries?"
+      ]
+    },
+    {
+      "source_file": "Virtuoso Violin - Wisconsin Chamber Orchestra.md",
+      "date": "2024-04-19",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Capitol Theater",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Virtuoso Violin",
+      "filename_suffix": "Wisconsin Chamber Orchestra",
+      "ensemble_hint": "Wisconsin Chamber Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "EJ Moeran",
+          "work_title": "Sinfonietta",
+          "soloist": null,
+          "notes": "This was interesting. It was like a mixture of British classical music with more contemporary parts. The harmony was kind of weird, but I think in a good way.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Vaughn Williams",
+          "work_title": "The Lark Ascending",
+          "soloist": "Gilles Apap",
+          "notes": "This was a super interesting and unique piece. It was mostly a violin cadenza with some orchestra backing. The soloist was very relaxed and a little showy. He was walking all over the stage and putting a lot of emphasis on movement.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Beethoven",
+          "work_title": "Violin Concerto in D Major, Op. 61",
+          "soloist": "Gilles Apap",
+          "notes": "This piece was interesting, but didn't seem like anything super special. It was typical Beethoven, and the soloist definitely made it more engaging than it otherwise would've been.\n\nGilles Apap was easily the most engaging soloist I've seen in Madison. He was walking around the stage, was very into the music, and even sat in the back row and joined the orchestra when there was downtime in the pieces.\nThe extras he played were also super cool, including a bluegrass duet with one of the violinists, and a Hungarian (maybe Romanian?) polka.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Visions - Madison Symphony Orchestra.md",
+      "date": "2024-10-19",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Visions",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Clyne",
+          "work_title": "This Midnight Hour",
+          "soloist": null,
+          "notes": "This piece was interesting, and felt kind of spooky. The music was dark and aggressive. I'd like to give this another listen.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Vaughn Williams",
+          "work_title": "The Lark Ascending",
+          "soloist": null,
+          "notes": "This piece is a little too flowery/sing-song-y for my tastes. I also thought that the WCO performance of this piece earlier this year ([[Virtuoso Violin - Wisconsin Chamber Orchestra]]) was better. Easier to connect with emotionally, and I enjoyed the soloist better.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Ravel",
+          "work_title": "Tzigane",
+          "soloist": null,
+          "notes": "I enjoyed this piece a lot. It was very odd harmonically and rhythmically, which made it interesting. I felt like the soloist was more engaged with this piece than the previous one, and her performance was more enjoyable because of it.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 4,
+          "composer": "Berlioz",
+          "work_title": "Symphonie Fantastique",
+          "soloist": null,
+          "notes": "This was great, and made even better by reading the program notes and picturing the story that Berlioz outlined. This reminded me a lot of modern film and video game music, which makes sense since it's basically the ancestor of those styles.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    },
+    {
+      "source_file": "Voices Eternal - Madison Symphony Orchestra.md",
+      "date": "2026-05-02",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Voices Eternal",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Wagner",
+          "work_title": "Prelude to Der Meistersinger",
+          "soloist": null,
+          "notes": "This was enjoyable but didn't really stand out as all that interesting. Maybe it'd be better in the context of the opera? It seemed like maybe there were some dueling themes going on. It was mostly a big fanfare, majestic but not all that complex.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "MacDowell",
+          "work_title": "Piano Concerto No. 2",
+          "soloist": "Alexio Bax",
+          "notes": "I liked this piece. It was surprisingly dark and the piano playing was pretty virtuostic. The first and third movements especially caught my attention.\n\nHe played a crazy variation of Brahms Hungarian Dances as the encore. It was absolutely insanely fast and all over the keyboard. Really impressive.",
+          "encores_detected": [
+            "He played a crazy variation of Brahms Hungarian Dances as the encore."
+          ],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Bernstein",
+          "work_title": "Chichester Psalms",
+          "soloist": null,
+          "notes": "This was interesting. It felt kindof modern and almost show tune-y at times but it also felt very old fashioned and solemn. The chorus sounded amazing and the interaction with the orchestra was really cool. Soloists were great. I'd never heard a counter tenor before but his voice was incredible.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 4,
+          "composer": "Bruckner",
+          "work_title": "Te Deum",
+          "soloist": null,
+          "notes": "This was pretty cool. The chorus was epic as usual and the music was interesting throughout. I especially liked the third movement.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": [
+        "1 possible encore(s) detected in prose -- promote to entries?"
+      ]
+    },
+    {
+      "source_file": "Yearnings - Madison Symphony Orchestra.md",
+      "date": "2025-04-12",
+      "status": "ATTENDED",
+      "venue": {
+        "raw": null,
+        "name": "Overture Hall",
+        "city": "Madison"
+      },
+      "venue_source": "orchestra_map",
+      "filename_title": "Yearnings",
+      "filename_suffix": "Madison Symphony Orchestra",
+      "ensemble_hint": "Madison Symphony Orchestra",
+      "set_list": [
+        {
+          "order": 1,
+          "composer": "Barber",
+          "work_title": "Essay No. 2",
+          "soloist": null,
+          "notes": "I'm very familiar with this piece and they played it wonderfully. I really enjoyed hearing this live.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 2,
+          "composer": "Puts",
+          "work_title": "Contact",
+          "soloist": null,
+          "notes": "This was fantastic. The group was amazing and the piece itself was interesting and modern without going overboard IMO. I bought their CD after the show and should give this a few more listens.",
+          "encores_detected": [],
+          "is_placeholder": false
+        },
+        {
+          "order": 3,
+          "composer": "Prokofiev",
+          "work_title": "Romeo and Juliet",
+          "soloist": null,
+          "notes": "This is a great piece and was really well done.",
+          "encores_detected": [],
+          "is_placeholder": false
+        }
+      ],
+      "review": []
+    }
+  ]
+}

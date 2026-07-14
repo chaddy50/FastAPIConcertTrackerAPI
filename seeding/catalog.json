@@ -1,0 +1,1363 @@
+{
+  "composers": {
+    "Strauss, Richard": {
+      "name": "Richard Strauss",
+      "sort_name": "Strauss",
+      "open_opus_id": "171"
+    },
+    "Mozart": {
+      "name": "Wolfgang Amadeus Mozart",
+      "sort_name": "Mozart",
+      "open_opus_id": "196"
+    },
+    "Respighi": {
+      "name": "Ottorino Respighi",
+      "sort_name": "Respighi",
+      "open_opus_id": "173"
+    },
+    "Beethoven": {
+      "name": "Ludwig van Beethoven",
+      "sort_name": "Beethoven",
+      "open_opus_id": "145"
+    },
+    "Abels": {
+      "name": "Michael Abels",
+      "sort_name": "Abels, Michael",
+      "open_opus_id": null
+    },
+    "Herbert": {
+      "name": "Victor Herbert",
+      "sort_name": "Herbert",
+      "open_opus_id": "94"
+    },
+    "Verdi": {
+      "name": "Giuseppe Verdi",
+      "sort_name": "Verdi",
+      "open_opus_id": "35"
+    },
+    "Frank": {
+      "name": "Gabriela Lena Frank",
+      "sort_name": "Frank, Gabriela Lena",
+      "open_opus_id": null
+    },
+    "Strauss": {
+      "name": "Richard Strauss",
+      "sort_name": "Strauss",
+      "open_opus_id": "171"
+    },
+    "Brahms": {
+      "name": "Johannes Brahms",
+      "sort_name": "Brahms",
+      "open_opus_id": "80"
+    },
+    "Shostakovich": {
+      "name": "Dmitri Shostakovich",
+      "sort_name": "Shostakovich",
+      "open_opus_id": "46"
+    },
+    "Liszt": {
+      "name": "Franz Liszt",
+      "sort_name": "Liszt",
+      "open_opus_id": "197"
+    },
+    "Rushen": {
+      "name": "Patrice Rushen",
+      "sort_name": "Rushen, Patrice",
+      "open_opus_id": null
+    },
+    "Myers": {
+      "name": "Andre Myers",
+      "sort_name": "Myers, Andre",
+      "open_opus_id": null
+    },
+    "Coleman": {
+      "name": "Valerie Coleman",
+      "sort_name": "Coleman, Valerie",
+      "open_opus_id": null
+    },
+    "Rautavaara": {
+      "name": "Einojuhani Rautavaara",
+      "sort_name": "Rautavaara",
+      "open_opus_id": "100"
+    },
+    "Mendelssohn, Felix": {
+      "name": "Felix Mendelssohn",
+      "sort_name": "Mendelssohn",
+      "open_opus_id": "147"
+    },
+    "Higdon": {
+      "name": "Jennifer Higdon",
+      "sort_name": "Higdon, Jennifer",
+      "open_opus_id": null
+    },
+    "Kabalevsky": {
+      "name": "Dmitry Kabalevsky",
+      "sort_name": "Kabalevsky",
+      "open_opus_id": "63"
+    },
+    "Dvorak": {
+      "name": "Antonín Dvořák",
+      "sort_name": "Dvořák",
+      "open_opus_id": "189"
+    },
+    "Stamitz": {
+      "name": "Carl Stamitz",
+      "sort_name": "Stamitz",
+      "open_opus_id": "209"
+    },
+    "Farrenc": {
+      "name": "Louise Farrenc",
+      "sort_name": "Farrenc, Louise",
+      "open_opus_id": null
+    },
+    "Moncayo": {
+      "name": "José Pablo Moncayo",
+      "sort_name": "Moncayo, José Pablo",
+      "open_opus_id": null
+    },
+    "Ponce": {
+      "name": "Manuel M. Ponce",
+      "sort_name": "Ponce, Manuel M.",
+      "open_opus_id": null
+    },
+    "Revueltas": {
+      "name": "Silvestre Revueltas",
+      "sort_name": "Revueltas, Silvestre",
+      "open_opus_id": null
+    },
+    "Gershwin": {
+      "name": "George Gershwin",
+      "sort_name": "Gershwin",
+      "open_opus_id": "136"
+    },
+    "Blake": {
+      "name": "Christopher Blake",
+      "sort_name": "Blake, Christopher",
+      "open_opus_id": null
+    },
+    "Stravinsky": {
+      "name": "Igor Stravinsky",
+      "sort_name": "Stravinsky",
+      "open_opus_id": "190"
+    },
+    "Scarlatti": {
+      "name": "Domenico Scarlatti",
+      "sort_name": "Scarlatti",
+      "open_opus_id": "97"
+    },
+    "Medtner": {
+      "name": "Nikolay Medtner",
+      "sort_name": "Medtner, Nikolay",
+      "open_opus_id": null
+    },
+    "Schumann": {
+      "name": "Robert Schumann",
+      "sort_name": "Schumann",
+      "open_opus_id": "129"
+    },
+    "López": {
+      "name": "Jimmy Lopez",
+      "sort_name": "Lopez, Jimmy",
+      "open_opus_id": null
+    },
+    "Rodrigo": {
+      "name": "Joaquín Rodrigo",
+      "sort_name": "Rodrigo",
+      "open_opus_id": "215"
+    },
+    "Sibelius": {
+      "name": "Jean Sibelius",
+      "sort_name": "Sibelius",
+      "open_opus_id": "186"
+    },
+    "Leshnoff": {
+      "name": "Jonathon Leshnoff",
+      "sort_name": "Leshnoff, Jonathon",
+      "open_opus_id": null
+    },
+    "Grieg": {
+      "name": "Edvard Grieg",
+      "sort_name": "Grieg",
+      "open_opus_id": "162"
+    },
+    "Marsh": {
+      "name": "John Marsh",
+      "sort_name": "Marsh, John",
+      "open_opus_id": null
+    },
+    "Lalo": {
+      "name": "Edouard Lalo",
+      "sort_name": "Lalo",
+      "open_opus_id": "59"
+    },
+    "Schubert": {
+      "name": "Franz Schubert",
+      "sort_name": "Schubert",
+      "open_opus_id": "183"
+    },
+    "Prokofiev": {
+      "name": "Sergei Prokofiev",
+      "sort_name": "Prokofiev",
+      "open_opus_id": "185"
+    },
+    "Bizet": {
+      "name": "Georges Bizet",
+      "sort_name": "Bizet",
+      "open_opus_id": "68"
+    },
+    "Theofanidis": {
+      "name": "Chistopher Theofanidis",
+      "sort_name": "Theofanidis, Chistopher",
+      "open_opus_id": null
+    },
+    "Haydn": {
+      "name": "Franz Joseph Haydn",
+      "sort_name": "Haydn",
+      "open_opus_id": "208"
+    },
+    "Mussorgsky": {
+      "name": "Modest Mussorgsky",
+      "sort_name": "Mussorgsky",
+      "open_opus_id": "181"
+    },
+    "York Bowen": {
+      "name": "Edwin York Bowen",
+      "sort_name": "Bowen, Edwin York",
+      "open_opus_id": null
+    },
+    "Banfield": {
+      "name": "William Banfield",
+      "sort_name": "Banfield, William",
+      "open_opus_id": null
+    },
+    "Saint Saens": {
+      "name": "Camille Saint-Saëns",
+      "sort_name": "Saint-Saëns",
+      "open_opus_id": "45"
+    },
+    "Mahler": {
+      "name": "Gustav Mahler",
+      "sort_name": "Mahler",
+      "open_opus_id": "77"
+    },
+    "EJ Moeran": {
+      "name": "Ernest Moeran",
+      "sort_name": "Moeran",
+      "open_opus_id": "164"
+    },
+    "Vaughn Williams": {
+      "name": "Ralph Vaughan Williams",
+      "sort_name": "Vaughan Williams",
+      "open_opus_id": "36"
+    },
+    "Clyne": {
+      "name": "Anna Clyne",
+      "sort_name": "Clyne, Anna",
+      "open_opus_id": null
+    },
+    "Ravel": {
+      "name": "Maurice Ravel",
+      "sort_name": "Ravel",
+      "open_opus_id": "57"
+    },
+    "Berlioz": {
+      "name": "Hector Berlioz",
+      "sort_name": "Berlioz",
+      "open_opus_id": "175"
+    },
+    "Wagner": {
+      "name": "Richard Wagner",
+      "sort_name": "Wagner",
+      "open_opus_id": "138"
+    },
+    "MacDowell": {
+      "name": "Edward MacDowell",
+      "sort_name": "MacDowell",
+      "open_opus_id": "114"
+    },
+    "Bernstein": {
+      "name": "Leonard Bernstein",
+      "sort_name": "Bernstein",
+      "open_opus_id": "135"
+    },
+    "Bruckner": {
+      "name": "Anton Bruckner",
+      "sort_name": "Bruckner",
+      "open_opus_id": "2"
+    },
+    "Barber": {
+      "name": "Samuel Barber",
+      "sort_name": "Barber",
+      "open_opus_id": "19"
+    },
+    "Puts": {
+      "name": "Kevin Puts",
+      "sort_name": "Puts, Kevin",
+      "open_opus_id": null
+    },
+    "Scarlatti (Alessandro)": {
+      "name": "Alessandro Scarlatti",
+      "sort_name": "Scarlatti",
+      "open_opus_id": "65"
+    }
+  },
+  "works": {
+    "Strauss, Richard||Till Eulenspeigel's Merry Pranks": {
+      "title": "Till Eulenspiegels lustige Streiche, op. 28, Trv171",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "19604",
+      "composer_ref": "Strauss, Richard"
+    },
+    "Mozart||Piano Concerto No. 25": {
+      "title": "Piano Concerto no. 25 in C major, K.503",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "23494",
+      "composer_ref": "Mozart"
+    },
+    "Respighi||The Pines of Rome": {
+      "title": "Pini di Roma, P.141",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "19898",
+      "composer_ref": "Respighi"
+    },
+    "Beethoven||Leonore Overture No. 3 Op. 72b": {
+      "title": "Leonore Overture no. 3, op. 72b",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16322",
+      "composer_ref": "Beethoven"
+    },
+    "Beethoven||Concerto for Violin, Cello, Piano, and Orchestra (Triple Concerto)": {
+      "title": "Triple Concerto in C major, op. 56",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16392",
+      "composer_ref": "Beethoven"
+    },
+    "Beethoven||Symphony No. 2 in D Major": {
+      "title": "Symphony no. 2 in D major, op. 36",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16410",
+      "composer_ref": "Beethoven"
+    },
+    "Abels||More Seasons": {
+      "title": "More Seasons",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Abels"
+    },
+    "Herbert||Cello Concerto No. 2": {
+      "title": "Cello Concerto no. 2 in E minor, op. 30",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "10790",
+      "composer_ref": "Herbert"
+    },
+    "Beethoven||Symphony No. 5": {
+      "title": "Symphony no. 5 in C minor, op. 67",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16406",
+      "composer_ref": "Beethoven"
+    },
+    "Verdi||Requiem": {
+      "title": "Requiem",
+      "type": "Vocal",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "2715",
+      "composer_ref": "Verdi"
+    },
+    "Frank||Escaramuza": {
+      "title": "Escaramuza",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Frank"
+    },
+    "Strauss||Suite from Der Rosenkavalier": {
+      "title": "Der Rosenkavalier, op. 59, TrV227, \"musical comedy\"",
+      "type": "Stage",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "19607",
+      "composer_ref": "Strauss"
+    },
+    "Brahms||Piano Concerto No. 2": {
+      "title": "Piano Concerto no. 2 in B flat major, op. 83",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "7774",
+      "composer_ref": "Brahms"
+    },
+    "Shostakovich||Symphony No. 9": {
+      "title": "Symphony no. 9 in E flat major, op. 70",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "3992",
+      "composer_ref": "Shostakovich"
+    },
+    "Beethoven||Piano Concerto No. 3": {
+      "title": "Piano Concerto no. 3 in C minor, op. 37",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16170",
+      "composer_ref": "Beethoven"
+    },
+    "Liszt||Preludes": {
+      "title": "Les Preludes, S97/R414",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "24283",
+      "composer_ref": "Liszt"
+    },
+    "Rushen||Fanfare and Fantasie": {
+      "title": "Fanfare and Fantasie",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Rushen"
+    },
+    "Myers||Changes": {
+      "title": "Changes",
+      "type": null,
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Myers"
+    },
+    "Abels||Nope Film Suite": {
+      "title": "Nope Film Suite",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Abels"
+    },
+    "Coleman||Umaja": {
+      "title": "Umaja",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Coleman"
+    },
+    "Abels||Global Warming": {
+      "title": "Global Warming",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Abels"
+    },
+    "Rautavaara||Suite for Strings": {
+      "title": "Suite for Strings",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Rautavaara"
+    },
+    "Mendelssohn, Felix||Violin Concerto in E minor": {
+      "title": "Violin Concerto in E minor, op. 64",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16609",
+      "composer_ref": "Mendelssohn, Felix"
+    },
+    "Beethoven||Symphony No. 3, Eroica": {
+      "title": "Symphony no. 3 in E flat major, op. 55, \"Eroica\"",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16143",
+      "composer_ref": "Beethoven"
+    },
+    "Higdon||Loco": {
+      "title": "Loco",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Higdon"
+    },
+    "Kabalevsky||Concerto No. 2 in E minor for Cello and Orchestra": {
+      "title": "Cello Concerto no. 2 in C major, op. 77",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "5645",
+      "composer_ref": "Kabalevsky"
+    },
+    "Dvorak||Symphony No. 9 in E minor - From the New World": {
+      "title": "Symphony no. 9 in E minor, op. 95, \"From the New World\"",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "22368",
+      "composer_ref": "Dvorak"
+    },
+    "Stamitz||Symphony in C Major, OP. 12 no. 5": {
+      "title": "Symphony in C major, op. 13, no. 5",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "26151",
+      "composer_ref": "Stamitz"
+    },
+    "Beethoven||Piano Concerto No. 4 in G": {
+      "title": "Piano Concerto no. 4 in G major, op. 58",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16286",
+      "composer_ref": "Beethoven"
+    },
+    "Farrenc||Symphony No. 3 in G minor": {
+      "title": "Symphony No. 3 in G minor",
+      "type": "Symphony",
+      "key": "G minor",
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Farrenc"
+    },
+    "Moncayo||Huapango": {
+      "title": "Huapango",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Moncayo"
+    },
+    "Ponce||Piano Concerto No. 1, Romantico": {
+      "title": "Piano Concerto No. 1, Romantico",
+      "type": "Concerto",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Ponce"
+    },
+    "Revueltas||La Noche de las Mayas": {
+      "title": "La Noche de las Mayas",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Revueltas"
+    },
+    "Gershwin||Cuban Overture": {
+      "title": "Cuban Overture",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "15566",
+      "composer_ref": "Gershwin"
+    },
+    "Gershwin||Concerto in F": {
+      "title": "Piano Concerto in F",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "15574",
+      "composer_ref": "Gershwin"
+    },
+    "Gershwin||Porgy and Bess (concert version)": {
+      "title": "Porgy and Bess, suite from the opera",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "15551",
+      "composer_ref": "Gershwin"
+    },
+    "Blake||Night Journey to Pawarenga": {
+      "title": "Night Journey to Pawarenga",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Blake"
+    },
+    "Mozart||Piano Concerto No. 27": {
+      "title": "Piano Concerto no. 27 in B flat major, K.595",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "23140",
+      "composer_ref": "Mozart"
+    },
+    "Stravinsky||Pulcinella Suite": {
+      "title": "Pulcinella",
+      "type": "Stage",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "22389",
+      "composer_ref": "Stravinsky"
+    },
+    "Liszt||Aannes de pelerinage": {
+      "title": "Années de pèlerinage, S.160-163, R.10a-e",
+      "type": "Keyboard",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "23917",
+      "composer_ref": "Liszt"
+    },
+    "Scarlatti||Keyboard Sonata in A Major": {
+      "title": "Sonata in A major, K.322, L.483",
+      "type": "Keyboard",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "11161",
+      "composer_ref": "Scarlatti"
+    },
+    "Beethoven||Piano Sonata No. 2 in A Major": {
+      "title": "Piano Sonata no. 2 in A major, op. 2 no. 2",
+      "type": "Keyboard",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16409",
+      "composer_ref": "Beethoven"
+    },
+    "Medtner||4 Fairy Tales": {
+      "title": "4 Fairy Tales",
+      "type": "Solo Piano",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Medtner"
+    },
+    "Schumann||Fantasies in C Major": {
+      "title": "Fantasy in C major, op. 17",
+      "type": "Keyboard",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "15076",
+      "composer_ref": "Schumann"
+    },
+    "Strauss||Don Juan": {
+      "title": "Don Juan, op. 20, TrV156",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "19748",
+      "composer_ref": "Strauss"
+    },
+    "Strauss||Last Four Songs": {
+      "title": "Four Last Songs, TrV296, WoO150",
+      "type": "Vocal",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "19619",
+      "composer_ref": "Strauss"
+    },
+    "Mozart||Requiem": {
+      "title": "Requiem in D minor, K.626",
+      "type": "Vocal",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "23646",
+      "composer_ref": "Mozart"
+    },
+    "López||Fiesta! Four Pop Dances for Orchestra": {
+      "title": "Fiesta! Four Pop Dances for Orchestra",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "López"
+    },
+    "Rodrigo||Concerto Andaluz for Four Guitars and Orchestra": {
+      "title": "Concierto Andaluz, for 4 guitars and orchestra",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "26771",
+      "composer_ref": "Rodrigo"
+    },
+    "Sibelius||Symphony No. 2 in D Major": {
+      "title": "Symphony no. 2 in D major, op. 43",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "21945",
+      "composer_ref": "Sibelius"
+    },
+    "Leshnoff||Rush": {
+      "title": "Rush",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Leshnoff"
+    },
+    "Grieg||Piano Concerto": {
+      "title": "Piano Concerto in A minor, op. 16",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "18148",
+      "composer_ref": "Grieg"
+    },
+    "Shostakovich||Symphony No. 5": {
+      "title": "Symphony no. 5 in D minor, op. 47",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "3916",
+      "composer_ref": "Shostakovich"
+    },
+    "Marsh||Symphony No. 6 in D Major": {
+      "title": "Symphony No. 6 in D Major",
+      "type": "Symphony",
+      "key": "D Major",
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Marsh"
+    },
+    "Lalo||Fantasie Norvegienne": {
+      "title": "Fantaisie Norvégienne, for violin and piano",
+      "type": "Chamber",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "5253",
+      "composer_ref": "Lalo"
+    },
+    "Schubert||Symphony No. 5 in B-flat Major": {
+      "title": "Symphony no. 5 in B flat major, D.485",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "21005",
+      "composer_ref": "Schubert"
+    },
+    "Mozart||Symphony No. 27": {
+      "title": "Symphony no. 27 in G major, K.199",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "23307",
+      "composer_ref": "Mozart"
+    },
+    "Prokofiev||Piano Concerto No. 3": {
+      "title": "Piano Concerto no. 3 in C major, op. 26",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "21510",
+      "composer_ref": "Prokofiev"
+    },
+    "Bizet||Symphony": {
+      "title": "Symphony in C major",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "6548",
+      "composer_ref": "Bizet"
+    },
+    "Theofanidis||Rainbow Body": {
+      "title": "Rainbow Body",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Theofanidis"
+    },
+    "Haydn||Cello Concerto in D Major": {
+      "title": "Cello Concerto no. 2 in D major, Hob.VII:2",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "25991",
+      "composer_ref": "Haydn"
+    },
+    "Mussorgsky||Pictures at an Exhibition": {
+      "title": "Pictures at an Exhibition ",
+      "type": "Keyboard",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "20403",
+      "composer_ref": "Mussorgsky"
+    },
+    "York Bowen||Symphony No. 1 in G Major": {
+      "title": "Symphony No. 1 in G Major",
+      "type": "Symphony",
+      "key": "G Major",
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "York Bowen"
+    },
+    "Banfield||Symphony No. 14 - Revelation": {
+      "title": "Symphony No. 14 - Revelation",
+      "type": "Symphony",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Banfield"
+    },
+    "Scarlatti||Sinfonia Di Concerto Grosso No. 2 in D": {
+      "title": "Sinfonie di concerto grosso no. 2 in D major, for flute, trumpet, 2 violins, viola, cello and continuo",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "5711",
+      "composer_ref": "Scarlatti (Alessandro)"
+    },
+    "Lalo||Symphony Espagnole in D minor": {
+      "title": "Symphonie espagnole, for violin and orchestra in D minor, op. 21",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "5257",
+      "composer_ref": "Lalo"
+    },
+    "Saint Saens||Symphony in A Major": {
+      "title": "Symphony in A",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "3797",
+      "composer_ref": "Saint Saens"
+    },
+    "Mozart||Piano Concerto No. 24 in C minor": {
+      "title": "Piano Concerto no. 24 in C minor, K.491",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "23141",
+      "composer_ref": "Mozart"
+    },
+    "Mahler||Symphony No. 5": {
+      "title": "Symphony no. 5 in C sharp minor",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "7277",
+      "composer_ref": "Mahler"
+    },
+    "EJ Moeran||Sinfonietta": {
+      "title": "Sinfonietta, for orchestra",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "18285",
+      "composer_ref": "EJ Moeran"
+    },
+    "Vaughn Williams||The Lark Ascending": {
+      "title": "The Lark Ascending: Romance for Violin and Orchestra",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "2748",
+      "composer_ref": "Vaughn Williams"
+    },
+    "Beethoven||Violin Concerto in D Major, Op. 61": {
+      "title": "Violin Concerto in D major, op. 61",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "16458",
+      "composer_ref": "Beethoven"
+    },
+    "Clyne||This Midnight Hour": {
+      "title": "This Midnight Hour",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Clyne"
+    },
+    "Ravel||Tzigane": {
+      "title": "Tzigane: Concert Rhapsody for Violin and Orchestra",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "5064",
+      "composer_ref": "Ravel"
+    },
+    "Berlioz||Symphonie Fantastique": {
+      "title": "Symphonie fantastique: Épisode de la vie d'une artiste, op. 14",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "20003",
+      "composer_ref": "Berlioz"
+    },
+    "Wagner||Prelude to Der Meistersinger": {
+      "title": "Die Meistersinger von Nürnberg, WWV 96",
+      "type": "Stage",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "15764",
+      "composer_ref": "Wagner"
+    },
+    "MacDowell||Piano Concerto No. 2": {
+      "title": "Piano Concerto no. 2 in D minor, op. 23",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "13917",
+      "composer_ref": "MacDowell"
+    },
+    "Bernstein||Chichester Psalms": {
+      "title": "Chichester Psalms",
+      "type": "Vocal",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "15431",
+      "composer_ref": "Bernstein"
+    },
+    "Bruckner||Te Deum": {
+      "title": "Te Deum, WAB 45",
+      "type": "Vocal",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "76",
+      "composer_ref": "Bruckner"
+    },
+    "Barber||Essay No. 2": {
+      "title": "Essay no. 2 for Orchestra, op. 17",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "1680",
+      "composer_ref": "Barber"
+    },
+    "Puts||Contact": {
+      "title": "Contact",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": null,
+      "composer_ref": "Puts"
+    },
+    "Prokofiev||Romeo and Juliet": {
+      "title": "Romeo and Juliet Suite no. 1, op. 64bis",
+      "type": "Orchestral",
+      "key": null,
+      "catalog_number": null,
+      "open_opus_id": "21558",
+      "composer_ref": "Prokofiev"
+    }
+  },
+  "performers": {
+    "Madison Symphony Orchestra": {
+      "name": "Madison Symphony Orchestra",
+      "sort_name": "Madison Symphony Orchestra",
+      "type": "ORCHESTRA",
+      "specialty": null,
+      "musicbrainz_id": "e54d54ca-5ab2-41ae-bc43-ba994b0c82e8"
+    },
+    "Emmanuel Ax": {
+      "name": "Emanuel Ax",
+      "sort_name": "Ax, Emanuel",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "14aa864b-5878-40d5-b061-28c1bf995853"
+    },
+    "Wisconsin Chamber Orchestra": {
+      "name": "Wisconsin Chamber Orchestra",
+      "sort_name": "Orchestra, Wisconsin Chamber",
+      "type": "ORCHESTRA",
+      "specialty": null,
+      "musicbrainz_id": null
+    },
+    "Benny Benack III": {
+      "name": "Benny Benack III",
+      "sort_name": "Benack, Benny, III",
+      "type": "SOLO",
+      "specialty": "trumpet",
+      "musicbrainz_id": "9811a686-bc4e-4b95-b695-7f49d82573c0"
+    },
+    "Christopher Taylor": {
+      "name": "Christopher Taylor",
+      "sort_name": "Taylor, Christopher",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "586aa8e9-11ae-4614-8506-9b35be1c31e5"
+    },
+    "Concerto Budapest Symphony Orchestra": {
+      "name": "Concerto Budapest",
+      "sort_name": "Concerto Budapest",
+      "type": "ORCHESTRA",
+      "specialty": null,
+      "musicbrainz_id": "79934ffa-e51c-4b8f-aa69-fbbf24602530"
+    },
+    "Lun Li": {
+      "name": "Lun Li",
+      "sort_name": "Lun Li",
+      "type": "SOLO",
+      "specialty": "violin",
+      "musicbrainz_id": "414c3f8c-1d1a-41b9-82c9-189ff1f1a8ac"
+    },
+    "Steven Isserlis": {
+      "name": "Steven Isserlis",
+      "sort_name": "Isserlis, Steven",
+      "type": "SOLO",
+      "specialty": "cello",
+      "musicbrainz_id": "f194b541-726e-4201-9773-fa87a5a18cfc"
+    },
+    "Janina Fialkowska": {
+      "name": "Janina Fialkowska",
+      "sort_name": "Fialkowska, Janina",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "f09a6762-3dea-4690-b70a-087d702ac76a"
+    },
+    "Stewart Goodyear": {
+      "name": "Stewart Goodyear",
+      "sort_name": "Goodyear, Stewart",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "902209b8-ea1c-4806-a84e-9094fe728fc0"
+    },
+    "Janice Carissa": {
+      "name": "Janice Carissa",
+      "sort_name": "Carissa, Janice",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "b6077c96-ba8c-4ea7-9adf-a920c81bd045"
+    },
+    "Garrick Ohlsson": {
+      "name": "Garrick Ohlsson",
+      "sort_name": "Ohlsson, Garrick",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "1b2c79e2-113b-4e74-91d4-af085b8a11b0"
+    },
+    "Vladyslava Luchenko": {
+      "name": "Vladyslava Luchenko",
+      "sort_name": "Vladyslava, Luchenko",
+      "type": "SOLO",
+      "specialty": "violin",
+      "musicbrainz_id": "af6aa893-fcbb-41d2-8141-3f9c31902908"
+    },
+    "Ilya Yakushev": {
+      "name": "Ilya Yakushev",
+      "sort_name": "Yakushev, Ilya",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "03ff2c6d-1392-4622-be2c-47bd4d2aa72a"
+    },
+    "Giora Schmidt": {
+      "name": "Giora Schmidt",
+      "sort_name": "Schmidt, Giora",
+      "type": "SOLO",
+      "specialty": "violin",
+      "musicbrainz_id": "7f7ee811-d0d0-47e3-a6c6-7afec53ba961"
+    },
+    "Joyce Yang": {
+      "name": "Joyce Yang",
+      "sort_name": "Yang, Joyce",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": "c89ec1a5-047f-4125-8d40-6ef783351882"
+    },
+    "Gilles Apap": {
+      "name": "Gilles Apap",
+      "sort_name": "Apap, Gilles",
+      "type": "SOLO",
+      "specialty": "violin",
+      "musicbrainz_id": "bfe3b5ca-27f3-4166-b0bc-74b79dd2aa19"
+    },
+    "Alexio Bax": {
+      "name": "Alessio Bax",
+      "sort_name": "Bax, Alessio",
+      "type": "SOLO",
+      "specialty": "piano",
+      "musicbrainz_id": null
+    }
+  },
+  "venues": {
+    "overture hall|madison": {
+      "name": "Overture Hall",
+      "city": "Madison",
+      "country": "United States",
+      "formatted_address": "Overture Hall, 201, State Street, Mifflin West, Downtown, Madison, Dane County, Wisconsin, 53703, United States",
+      "website_uri": null,
+      "osm_type": "node",
+      "osm_id": 5017012835
+    },
+    "capitol theater|madison": {
+      "name": "Capitol Theater",
+      "city": "Madison",
+      "country": "United States",
+      "formatted_address": "Capitol Theater, 201, State Street, Mifflin West, Downtown, Madison, Dane County, Wisconsin, 53703, United States",
+      "website_uri": null,
+      "osm_type": "node",
+      "osm_id": 5017012836
+    },
+    "cafe coda|madison": {
+      "name": "Cafe CODA",
+      "city": "Madison",
+      "country": "United States",
+      "formatted_address": "Cafe CODA, 1224, Williamson Street, Marquette, Madison, Dane County, Wisconsin, 53703, United States",
+      "website_uri": "https://cafecoda.club",
+      "osm_type": "way",
+      "osm_id": 385639191
+    },
+    "cadogan hall|london": {
+      "name": "Cadogan Hall",
+      "city": "Greater London",
+      "country": "United Kingdom",
+      "formatted_address": "Cadogan Hall, 5, Sloane Terrace, Hans Town, Chelsea, Royal Borough of Kensington and Chelsea, Greater London, England, SW1X 9DQ, United Kingdom",
+      "website_uri": "https://www.cadoganhall.com/",
+      "osm_type": "way",
+      "osm_id": 95437784
+    },
+    "janice carissa - salon piano series.md|": {
+      "name": "Farley's House of Pianos",
+      "city": "Madison",
+      "country": "United States",
+      "formatted_address": "Farley's House of Pianos, Seybold Road, Madison, Town of Middleton, Dane County, Wisconsin, 53719, United States",
+      "website_uri": null,
+      "osm_type": "way",
+      "osm_id": 158854730
+    }
+  },
+  "concert_bindings": {
+    "Ax Plays Mozart - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Beethoven x3 - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Beethoven's Fifth - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Benny Benack III - Cafe Coda.md": {
+      "performer_refs": [
+        "Benny Benack III"
+      ],
+      "venue_ref": "cafe coda|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Boundless Beauty - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Christopher Taylor Plays Brahms - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Concerto Budapest Symphony Orchestra.md": {
+      "performer_refs": [
+        "Concerto Budapest Symphony Orchestra"
+      ],
+      "venue_ref": "cadogan hall|london",
+      "extra_entries": [],
+      "done": true
+    },
+    "Convergence - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Eroica - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Favorites of Mine & Your Choice - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Fialkowska on Fire - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Fiesta Finale - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Gershwin - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Goodyear Returns - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Janice Carissa - Salon Piano Series.md": {
+      "performer_refs": [
+        "Janice Carissa"
+      ],
+      "venue_ref": "janice carissa - salon piano series.md|",
+      "extra_entries": [],
+      "done": true
+    },
+    "Legacy - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Los Angeles's Guitar Quartet - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Momentum - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Norwegian Fantasy - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Prokofiev Prowess - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Radiance - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Revelation - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Symphony Espagnole - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "The Perfect Pair - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Virtuoso Violin - Wisconsin Chamber Orchestra.md": {
+      "performer_refs": [
+        "Wisconsin Chamber Orchestra"
+      ],
+      "venue_ref": "capitol theater|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Visions - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Voices Eternal - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    },
+    "Yearnings - Madison Symphony Orchestra.md": {
+      "performer_refs": [
+        "Madison Symphony Orchestra"
+      ],
+      "venue_ref": "overture hall|madison",
+      "extra_entries": [],
+      "done": true
+    }
+  }
+}
