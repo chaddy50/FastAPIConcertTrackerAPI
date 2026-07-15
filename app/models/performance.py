@@ -32,6 +32,7 @@ class Performance(Base):
         SaEnum(PerformanceStatus), default=PerformanceStatus.UPCOMING
     )
     venue_id: Mapped[str] = mapped_column(ForeignKey("venue.id"))
+    notes: Mapped[Optional[str]]
 
     venue: Mapped[Venue] = relationship()
     performers: Mapped[list[Performer]] = relationship(secondary=performance_performer)
@@ -56,6 +57,7 @@ class PerformanceCreate(Schema):
     date: datetime
     status: PerformanceStatus = PerformanceStatus.UPCOMING
     venue_id: str
+    notes: Optional[str] = None
     performer_ids: list[str] = []
     set_list: list[SetListEntryInput] = []
 
@@ -65,6 +67,7 @@ class PerformanceRead(ReadSchema):
     date: datetime
     status: PerformanceStatus
     venue: VenueRead
+    notes: Optional[str] = None
     performers: list[PerformerRead]
     set_list: list[SetListEntryRead] = []
 
@@ -73,4 +76,5 @@ class PerformanceUpdate(Schema):
     date: Optional[datetime] = None
     status: Optional[PerformanceStatus] = None
     venue_id: Optional[str] = None
+    notes: Optional[str] = None
     performer_ids: Optional[list[str]] = None

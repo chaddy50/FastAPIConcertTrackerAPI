@@ -114,6 +114,7 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
         date=data.date,
         status=data.status,
         venue_id=venue.id,
+        notes=data.notes,
     )
     if data.id is not None:
         performance.id = data.id

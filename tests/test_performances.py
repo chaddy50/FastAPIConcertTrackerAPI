@@ -342,6 +342,190 @@ def test_get_performances_combined_filters(client: TestClient, db_session: Sessi
     assert data[0]["status"] == "UPCOMING"
 
 
+# --- Performance-level notes ----------------------------------------------
+
+
+def _notes_payload(venue_id: str, **extra) -> dict:
+    return {
+        "date": "2024-01-15T20:00:00+00:00",
+        "status": "ATTENDED",
+        "venue_id": venue_id,
+        **extra,
+    }
+
+
+def test_create_performance_with_notes(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post(
+        "/v1/performances/", json=_notes_payload(venue.id, notes="Great night out")
+    )
+    assert response.status_code == 201
+    assert response.json()["notes"] == "Great night out"
+
+
+def test_create_performance_notes_omitted_is_null(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_notes_payload(venue.id))
+    assert response.status_code == 201
+    assert response.json()["notes"] is None
+
+
+def test_create_performance_notes_explicit_null(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_notes_payload(venue.id, notes=None))
+    assert response.status_code == 201
+    assert response.json()["notes"] is None
+
+
+def test_create_performance_notes_empty_string_preserved(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_notes_payload(venue.id, notes=""))
+    assert response.status_code == 201
+    assert response.json()["notes"] == ""
+
+
+def test_create_performance_notes_non_string_422(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    response = client.post("/v1/performances/", json=_notes_payload(venue.id, notes=123))
+    assert response.status_code == 422
+
+
+def test_create_performance_notes_persisted(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    created = client.post(
+        "/v1/performances/", json=_notes_payload(venue.id, notes="Durable note")
+    )
+    performance_id = created.json()["id"]
+    response = client.get(f"/v1/performances/{performance_id}")
+    assert response.status_code == 200
+    assert response.json()["notes"] == "Durable note"
+
+
+def test_create_performance_notes_independent_from_entry_notes(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    work = _make_work(db_session)
+    payload = _notes_payload(
+        venue.id,
+        notes="Concert-level note",
+        set_list=[{"order": 1, "work_id": work.id, "notes": "Entry-level note"}],
+    )
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["notes"] == "Concert-level note"
+    assert data["set_list"][0]["notes"] == "Entry-level note"
+
+
+def test_get_performance_notes(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    created = client.post("/v1/performances/", json=_notes_payload(venue.id, notes="Seen it"))
+    performance_id = created.json()["id"]
+    response = client.get(f"/v1/performances/{performance_id}")
+    assert response.status_code == 200
+    assert response.json()["notes"] == "Seen it"
+
+
+def test_get_performance_notes_null_when_absent(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    response = client.get(f"/v1/performances/{performance.id}")
+    assert response.status_code == 200
+    assert response.json()["notes"] is None
+
+
+def test_get_performances_list_includes_notes(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    client.post("/v1/performances/", json=_notes_payload(venue.id, notes="Has notes"))
+    client.post("/v1/performances/", json=_notes_payload(venue.id))
+    response = client.get("/v1/performances/")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 2
+    notes = {item["notes"] for item in data}
+    assert notes == {"Has notes", None}
+
+
+def test_update_performance_notes(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    response = client.put(
+        f"/v1/performances/{performance.id}", json={"notes": "Newly added"}
+    )
+    assert response.status_code == 200
+    assert response.json()["notes"] == "Newly added"
+
+
+def test_update_performance_notes_overwrites(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    created = client.post("/v1/performances/", json=_notes_payload(venue.id, notes="Old"))
+    performance_id = created.json()["id"]
+    response = client.put(f"/v1/performances/{performance_id}", json={"notes": "New"})
+    assert response.status_code == 200
+    assert response.json()["notes"] == "New"
+
+
+def test_update_performance_notes_clear_to_null(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    created = client.post("/v1/performances/", json=_notes_payload(venue.id, notes="To clear"))
+    performance_id = created.json()["id"]
+    response = client.put(f"/v1/performances/{performance_id}", json={"notes": None})
+    assert response.status_code == 200
+    assert response.json()["notes"] is None
+
+
+def test_update_performance_omitting_notes_preserves_them(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    created = client.post("/v1/performances/", json=_notes_payload(venue.id, notes="Keep me"))
+    performance_id = created.json()["id"]
+    response = client.put(f"/v1/performances/{performance_id}", json={"status": "CANCELLED"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "CANCELLED"
+    assert data["notes"] == "Keep me"
+
+
+def test_update_performance_omitting_notes_leaves_null_null(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    response = client.put(f"/v1/performances/{performance.id}", json={"status": "CANCELLED"})
+    assert response.status_code == 200
+    assert response.json()["notes"] is None
+
+
+def test_update_performance_notes_persisted(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    client.put(f"/v1/performances/{performance.id}", json={"notes": "Updated note"})
+    response = client.get(f"/v1/performances/{performance.id}")
+    assert response.status_code == 200
+    assert response.json()["notes"] == "Updated note"
+
+
+def test_update_performance_notes_non_string_422(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    performance = _make_performance(db_session, venue.id)
+    response = client.put(f"/v1/performances/{performance.id}", json={"notes": 123})
+    assert response.status_code == 422
+
+
+def test_update_performance_notes_leaves_entry_notes(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    work = _make_work(db_session)
+    created = client.post(
+        "/v1/performances/",
+        json=_notes_payload(
+            venue.id,
+            set_list=[{"order": 1, "work_id": work.id, "notes": "Entry note"}],
+        ),
+    )
+    performance_id = created.json()["id"]
+    response = client.put(f"/v1/performances/{performance_id}", json={"notes": "Perf note"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["notes"] == "Perf note"
+    assert data["set_list"][0]["notes"] == "Entry note"
+
+
 # --- Client-supplied id ---------------------------------------------------
 
 
