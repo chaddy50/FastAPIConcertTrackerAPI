@@ -128,6 +128,52 @@ def test_get_composers_filter_by_name_partial_match(client: TestClient, db_sessi
     assert len(response.json()) == 2
 
 
+# --- Epoch -----------------------------------------------------------------
+
+
+def test_get_composer_by_id_returns_epoch(client: TestClient, db_session: Session):
+    composer = Composer(name="Mozart", open_opus_id="196", epoch="Classical")
+    db_session.add(composer)
+    db_session.commit()
+    db_session.refresh(composer)
+
+    response = client.get(f"/v1/composers/{composer.id}")
+    assert response.status_code == 200
+    assert response.json()["epoch"] == "Classical"
+
+
+def test_get_composers_list_includes_epoch(client: TestClient, db_session: Session):
+    db_session.add(Composer(name="Strauss", epoch="Late Romantic"))
+    db_session.commit()
+
+    response = client.get("/v1/composers/")
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["epoch"] == "Late Romantic"
+
+
+def test_create_composer_with_epoch(client: TestClient):
+    payload = {"name": "Beethoven", "open_opus_id": "145", "epoch": "Early Romantic"}
+    response = client.post("/v1/composers/", json=payload)
+    assert response.status_code == 201
+    assert response.json()["epoch"] == "Early Romantic"
+
+
+def test_create_composer_without_epoch_is_null(client: TestClient):
+    response = client.post("/v1/composers/", json={"name": "Schubert"})
+    assert response.status_code == 201
+    assert response.json()["epoch"] is None
+
+
+def test_composer_epoch_defaults_to_none(db_session: Session):
+    composer = Composer(name="Bach")
+    db_session.add(composer)
+    db_session.commit()
+    db_session.refresh(composer)
+    assert composer.epoch is None
+
+
 # --- Client-supplied id (custom composers) --------------------------------
 
 

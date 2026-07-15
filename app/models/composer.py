@@ -20,6 +20,7 @@ class Composer(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid4()))
     name: Mapped[str]
     sort_name: Mapped[Optional[str]]
+    epoch: Mapped[Optional[str]]
     open_opus_id: Mapped[Optional[str]] = mapped_column(String, unique=True)
 
     works: Mapped[list[Work]] = relationship(secondary="work_composer", back_populates="composers")
@@ -28,6 +29,7 @@ class Composer(Base):
 class ComposerBase(Schema):
     name: str
     sort_name: Optional[str] = None
+    epoch: Optional[str] = None
     open_opus_id: Optional[str] = None
 
 
@@ -39,10 +41,12 @@ class ComposerRead(ReadSchema):
     id: str
     name: str
     sort_name: Optional[str] = None
+    epoch: Optional[str] = None
     open_opus_id: Optional[str] = None
 
 
 class ComposerUpdate(Schema):
     name: Optional[str] = None
     sort_name: Optional[str] = None
+    epoch: Optional[str] = None
     open_opus_id: Optional[str] = None

@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import httpx
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -34,6 +35,35 @@ from app.models.work import Work
 PLACEHOLDER_LOCAL_TIME = (19, 30)  # (hour, minute)
 DEFAULT_TZ = ZoneInfo("America/Chicago")
 UK_TZ = ZoneInfo("Europe/London")
+
+# OpenOpus exposes composer metadata (including musical epoch) via a batch
+# lookup keyed by comma-separated composer ids.
+OPEN_OPUS_IDS_URL = "https://api.openopus.org/composer/list/ids/{ids}.json"
+OPEN_OPUS_BATCH_SIZE = 100
+
+
+def fetch_open_opus_epochs(open_opus_ids: list[str]) -> dict[str, str]:
+    """Return {open_opus_id: epoch} for the given ids, querying OpenOpus.
+
+    Only ids that OpenOpus recognises appear in the result. Network/API
+    failures are non-fatal: they yield an empty mapping so seeding can proceed
+    with epochs left null.
+    """
+    epochs: dict[str, str] = {}
+    for start in range(0, len(open_opus_ids), OPEN_OPUS_BATCH_SIZE):
+        batch = open_opus_ids[start : start + OPEN_OPUS_BATCH_SIZE]
+        url = OPEN_OPUS_IDS_URL.format(ids=",".join(batch))
+        try:
+            resp = httpx.get(url, timeout=30)
+            resp.raise_for_status()
+            payload = resp.json()
+        except (httpx.HTTPError, json.JSONDecodeError) as exc:
+            print(f"  ! OpenOpus epoch lookup failed ({exc}); leaving epochs null for this batch")
+            continue
+        for composer in payload.get("composers") or []:
+            if composer.get("epoch"):
+                epochs[composer["id"]] = composer["epoch"]
+    return epochs
 
 
 def tz_for_venue(venue: Venue) -> ZoneInfo:
@@ -58,21 +88,32 @@ class Seeder:
         self.works: dict[str, Work] = {}
         self.performers: dict[str, Performer] = {}
         self.venues: dict[str, Venue] = {}
+        # Epoch is only known for composers that carry an OpenOpus id.
+        ids = sorted({c["open_opus_id"] for c in catalog["composers"].values() if c["open_opus_id"]})
+        print(f"Fetching epochs for {len(ids)} OpenOpus composers...")
+        self.epochs = fetch_open_opus_epochs(ids)
+        print(f"  resolved {len(self.epochs)} epochs")
 
     # -- reference entities ------------------------------------------------- #
     def composer(self, raw: str) -> Composer:
         if raw in self.composers:
             return self.composers[raw]
         d = self.catalog["composers"][raw]
+        # Epoch comes from OpenOpus, so only composers with an OpenOpus id get one.
+        epoch = self.epochs.get(d["open_opus_id"]) if d["open_opus_id"] else None
         obj = None
         if d["open_opus_id"]:
             obj = self.session.query(Composer).filter_by(open_opus_id=d["open_opus_id"]).first()
         else:
             obj = self.session.query(Composer).filter_by(name=d["name"], open_opus_id=None).first()
         if obj is None:
-            obj = Composer(name=d["name"], sort_name=d["sort_name"], open_opus_id=d["open_opus_id"])
+            obj = Composer(
+                name=d["name"], sort_name=d["sort_name"], epoch=epoch, open_opus_id=d["open_opus_id"]
+            )
             self.session.add(obj)
             self.session.flush()
+        elif epoch and obj.epoch != epoch:
+            obj.epoch = epoch  # backfill/refresh epoch on an already-seeded composer
         self.composers[raw] = obj
         return obj
 
