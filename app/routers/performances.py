@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.database import get_session
 from app.models.enums import PerformanceStatus
-from app.models.performance import Performance, PerformanceCreate, PerformanceRead, PerformanceUpdate
+from app.models.performance import Performance, PerformanceCreate, PerformancePerformer, PerformanceRead, PerformanceUpdate
 from app.models.performer import Performer
 from app.models.set_list_entry import SetListEntry
 from app.models.set_list_performer import SetListPerformer
@@ -24,7 +24,7 @@ def _load_performance(performance_id: str, session: Session) -> Performance:
         .where(Performance.id == performance_id)
         .options(
             selectinload(Performance.venue),
-            selectinload(Performance.performers),
+            selectinload(Performance.performer_associations).selectinload(PerformancePerformer.performer),
             selectinload(Performance.set_list).selectinload(SetListEntry.work).selectinload(Work.composers),
             selectinload(Performance.set_list).selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
         )
@@ -44,7 +44,7 @@ def get_performances(
 ):
     query = session.query(Performance).options(
         selectinload(Performance.venue),
-        selectinload(Performance.performers),
+        selectinload(Performance.performer_associations).selectinload(PerformancePerformer.performer),
         selectinload(Performance.set_list).selectinload(SetListEntry.work).selectinload(Work.composers),
         selectinload(Performance.set_list).selectinload(SetListEntry.featured_performers).selectinload(SetListPerformer.performer),
     )
@@ -87,12 +87,9 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
     if data.id is not None and session.get(Performance, data.id):
         raise HTTPException(status_code=409, detail=f"Performance {data.id} already exists")
 
-    performers = []
     for performer_id in data.performer_ids:
-        performer = session.get(Performer, performer_id)
-        if not performer:
+        if not session.get(Performer, performer_id):
             raise HTTPException(status_code=404, detail=f"Performer {performer_id} not found")
-        performers.append(performer)
 
     # Validate the whole set list before persisting anything, so a rejected request
     # (missing work/performer, or a colliding/duplicate entry id) leaves nothing behind.
@@ -118,7 +115,10 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
     )
     if data.id is not None:
         performance.id = data.id
-    performance.performers = performers
+    performance.performer_associations = [
+        PerformancePerformer(performer_id=pid, order=idx)
+        for idx, pid in enumerate(data.performer_ids)
+    ]
     session.add(performance)
     session.flush()
 
@@ -156,13 +156,13 @@ def update_performance(performance_id: str, data: PerformanceUpdate, session: Se
         setattr(performance, field, value)
 
     if performer_ids is not None:
-        resolved = []
         for performer_id in performer_ids:
-            performer = session.get(Performer, performer_id)
-            if not performer:
+            if not session.get(Performer, performer_id):
                 raise HTTPException(status_code=404, detail=f"Performer {performer_id} not found")
-            resolved.append(performer)
-        performance.performers = resolved
+        performance.performer_associations = [
+            PerformancePerformer(performer_id=pid, order=idx)
+            for idx, pid in enumerate(performer_ids)
+        ]
 
     session.commit()
     return _load_performance(performance.id, session)

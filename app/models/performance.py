@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Optional
 from uuid import uuid4
 
-from sqlalchemy import Column, DateTime, Enum as SaEnum, ForeignKey, String, Table
+from sqlalchemy import DateTime, Enum as SaEnum, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models import Base
@@ -15,12 +15,15 @@ from app.models.performer import Performer, PerformerRead
 from app.models.set_list_entry import SetListEntry, SetListEntryRead
 from app.models.venue import Venue, VenueRead
 
-performance_performer = Table(
-    "performance_performer",
-    Base.metadata,
-    Column("performance_id", ForeignKey("performance.id"), primary_key=True),
-    Column("performer_id", ForeignKey("performer.id"), primary_key=True),
-)
+
+class PerformancePerformer(Base):
+    __tablename__ = "performance_performer"
+
+    performance_id: Mapped[str] = mapped_column(ForeignKey("performance.id"), primary_key=True)
+    performer_id: Mapped[str] = mapped_column(ForeignKey("performer.id"), primary_key=True)
+    order: Mapped[int] = mapped_column(Integer, default=0)
+
+    performer: Mapped[Performer] = relationship()
 
 
 class Performance(Base):
@@ -35,8 +38,15 @@ class Performance(Base):
     notes: Mapped[Optional[str]]
 
     venue: Mapped[Venue] = relationship()
-    performers: Mapped[list[Performer]] = relationship(secondary=performance_performer)
+    performer_associations: Mapped[list["PerformancePerformer"]] = relationship(
+        cascade="all, delete-orphan",
+        order_by="PerformancePerformer.order",
+    )
     set_list: Mapped[list[SetListEntry]] = relationship(back_populates="performance", cascade="all, delete-orphan")
+
+    @property
+    def performers(self) -> list[Performer]:
+        return [assoc.performer for assoc in self.performer_associations]
 
 
 class FeaturedPerformerInput(Schema):

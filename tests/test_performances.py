@@ -101,9 +101,8 @@ def test_create_performance_with_performers(client: TestClient, db_session: Sess
     assert response.status_code == 201
     data = response.json()
     assert len(data["performers"]) == 2
-    names = {p["name"] for p in data["performers"]}
-    assert "Gustavo Dudamel" in names
-    assert "Berlin Philharmonic" in names
+    assert data["performers"][0]["name"] == "Gustavo Dudamel"
+    assert data["performers"][1]["name"] == "Berlin Philharmonic"
 
 
 def test_create_performance_performer_not_found(client: TestClient, db_session: Session):
@@ -646,6 +645,101 @@ def test_create_performance_duplicate_inline_entry_ids_409(client: TestClient, d
     )
     response = client.post("/v1/performances/", json=payload)
     assert response.status_code == 409
+
+
+# --- Performer order preservation -------------------------------------------
+
+
+def test_create_performance_performer_order_preserved(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    p1 = _make_performer(db_session, name="Alpha")
+    p2 = _make_performer(db_session, name="Beta")
+    p3 = _make_performer(db_session, name="Gamma")
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venue_id": venue.id,
+        "performer_ids": [p3.id, p1.id, p2.id],
+    }
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 201
+    data = response.json()
+    assert [p["name"] for p in data["performers"]] == ["Gamma", "Alpha", "Beta"]
+
+
+def test_get_performance_performer_order_stable(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    p1 = _make_performer(db_session, name="First")
+    p2 = _make_performer(db_session, name="Second")
+    p3 = _make_performer(db_session, name="Third")
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venue_id": venue.id,
+        "performer_ids": [p2.id, p3.id, p1.id],
+    }
+    created = client.post("/v1/performances/", json=payload)
+    performance_id = created.json()["id"]
+
+    response = client.get(f"/v1/performances/{performance_id}")
+    assert response.status_code == 200
+    assert [p["name"] for p in response.json()["performers"]] == ["Second", "Third", "First"]
+
+
+def test_update_performance_performer_order_changed(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    p1 = _make_performer(db_session, name="One")
+    p2 = _make_performer(db_session, name="Two")
+    p3 = _make_performer(db_session, name="Three")
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venue_id": venue.id,
+        "performer_ids": [p1.id, p2.id, p3.id],
+    }
+    created = client.post("/v1/performances/", json=payload)
+    performance_id = created.json()["id"]
+
+    # Reorder
+    response = client.put(
+        f"/v1/performances/{performance_id}",
+        json={"performer_ids": [p3.id, p1.id, p2.id]},
+    )
+    assert response.status_code == 200
+    assert [p["name"] for p in response.json()["performers"]] == ["Three", "One", "Two"]
+
+
+def test_update_performance_performer_subset_preserves_order(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    p1 = _make_performer(db_session, name="A")
+    p2 = _make_performer(db_session, name="B")
+    p3 = _make_performer(db_session, name="C")
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venue_id": venue.id,
+        "performer_ids": [p1.id, p2.id, p3.id],
+    }
+    created = client.post("/v1/performances/", json=payload)
+    performance_id = created.json()["id"]
+
+    # Subset in reverse
+    response = client.put(
+        f"/v1/performances/{performance_id}",
+        json={"performer_ids": [p3.id, p1.id]},
+    )
+    assert response.status_code == 200
+    assert [p["name"] for p in response.json()["performers"]] == ["C", "A"]
+
+
+def test_create_performance_single_performer_order(client: TestClient, db_session: Session):
+    venue = _make_venue(db_session)
+    p1 = _make_performer(db_session, name="Solo")
+    payload = {
+        "date": "2024-01-15T20:00:00+00:00",
+        "venue_id": venue.id,
+        "performer_ids": [p1.id],
+    }
+    response = client.post("/v1/performances/", json=payload)
+    assert response.status_code == 201
+    assert len(response.json()["performers"]) == 1
+    assert response.json()["performers"][0]["name"] == "Solo"
 
 
 def test_offline_graph_custom_entities_resolve_by_client_id(client: TestClient, db_session: Session):
