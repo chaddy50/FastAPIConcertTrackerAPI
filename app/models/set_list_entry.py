@@ -28,7 +28,8 @@ class SetListEntry(Base):
     performance: Mapped[Performance] = relationship(back_populates="set_list")
     work: Mapped[Work] = relationship()
     featured_performers: Mapped[list[SetListPerformer]] = relationship(
-        back_populates="set_list_entry", cascade="all, delete-orphan"
+        back_populates="set_list_entry", cascade="all, delete-orphan",
+        order_by=SetListPerformer.order
     )
 
 

@@ -67,7 +67,7 @@ def test_create_set_list_entry_with_featured_performers(
         "performance_id": performance.id,
         "work_id": work.id,
         "order": 1,
-        "featured_performers": [{"performer_id": soloist.id, "role": "Cello"}],
+        "featured_performers": [{"performer_id": soloist.id, "role": "Cello", "order": 0}],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 201
@@ -118,7 +118,7 @@ def test_create_set_list_entry_featured_performer_not_found(
         "performance_id": performance.id,
         "work_id": work.id,
         "order": 1,
-        "featured_performers": [{"performer_id": "nonexistent-id", "role": "Violin"}],
+        "featured_performers": [{"performer_id": "nonexistent-id", "role": "Violin", "order": 0}],
     }
     response = client.post("/v1/set-list-entries/", json=payload)
     assert response.status_code == 404
@@ -162,11 +162,11 @@ def test_update_set_list_entry_replace_featured_performers(
 
     client.put(
         f"/v1/set-list-entries/{entry.id}",
-        json={"featured_performers": [{"performer_id": soloist1.id, "role": "Cello"}]},
+        json={"featured_performers": [{"performer_id": soloist1.id, "role": "Cello", "order": 0}]},
     )
     response = client.put(
         f"/v1/set-list-entries/{entry.id}",
-        json={"featured_performers": [{"performer_id": soloist2.id, "role": "Piano"}]},
+        json={"featured_performers": [{"performer_id": soloist2.id, "role": "Piano", "order": 0}]},
     )
     assert response.status_code == 200
     data = response.json()
@@ -203,7 +203,7 @@ def test_update_set_list_entry_featured_performer_not_found(
 
     response = client.put(
         f"/v1/set-list-entries/{entry.id}",
-        json={"featured_performers": [{"performer_id": "nonexistent-id", "role": "Violin"}]},
+        json={"featured_performers": [{"performer_id": "nonexistent-id", "role": "Violin", "order": 0}]},
     )
     assert response.status_code == 404
     assert "nonexistent-id" in response.json()["detail"]

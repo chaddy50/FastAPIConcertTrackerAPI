@@ -52,6 +52,7 @@ class Performance(Base):
 class FeaturedPerformerInput(Schema):
     performer_id: str
     role: Optional[str] = None
+    order: int = 0
 
 
 class SetListEntryInput(Schema):

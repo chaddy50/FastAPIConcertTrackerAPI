@@ -34,7 +34,7 @@ def _build_featured_performers(inputs: list[SetListPerformerInput], session: Ses
     for item in inputs:
         if not session.get(Performer, item.performer_id):
             raise HTTPException(status_code=404, detail=f"Performer {item.performer_id} not found")
-        result.append(SetListPerformer(performer_id=item.performer_id, role=item.role))
+        result.append(SetListPerformer(performer_id=item.performer_id, role=item.role, order=item.order))
     return result
 
 

@@ -765,7 +765,7 @@ def test_offline_graph_custom_entities_resolve_by_client_id(client: TestClient, 
                 "id": ENTRY_ID,
                 "order": 1,
                 "work_id": work_id,
-                "featured_performers": [{"performer_id": performer_id, "role": "Cello"}],
+                "featured_performers": [{"performer_id": performer_id, "role": "Cello", "order": 0}],
             }
         ],
     )

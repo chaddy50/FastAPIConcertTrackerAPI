@@ -132,7 +132,7 @@ def create_performance(data: PerformanceCreate, session: SessionDep):
         if entry_data.id is not None:
             entry.id = entry_data.id
         entry.featured_performers = [
-            SetListPerformer(performer_id=fp.performer_id, role=fp.role)
+            SetListPerformer(performer_id=fp.performer_id, role=fp.role, order=fp.order)
             for fp in entry_data.featured_performers
         ]
         session.add(entry)
