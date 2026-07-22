@@ -180,3 +180,123 @@ def test_create_performer_natural_key_dedup_ignores_client_id(
     )
     assert response.status_code == 201
     assert response.json()["id"] == existing.id
+
+
+# --- Update performer (PUT /v1/performers/{id}) ---------------------------
+
+
+def _seed_performer(db_session: Session, **overrides) -> Performer:
+    defaults = dict(
+        name="Berlin Philharmonic",
+        sort_name="Berlin Philharmonic",
+        type=PerformerType.ORCHESTRA,
+        specialty="Symphonic",
+        musicbrainz_id="abc-123",
+    )
+    defaults.update(overrides)
+    performer = Performer(**defaults)
+    db_session.add(performer)
+    db_session.commit()
+    db_session.refresh(performer)
+    return performer
+
+
+def test_update_performer_type_and_specialty(client: TestClient, db_session: Session):
+    performer = _seed_performer(db_session)
+
+    response = client.put(
+        f"/v1/performers/{performer.id}",
+        json={"type": "CONDUCTOR", "specialty": "Guest conductor"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["id"] == performer.id
+    assert data["type"] == "CONDUCTOR"
+    assert data["specialty"] == "Guest conductor"
+
+
+def test_update_performer_name(client: TestClient, db_session: Session):
+    performer = _seed_performer(db_session)
+
+    response = client.put(f"/v1/performers/{performer.id}", json={"name": "Corrected Name"})
+    assert response.status_code == 200
+    assert response.json()["name"] == "Corrected Name"
+
+
+def test_update_performer_full_body_ignores_extra_id(client: TestClient, db_session: Session):
+    performer = _seed_performer(db_session)
+
+    response = client.put(
+        f"/v1/performers/{performer.id}",
+        json={
+            "id": "some-other-id",
+            "name": "New Name",
+            "type": "SOLO",
+            "specialty": "Piano",
+            "musicbrainz_id": "abc-123",
+        },
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["id"] == performer.id
+    assert data["name"] == "New Name"
+    assert data["type"] == "SOLO"
+    assert data["specialty"] == "Piano"
+    assert data["musicbrainz_id"] == "abc-123"
+
+
+def test_update_performer_persists_to_db(client: TestClient, db_session: Session):
+    performer = _seed_performer(db_session)
+
+    client.put(f"/v1/performers/{performer.id}", json={"name": "Persisted Name"})
+
+    response = client.get(f"/v1/performers/{performer.id}")
+    assert response.status_code == 200
+    assert response.json()["name"] == "Persisted Name"
+
+
+def test_update_performer_not_found(client: TestClient):
+    response = client.put("/v1/performers/nonexistent-id", json={"name": "Nope"})
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Performer not found"
+
+
+def test_update_performer_partial_leaves_omitted_unchanged(
+    client: TestClient, db_session: Session
+):
+    performer = _seed_performer(db_session, specialty="Symphonic", musicbrainz_id="mb-keep")
+
+    response = client.put(f"/v1/performers/{performer.id}", json={"type": "CONDUCTOR"})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["type"] == "CONDUCTOR"
+    assert data["specialty"] == "Symphonic"
+    assert data["musicbrainz_id"] == "mb-keep"
+
+
+def test_update_performer_clears_specialty_with_null(client: TestClient, db_session: Session):
+    performer = _seed_performer(db_session, specialty="Symphonic")
+
+    response = client.put(f"/v1/performers/{performer.id}", json={"specialty": None})
+    assert response.status_code == 200
+    assert response.json()["specialty"] is None
+
+
+def test_update_performer_preserves_musicbrainz_id_when_resent(
+    client: TestClient, db_session: Session
+):
+    performer = _seed_performer(db_session, musicbrainz_id="mb-own")
+
+    response = client.put(
+        f"/v1/performers/{performer.id}",
+        json={"name": "Edited", "musicbrainz_id": "mb-own"},
+    )
+    assert response.status_code == 200
+    assert response.json()["musicbrainz_id"] == "mb-own"
+
+
+def test_update_performer_invalid_type_422(client: TestClient, db_session: Session):
+    performer = _seed_performer(db_session)
+
+    response = client.put(f"/v1/performers/{performer.id}", json={"type": "NOT_A_TYPE"})
+    assert response.status_code == 422

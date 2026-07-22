@@ -34,3 +34,15 @@ def create_performer(data: PerformerCreate, session: SessionDep):
     session.commit()
     session.refresh(performer)
     return performer
+
+
+@router.put("/{performer_id}", response_model=PerformerRead)
+def update_performer(performer_id: str, data: PerformerUpdate, session: SessionDep):
+    performer = session.get(Performer, performer_id)
+    if not performer:
+        raise HTTPException(status_code=404, detail="Performer not found")
+    for field, value in data.model_dump(exclude_unset=True).items():
+        setattr(performer, field, value)
+    session.commit()
+    session.refresh(performer)
+    return performer
