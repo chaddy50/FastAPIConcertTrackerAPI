@@ -23,7 +23,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.models.composer import Composer
 from app.models.enums import PerformanceStatus, PerformerType
-from app.models.performance import Performance
+from app.models.performance import Performance, PerformancePerformer
 from app.models.performer import Performer
 from app.models.set_list_entry import SetListEntry
 from app.models.set_list_performer import SetListPerformer
@@ -213,7 +213,10 @@ class Seeder:
             status=PerformanceStatus(concert["status"] or "ATTENDED"),
             venue_id=venue.id,
         )
-        perf.performers = [p for ref in binding["performer_refs"] if (p := self.performer(ref))]
+        performers = [p for ref in binding["performer_refs"] if (p := self.performer(ref))]
+        perf.performer_associations = [
+            PerformancePerformer(performer=p, order=idx) for idx, p in enumerate(performers)
+        ]
         self.session.add(perf)
         self.session.flush()
 
@@ -228,7 +231,7 @@ class Seeder:
             )
             if entry.get("soloist") and (sol := self.performer(entry["soloist"])):
                 sle.featured_performers = [
-                    SetListPerformer(performer_id=sol.id, role=sol.specialty or "soloist")
+                    SetListPerformer(performer_id=sol.id, role=sol.specialty or "soloist", order=0)
                 ]
             self.session.add(sle)
 
@@ -242,7 +245,7 @@ class Seeder:
             )
             if extra.get("soloist") and (sol := self.performer(extra["soloist"])):
                 sle.featured_performers = [
-                    SetListPerformer(performer_id=sol.id, role=sol.specialty or "soloist")
+                    SetListPerformer(performer_id=sol.id, role=sol.specialty or "soloist", order=0)
                 ]
             self.session.add(sle)
 
